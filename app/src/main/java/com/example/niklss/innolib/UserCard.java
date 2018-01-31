@@ -4,9 +4,11 @@ import java.util.ArrayList;
 
 /**
  * Created by Niklss on 31.01.2018.
+ * User card with some functions
  */
 
 public class UserCard implements UserInterface{
+
     boolean isStudent;
     String[] name;
     String address;
