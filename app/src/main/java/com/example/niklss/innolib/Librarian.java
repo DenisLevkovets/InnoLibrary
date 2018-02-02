@@ -5,5 +5,5 @@ package com.example.niklss.innolib;
  * Classes with teachers and their possibilities.
  */
 
-public class Librarian {
+public class Librarian extends User {
 }
