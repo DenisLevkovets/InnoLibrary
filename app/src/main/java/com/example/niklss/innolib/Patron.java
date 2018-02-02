@@ -5,4 +5,7 @@ package com.example.niklss.innolib;
  */
 
 public class Patron extends User {
+
+
+
 }
