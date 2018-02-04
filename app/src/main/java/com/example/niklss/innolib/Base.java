@@ -12,10 +12,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+
+//this class is needed to work with the database
+//to copy a database file and connect to it
 public class Base extends SQLiteOpenHelper {
-    private static String DB_NAME = "Libary.db";
-    private static String DB_PATH = "/data/data/com.example.niklss.innolib/databases/";;
-    private static  int DB_VERSION = 8;
+    private static String DB_NAME = "Libary.db";//name of Database
+    private static String DB_PATH = "/data/data/com.example.niklss.innolib/databases/";//path to the database
+    private static  int DB_VERSION = 2;//version of database
 
     private SQLiteDatabase mDataBase;
     private final Context mContext;
@@ -45,12 +48,12 @@ public class Base extends SQLiteOpenHelper {
             mNeedUpdate = false;
         }
     }
-
+//algorithm for checking the existence of a database file in the system catalog
     private boolean checkDataBase() {
         File dbFile = new File(DB_PATH + DB_NAME);
         return dbFile.exists();
     }
-
+//algorithm for copying a database file to the system catalog
     private void copyDataBase() {
         if (!checkDataBase()) {
             this.getReadableDatabase();
@@ -75,7 +78,7 @@ public class Base extends SQLiteOpenHelper {
         mOutput.close();
         mInput.close();
     }
-
+//connection to database
     public boolean openDataBase() throws SQLException {
         mDataBase = SQLiteDatabase.openDatabase(DB_PATH + DB_NAME, null, SQLiteDatabase.CREATE_IF_NECESSARY);
         return mDataBase != null;
@@ -99,11 +102,11 @@ public class Base extends SQLiteOpenHelper {
             mNeedUpdate = true;
     }
 
-    public void takeBook(SQLiteDatabase db,int id){
+    /*public void takeBook(SQLiteDatabase db,int id){
 
         String q="UPDATE Books SET available_copies='1' WHERE book_id='1';";
         db.execSQL(q);
         DB_VERSION=DB_VERSION+1;
 
-    }
+    }*/
 }
