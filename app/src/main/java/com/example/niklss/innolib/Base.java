@@ -15,7 +15,7 @@ import java.io.OutputStream;
 public class Base extends SQLiteOpenHelper {
     private static String DB_NAME = "Libary.db";
     private static String DB_PATH = "/data/data/com.example.niklss.innolib/databases/";;
-    private static  int DB_VERSION = 2;
+    private static  int DB_VERSION = 8;
 
     private SQLiteDatabase mDataBase;
     private final Context mContext;
