@@ -6,6 +6,6 @@ package com.example.niklss.innolib;
  */
 
 public class User{
-    private String name, adress;
+    private String mName, adress;
     private int uId, uNumber;
 }
