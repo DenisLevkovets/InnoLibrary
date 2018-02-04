@@ -5,7 +5,7 @@ package com.example.niklss.innolib;
  * Classes with teachers and their possibilities.
  */
 
-public class Librarian extends User {
+public class Librarian extends UserCard {
 
     public Librarian(){}
 
@@ -51,7 +51,5 @@ public class Librarian extends User {
 
     interface managePatrons{
     }
-
-
 
 }

@@ -5,7 +5,7 @@ package com.example.niklss.innolib;
  * It should content the patrons functions and difference between them
  */
 
-public class Patron extends User {
+public class Patron extends UserCard {
     private boolean isStudent;
 
     private void searchDoc(String anyName){
