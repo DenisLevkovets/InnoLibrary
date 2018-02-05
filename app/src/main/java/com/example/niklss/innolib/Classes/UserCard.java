@@ -8,19 +8,13 @@ package com.example.niklss.innolib.Classes;
 public class UserCard {
     private String uName;
     private String uAdress;
-    private int uId;
     private String uNumber;
 
-    public UserCard(String name, String adress, int id, String num ){
-        this.uName = name;
-        this.uAdress = adress;
-        this.uId = id;
-        this.uNumber = num;
-    }
-
-    public int getuId() {
-        return uId;
-    }
+//    public UserCard(String name, String adress, String num ){
+//        this.uName = name;
+//        this.uAdress = adress;
+//        this.uNumber = num;
+//    }
 
     public String getuAdress() {
         return uAdress;

@@ -9,15 +9,14 @@ public class Patron extends UserCard {
 
     private boolean isStudent;
 
-    public Patron(String name, String adress, int id, String num) {
-        super(name, adress, id, num);
-    }
 
     private void searchDoc(String anyName){
 
     }
 
-    interface checkOut{}
+    interface checkOut{
+
+    }
 
     private void returnDoc(int id){
 
