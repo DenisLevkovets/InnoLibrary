@@ -8,7 +8,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
-    <activity android:name=".Login">
+    <activity android:name=".Activites.Login">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
 
@@ -16,7 +16,7 @@
         </intent-filter>
     </activity>
 
-        <activity android:name=".Catalogs"/>
-    <activity android:name=".InnoLib"/>
+        <activity android:name=".Activites.Catalogs"/>
+    <activity android:name=".Activites.InnoLib"/>
     </application>
 </manifest>

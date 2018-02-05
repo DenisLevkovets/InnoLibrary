@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#228B22"
-    tools:context=".InnoLib">
+    tools:context=".Activites.InnoLib">
 
 
     <ImageView

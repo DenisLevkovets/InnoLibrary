@@ -1,8 +1,14 @@
-package com.example.niklss.innolib;
+package com.example.niklss.innolib.Activites;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.widget.ExpandableListView;
+import android.widget.Toast;
+
+import com.example.niklss.innolib.R;
 
 import java.util.ArrayList;
 
@@ -11,7 +17,7 @@ import java.util.ArrayList;
  */
 
 public class Catalogs extends Activity   {
-    @Override
+
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
