@@ -99,14 +99,9 @@ public class Base extends SQLiteOpenHelper {
             mNeedUpdate = true;
     }
 
-    //Should be changed
     public void takeBook(SQLiteDatabase db,int id){
-        String a1 = "UPDATE Books SET available_copies='";
-        String a2Copies = "2" + "' ";
-        String a3 = "WHERE book_id=";
-        String a4Id = Integer.toString(id) + ";";
 
-        String q= a1 + a2Copies + a3 + a4Id;
+        String q="UPDATE Books SET available_copies='1' WHERE book_id='1';";
         db.execSQL(q);
         DB_VERSION=DB_VERSION+1;
 

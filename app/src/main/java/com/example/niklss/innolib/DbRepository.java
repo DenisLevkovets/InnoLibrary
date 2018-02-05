@@ -8,14 +8,16 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
+//class repository that receives data from database tables
 public class DbRepository {
     private SQLiteDatabase db;
     private Context cont;
     public DbRepository(Context context) {
-        //Подключение к базе данных
+        //connection to database
         db = new Base(context).getWritableDatabase();
         cont=context;
     }
+    //return ArrayList of books with author and available copies
     public ArrayList<String[]> getDataBooks()
     {
         Fields field1 = Fields.title;
@@ -41,7 +43,7 @@ public class DbRepository {
         }
         return list;
     }
-
+    //return ArrayList of audio/video files with author and available copies
     public ArrayList<String[]> getDataAV()
     {
         Fields field1 = Fields.title;
@@ -67,6 +69,7 @@ public class DbRepository {
         }
         return list;
     }
+    //return ArrayList of articles with author and available copies
     public ArrayList<String[]> getDataArticles()
     {
         Fields field1 = Fields.title;
