@@ -1,4 +1,4 @@
-package com.example.niklss.innolib;
+package com.example.niklss.innolib.Classes;
 
 /**
  * Created by user on 02.02.2018.

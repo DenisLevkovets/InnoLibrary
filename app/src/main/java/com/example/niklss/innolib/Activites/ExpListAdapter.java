@@ -1,13 +1,19 @@
-package com.example.niklss.innolib;
+package com.example.niklss.innolib.Activites;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.niklss.innolib.R;
 
 import java.util.ArrayList;
 
@@ -88,6 +94,8 @@ public class ExpListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild,
                              View convertView, ViewGroup parent) {
+
+
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.child_view, null);
@@ -100,7 +108,7 @@ public class ExpListAdapter extends BaseExpandableListAdapter {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext,"button is pressed",Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext,"You pressed the button",Toast.LENGTH_LONG).show();
             }
         });
 
