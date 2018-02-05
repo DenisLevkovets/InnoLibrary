@@ -2,12 +2,14 @@ package com.example.niklss.innolib;
 
 /**
  * Created by Niklss on 31.01.2018.
- * Classes with teachers and their possibilities.
+ * Classes with teachers construction and their possibilities.
  */
 
 public class Librarian extends UserCard {
 
-    public Librarian(){}
+    public Librarian(String name, String adress, int id, String num) {
+        super(name, adress, id, num);
+    }
 
     private void add() {
 

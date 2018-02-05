@@ -2,11 +2,16 @@ package com.example.niklss.innolib;
 
 /**
  * Created by user on 02.02.2018.
- * It should content the patrons functions and difference between them
+ * It should content the patrons functions and difference between teachers and student
  */
 
 public class Patron extends UserCard {
+
     private boolean isStudent;
+
+    public Patron(String name, String adress, int id, String num) {
+        super(name, adress, id, num);
+    }
 
     private void searchDoc(String anyName){
 

@@ -2,7 +2,7 @@ package com.example.niklss.innolib;
 
 /**
  * Created by user on 02.02.2018.
- * UserCard
+ * UserCards with all information
  */
 
 public class UserCard {
