@@ -157,6 +157,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.close();
 
         System.out.println(name);
+        System.out.println(family);
     }
 
 
