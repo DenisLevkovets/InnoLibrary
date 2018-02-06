@@ -35,8 +35,7 @@ public class Login extends Activity {
         }
 
         a.addMember();
-
-        System.out.println("The begging");
+        a.getString();
 
 
     }
@@ -46,9 +45,6 @@ public class Login extends Activity {
         public void onClick(View v) {
             Intent intent = new Intent(Login.this, InnoLib.class);
             startActivity(intent);
-
-            System.out.println("Click");
-
         }
     };
 }

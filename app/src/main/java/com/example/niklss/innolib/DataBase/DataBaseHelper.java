@@ -21,14 +21,15 @@ import java.util.ArrayList;
 public class DataBaseHelper extends SQLiteOpenHelper {
 
     // путь к базе данных вашего приложения
-    private static String DB_PATH ="/data/data/com.example.niklss.innolib/databases/";
-    private static String DB_NAME = "Users";
+    private static String DB_PATH = "/data/data/com.example.niklss.innolib/databases/";
+    private static String DB_NAME = "Libary.db";
     private SQLiteDatabase myDataBase;
     private final Context mContext;
 
     /**
      * Конструктор
      * Принимает и сохраняет ссылку на переданный контекст для доступа к ресурсам приложения
+     *
      * @param context
      */
 
@@ -39,13 +40,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     /**
      * Создает пустую базу данных и перезаписывает ее нашей собственной базой
-     * */
-    public void createDataBase() throws IOException{
+     */
+    public void createDataBase() throws IOException {
         boolean dbExist = checkDataBase();
 
-        if(dbExist){
+        if (dbExist) {
             //ничего не делать - база уже есть
-        }else{
+        } else {
             //вызывая этот метод создаем пустую базу, позже она будет перезаписана
             this.getReadableDatabase();
 
@@ -59,18 +60,19 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     /**
      * Проверяет, существует ли уже эта база, чтобы не копировать каждый раз при запуске приложения
+     *
      * @return true если существует, false если не существует
      */
-    private boolean checkDataBase(){
+    private boolean checkDataBase() {
         SQLiteDatabase checkDB = null;
 
-        try{
+        try {
             String myPath = DB_PATH + DB_NAME;
             checkDB = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
-        }catch(SQLiteException e){
+        } catch (SQLiteException e) {
             //база еще не существует
         }
-        if(checkDB != null){
+        if (checkDB != null) {
             checkDB.close();
         }
         return checkDB != null ? true : false;
@@ -79,8 +81,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     /**
      * Копирует базу из папки assets заместо созданной локальной БД
      * Выполняется путем копирования потока байтов.
-     * */
-    private void copyDataBase() throws IOException{
+     */
+    private void copyDataBase() throws IOException {
         //Открываем локальную БД как входящий поток
         InputStream myInput = mContext.getAssets().open(DB_NAME);
 
@@ -93,7 +95,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         //перемещаем байты из входящего файла в исходящий
         byte[] buffer = new byte[1024];
         int length;
-        while ((length = myInput.read(buffer))>0){
+        while ((length = myInput.read(buffer)) > 0) {
             myOutput.write(buffer, 0, length);
         }
 
@@ -103,7 +105,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         myInput.close();
     }
 
-    public void openDataBase() throws SQLException{
+    public void openDataBase() throws SQLException {
         //открываем БД
         String myPath = DB_PATH + DB_NAME;
         myDataBase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
@@ -111,7 +113,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public synchronized void close() {
-        if(myDataBase != null)
+        if (myDataBase != null)
             myDataBase.close();
         super.close();
     }
@@ -134,19 +136,28 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         cv.put("First_name", "Albert");
         cv.put("Last_name", "Badretdinov");
-        cv.put("user_id", "123");
         cv.put("phone", "123");
         cv.put("address", "Uni");
         cv.put("status", "student");
-        db.insert("Library.db", null, cv);
+        db.insert("Users", null, cv);
     }
 
-    public String[] getString() {
-        System.out.println("Try to get string");
+    public void getString() {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(DB_NAME,
-                new String[]{"First_name", "Last_name"},
-                null, null, null, null, null);
-        return cursor.getColumnNames();
+        String mQuery = "SELECT First_name,Last_name From Users";
+        Cursor mCur = db.rawQuery(mQuery, new String[]{});
+        mCur.moveToFirst();
+        String name = "";
+        String family = "";
+        while (!mCur.isAfterLast()) {
+            name += mCur.getString(mCur.getColumnIndex("First_name")) + " ";
+            family += mCur.getString(mCur.getColumnIndex("Last_name")) + " ";
+            mCur.moveToNext();
+        }
+        db.close();
+
+        System.out.println(name);
     }
+
+
 }
