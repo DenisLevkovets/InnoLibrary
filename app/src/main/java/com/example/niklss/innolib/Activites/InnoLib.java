@@ -1,16 +1,19 @@
 package com.example.niklss.innolib.Activites;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.niklss.innolib.DataBase.DataBaseHelper;
+import com.example.niklss.innolib.DataBase.Base;
 import com.example.niklss.innolib.DataBase.DbRepository;
 import com.example.niklss.innolib.R;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -19,7 +22,7 @@ import java.util.ArrayList;
 
 public class InnoLib extends AppCompatActivity {
 
-    private DataBaseHelper mDBHelper;
+    private Base mDBHelper;
     private SQLiteDatabase mDb;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,26 +33,23 @@ public class InnoLib extends AppCompatActivity {
         catalog.setOnClickListener(clCatalog);
 
         //database initialization
-//        mDBHelper = new Base(this);
-//        try {
-//            mDBHelper.updateDataBase();
-//        } catch (IOException mIOException) {
-//            throw new Error("UnableToUpdateDatabase");
-//        }
-//
-//        try {
-//            mDb = mDBHelper.getWritableDatabase();
-//        } catch (SQLException mSQLException) {
-//            throw mSQLException;
-//        }
-//
-//        ArrayList<String[]> list = getBooks();
-//        for (int i = 0; i <list.size() ; i++) {
-//            for (int j = 0; j <list.get(i).length ; j++) {
-//                System.out.print(list.get(i)[j]+" ");
-//            }
-//            System.out.println("");
-//        }
+       mDBHelper = new Base(this);
+        try {
+            mDBHelper.updateDataBase();
+        } catch (IOException mIOException) {
+            throw new Error("UnableToUpdateDatabase");
+        }
+
+        try {
+            mDb = mDBHelper.getWritableDatabase();
+        } catch (SQLException mSQLException) {
+            throw mSQLException;
+        }
+
+
+
+
+
 
 
 
@@ -75,6 +75,8 @@ public class InnoLib extends AppCompatActivity {
         ArrayList<String[]> Data = repository.getDataArticles();
         return Data;
     }
+
+
 
 
 
