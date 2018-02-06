@@ -7,20 +7,33 @@ package com.example.niklss.innolib.Classes;
 public class Books {
     private int isForUser;
     private String titleBook;
-    private String[] authorsOfBook;
+    private String authorsOfBook;
+    private int bookId;
     private String dateOfCreationOfBook;
-    private boolean isBestSeller;
+    private int isBestSeller;
     private int countOfBooks;
     private UserCard user;
     private String accessDue;
+    private int price;
+    private int edition;
+    private String lastDate;
+    private String published_by;
+    private String keywords;
 
-    Books(String title, String[] authors,String date, int forUser, boolean isBestSeller, int count){
+    public Books(String title, String authors, int count, int id, String last_date, int forUser, int price, int edition, String date, String published, String keywords, int isBestSeller){
+        this.isBestSeller = isBestSeller;
+        this.keywords = keywords;
+        this.published_by = published;
+        this.lastDate = last_date;
+        this.bookId = id;
         this.titleBook = title;
         this.authorsOfBook = authors;
         this.dateOfCreationOfBook = date;
         this.isForUser = forUser;
-        this.isBestSeller = isBestSeller;
         this.countOfBooks = count;
+        this.price = price;
+        this.edition = edition;
+
     }
 
     public String getAccessDue() {
@@ -43,7 +56,7 @@ public class Books {
         return titleBook;
     }
 
-    public String[] getAuthorsOfBook() {
+    public String getAuthorsOfBook() {
         return authorsOfBook;
     }
 
@@ -51,7 +64,7 @@ public class Books {
         return dateOfCreationOfBook;
     }
 
-    public boolean getIsBestSeller() {
+    public int getIsBestSeller() {
         return isBestSeller;
     }
 
@@ -65,5 +78,37 @@ public class Books {
 
     public void setAccessDue(String accessDue) {
         this.accessDue = accessDue;
+    }
+
+    public int getBookId() {
+        return bookId;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public int getEdition() {
+        return edition;
+    }
+
+    public String getLastDate() {
+        return lastDate;
+    }
+
+    public void setLastDate(String lastDate) {
+        this.lastDate = lastDate;
+    }
+
+    public String getPublished_by() {
+        return published_by;
+    }
+
+    public String getKeywords() {
+        return keywords;
     }
 }
