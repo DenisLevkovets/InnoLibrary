@@ -4,22 +4,19 @@ package com.example.niklss.innolib.DataBase;
  * Created by solo1 on 03.02.2018.
  */
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 //class repository that receives data from database tables
 public class DbRepository {
-    public SQLiteDatabase db;
+    private SQLiteDatabase db;
     private Context cont;
     public DbRepository(Context context) {
         //connection to database
-        db = new DataBaseHelper(context).getWritableDatabase();
+        db = new Base(context).getWritableDatabase();
         cont=context;
     }
-
-
     //return ArrayList of books with author and available copies
     public ArrayList<String[]> getDataBooks()
     {
@@ -29,6 +26,7 @@ public class DbRepository {
         ArrayList<String[]> list = new ArrayList<String[]>();
 
         Cursor cursor = db.query("Books", null, null, null, null, null, null);
+        Cursor cursor1 = db.query("Users", null, null, null, null, null, null);
         if ((cursor != null) && (cursor.getCount() > 0)) {
 
             cursor.moveToFirst();
@@ -46,11 +44,6 @@ public class DbRepository {
         }
         return list;
     }
-
-    public void createUser(String name,String surname, String pNumber, String adres, int status){
-        db.execSQL("INSERT INTO 'Users'(First_name,Last_name,phone,address,status) VALUES ('"+name+"','"+surname+"','"+pNumber+"','"+adres+"','"+status+"');");
-    }
-
     //return ArrayList of audio/video files with author and available copies
     public ArrayList<String[]> getDataAV()
     {
@@ -103,6 +96,10 @@ public class DbRepository {
         }
         return list;
     }
+
+
+
+
 
 
 }
