@@ -7,37 +7,17 @@ package com.example.niklss.innolib.Classes;
 
 public class Patron extends UserCard {
 
-    public Patron(String name, String adress, int id, String num, int isSt) {
-        super(name, adress, id, num, isSt);
+    private boolean isStudent;
+
+    public Patron(String name, String adress, int id, String num) {
+        super(name, adress, id, num);
     }
 
     private void searchDoc(String anyName){
 
     }
 
-    private void checkOut(Books book){
-
-        if (getUsersType() == book.getIsForUser()){
-            if (book.getCountOfBooks() > 0) {
-                book.setCountOfBooks(book.getCountOfBooks() - 1);
-                this.addBookToTheList(book);
-                book.setUser(this);
-                if (getUsersType() == 2) {
-                    book.setAccessDue("4 weeks");
-                }
-                else if(book.getIsBestSeller()){
-                    book.setAccessDue("2 weeks");
-                }
-                else{
-                    book.setAccessDue("3 weeks");
-                }
-            }
-        }
-
-        else{
-            System.out.println("Not available");
-        }
-    }
+    interface checkOut{}
 
     private void returnDoc(int id){
 

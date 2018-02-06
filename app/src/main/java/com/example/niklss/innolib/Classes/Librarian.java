@@ -5,10 +5,10 @@ package com.example.niklss.innolib.Classes;
  * Classes with teachers construction and their possibilities.
  */
 
-public class Librarian extends UserCard{
+public class Librarian extends UserCard {
 
-    public Librarian(String name, String adress, int id, String num, int isLib) {
-        super(name, adress, id, num, isLib);
+    public Librarian(String name, String adress, int id, String num) {
+        super(name, adress, id, num);
     }
 
     private void add() {
