@@ -11,13 +11,15 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 //class repository that receives data from database tables
 public class DbRepository {
-    private SQLiteDatabase db;
+    public SQLiteDatabase db;
     private Context cont;
     public DbRepository(Context context) {
         //connection to database
         db = new DataBaseHelper(context).getWritableDatabase();
         cont=context;
     }
+
+
     //return ArrayList of books with author and available copies
     public ArrayList<String[]> getDataBooks()
     {
@@ -44,6 +46,11 @@ public class DbRepository {
         }
         return list;
     }
+
+    public void createUser(String name,String surname, String pNumber, String adres, int status){
+        db.execSQL("INSERT INTO 'Users'(First_name,Last_name,phone,address,status) VALUES ('"+name+"','"+surname+"','"+pNumber+"','"+adres+"','"+status+"');");
+    }
+
     //return ArrayList of audio/video files with author and available copies
     public ArrayList<String[]> getDataAV()
     {

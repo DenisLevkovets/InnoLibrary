@@ -18,5 +18,7 @@
 
         <activity android:name=".Activites.Catalogs"/>
     <activity android:name=".Activites.InnoLib"/>
+        <activity android:name=".Classes.TC1"/>
+
     </application>
 </manifest>
