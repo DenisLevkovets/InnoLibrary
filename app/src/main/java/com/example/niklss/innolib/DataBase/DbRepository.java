@@ -10,17 +10,15 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 //class repository that receives data from database tables
 public class DbRepository {
-    public SQLiteDatabase db;
+    private SQLiteDatabase db;
     private Context cont;
     public DbRepository(Context context) {
         //connection to database
         db = new Base(context).getWritableDatabase();
         cont=context;
     }
-
-
     //return ArrayList of books with author and available copies
-    public ArrayList<String[]> getDataBooks()
+    /*public ArrayList<String[]> getDataBooks()
     {
         Fields field1 = Fields.title;
         Fields field2 = Fields.author;
@@ -28,6 +26,7 @@ public class DbRepository {
         ArrayList<String[]> list = new ArrayList<String[]>();
 
         Cursor cursor = db.query("Books", null, null, null, null, null, null);
+        Cursor cursor1 = db.query("Users", null, null, null, null, null, null);
         if ((cursor != null) && (cursor.getCount() > 0)) {
 
             cursor.moveToFirst();
@@ -45,11 +44,6 @@ public class DbRepository {
         }
         return list;
     }
-
-    public void createUser(String name,String surname, String pNumber, String adres, int status){
-        db.execSQL("INSERT INTO 'Users'(First_name,Last_name,phone,address,status) VALUES ('"+name+"','"+surname+"','"+pNumber+"','"+adres+"','"+status+"');");
-    }
-
     //return ArrayList of audio/video files with author and available copies
     public ArrayList<String[]> getDataAV()
     {
@@ -101,5 +95,34 @@ public class DbRepository {
             } while (cursor.moveToNext());
         }
         return list;
+    }*/
+
+    public ArrayList<String> getUsers()
+    {
+        Fields field1 = Fields.First_name;
+        Fields field2 = Fields.Last_name;
+        ArrayList<String> list=new ArrayList<String>();
+        Cursor cursor = db.query("Users", null, null, null, null, null, null);
+        if ((cursor != null) && (cursor.getCount() > 0)) {
+
+            cursor.moveToFirst();
+
+
+            do {
+
+                list.add(cursor.getString(field1.getFieldCode()));
+                list.add(cursor.getString(field2.getFieldCode()));
+
+
+
+
+            } while (cursor.moveToNext());
+        }
+        return list;
+
     }
+
+
+
+
 }

@@ -5,8 +5,8 @@ package com.example.niklss.innolib.DataBase;
  */
 //enumeration with fields of tables
 public enum Fields {
-    title(0),
-    author(1),
+    First_name(0),
+    Last_name(1),
     available_copies(2),
     numbers(3);
     Fields(int i) {

@@ -17,8 +17,8 @@ import java.io.OutputStream;
 //to copy a database file and connect to it
 public class Base extends SQLiteOpenHelper {
     private static String DB_NAME = "Libary.db";//name of Database
-    private static String DB_PATH = "/data/data/com.example.niklss.innolib/databases/";//path to the database
-    private static  int DB_VERSION = 9;//version of database
+    private static String DB_PATH = "/data/data/com.example.niklss.innolib.DataBase/databases/";//path to the database
+    private static  int DB_VERSION = 10;//version of database
 
     private SQLiteDatabase mDataBase;
     private final Context mContext;
@@ -48,12 +48,12 @@ public class Base extends SQLiteOpenHelper {
             mNeedUpdate = false;
         }
     }
-//algorithm for checking the existence of a database file in the system catalog
+    //algorithm for checking the existence of a database file in the system catalog
     private boolean checkDataBase() {
         File dbFile = new File(DB_PATH + DB_NAME);
         return dbFile.exists();
     }
-//algorithm for copying a database file to the system catalog
+    //algorithm for copying a database file to the system catalog
     private void copyDataBase() {
         if (!checkDataBase()) {
             this.getReadableDatabase();
@@ -78,7 +78,7 @@ public class Base extends SQLiteOpenHelper {
         mOutput.close();
         mInput.close();
     }
-//connection to database
+    //connection to database
     public boolean openDataBase() throws SQLException {
         mDataBase = SQLiteDatabase.openDatabase(DB_PATH + DB_NAME, null, SQLiteDatabase.CREATE_IF_NECESSARY);
         return mDataBase != null;
@@ -96,13 +96,13 @@ public class Base extends SQLiteOpenHelper {
 
     }
 
-
-
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (newVersion > oldVersion)
             mNeedUpdate = true;
     }
+
+
 
     /*public void takeBook(SQLiteDatabase db,int id){
 
