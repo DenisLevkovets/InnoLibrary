@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.niklss.innolib.DataBase.Base;
+import com.example.niklss.innolib.DataBase.DataBaseHelper;
 import com.example.niklss.innolib.DataBase.DbRepository;
 import com.example.niklss.innolib.R;
 
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class InnoLib extends AppCompatActivity {
 
-    private Base mDBHelper;
+    private DataBaseHelper mDBHelper;
     private SQLiteDatabase mDb;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

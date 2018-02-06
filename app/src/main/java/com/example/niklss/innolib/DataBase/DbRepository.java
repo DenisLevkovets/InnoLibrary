@@ -4,6 +4,7 @@ package com.example.niklss.innolib.DataBase;
  * Created by solo1 on 03.02.2018.
  */
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -14,7 +15,7 @@ public class DbRepository {
     private Context cont;
     public DbRepository(Context context) {
         //connection to database
-        db = new Base(context).getWritableDatabase();
+        db = new DataBaseHelper(context).getWritableDatabase();
         cont=context;
     }
     //return ArrayList of books with author and available copies
@@ -95,4 +96,6 @@ public class DbRepository {
         }
         return list;
     }
+
+
 }

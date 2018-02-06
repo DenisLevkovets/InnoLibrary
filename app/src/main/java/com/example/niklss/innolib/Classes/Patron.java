@@ -9,7 +9,7 @@ public class Patron extends UserCard {
 
     private boolean isStudent;
 
-    public Patron(String name, String adress, int id, String num) {
+    public Patron(String name, String adress, int id, String num, boolean isSt) {
         super(name, adress, id, num);
     }
 
@@ -17,7 +17,16 @@ public class Patron extends UserCard {
 
     }
 
-    interface checkOut{}
+//    private void checkOut{
+//        int status = ;
+//        int bookRef = ;
+//        if ((status && bookRef == 0) || (!status)){
+//
+//        }
+//        else{
+//            System.out.println("Not available");
+//        }
+//    }
 
     private void returnDoc(int id){
 
