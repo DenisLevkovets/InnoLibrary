@@ -33,7 +33,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
      */
 
     public DataBaseHelper(Context context) {
-        super(context, DB_NAME, null, 1);
+        super(context, DB_NAME, null, 3);
         this.mContext = context;
     }
 
@@ -129,35 +129,80 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     // вы можете возвращать курсоры через "return myDataBase.query(....)", это облегчит их использование
     // в создании адаптеров для ваших view
 
-    public void addMember() {
+    public void createUser(String name, String secondName, String pNumber, String address, int status) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
-        cv.put("First_name", "Albert");
-        cv.put("Last_name", "Badretdinov");
-        cv.put("phone", "123");
-        cv.put("address", "Uni");
-        cv.put("status", "student");
+        cv.put("First_name", name);
+        cv.put("Last_name", secondName);
+        cv.put("phone", pNumber);
+        cv.put("address", address);
+        cv.put("status", status);
         db.insert("Users", null, cv);
     }
 
-    public void getString() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String mQuery = "SELECT First_name,Last_name From Users";
+    public String getStringUser(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String mQuery = "SELECT First_name,Last_name, address,  user_id, phone, status From Users";
         Cursor mCur = db.rawQuery(mQuery, new String[]{});
         mCur.moveToFirst();
-        String name = "";
-        String family = "";
+        String user = "";
         while (!mCur.isAfterLast()) {
-            name += mCur.getString(mCur.getColumnIndex("First_name")) + " ";
-            family += mCur.getString(mCur.getColumnIndex("Last_name")) + " ";
+            if (id == mCur.getInt(mCur.getColumnIndex("user_id"))) {
+                break;
+            }
             mCur.moveToNext();
         }
+
+        if (!mCur.isAfterLast() && id == mCur.getInt(mCur.getColumnIndex("user_id"))) {
+            user += mCur.getString(mCur.getColumnIndex("First_name")) + " ";
+            user += mCur.getString(mCur.getColumnIndex("Last_name")) + " ";
+            user += mCur.getString(mCur.getColumnIndex("address")) + " ";
+            user += mCur.getString(mCur.getColumnIndex("user_id")) + " ";
+            user += mCur.getString(mCur.getColumnIndex("phone")) + " ";
+            user += mCur.getString(mCur.getColumnIndex("status"));
+        } else {
+            return null;
+        }
+
+        mCur.moveToFirst();
         db.close();
 
-        System.out.println(name);
-        System.out.println(family);
+        return user;
     }
 
+    public String getStringBook(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String mQuery = "SELECT title, author, available_copies,  book_id, last_date_of_taking, type, price, edition, date, published_by, keywords From Books";
+        Cursor mCur = db.rawQuery(mQuery, new String[]{});
+        mCur.moveToFirst();
+        String book = "";
+        while (!mCur.isAfterLast()) {
+            if (id == mCur.getInt(mCur.getColumnIndex("book_id"))) {
+                break;
+            }
+            mCur.moveToNext();
+        }
 
+        if (!mCur.isAfterLast() && id == mCur.getInt(mCur.getColumnIndex("book_id"))) {
+            book += mCur.getString(mCur.getColumnIndex("title")) + " ";
+            book += mCur.getString(mCur.getColumnIndex("author")) + " ";
+            book += mCur.getString(mCur.getColumnIndex("available_copies")) + " ";
+            book += mCur.getString(mCur.getColumnIndex("book_id")) + " ";
+            book += mCur.getString(mCur.getColumnIndex("last_date_of_taking")) + " ";
+            book += mCur.getString(mCur.getColumnIndex("type")) + " ";
+            book += mCur.getString(mCur.getColumnIndex("price")) + " ";
+            book += mCur.getString(mCur.getColumnIndex("edition")) + " ";
+            book += mCur.getString(mCur.getColumnIndex("date")) + " ";
+            book += mCur.getString(mCur.getColumnIndex("published_by")) + " ";
+            book += mCur.getString(mCur.getColumnIndex("keywords"));
+        } else {
+            return null;
+        }
+
+        mCur.moveToFirst();
+        db.close();
+
+        return book;
+    }
 }

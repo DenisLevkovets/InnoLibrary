@@ -1,5 +1,7 @@
 package com.example.niklss.innolib.Classes;
 
+import java.util.ArrayList;
+
 /**
  * Created by user on 02.02.2018.
  * UserCards with all information
@@ -7,16 +9,27 @@ package com.example.niklss.innolib.Classes;
 
 public class UserCard {
     private String uName;
+    private String secondName;
     private String uAdress;
-    private int uId;
     private String uNumber;
-    private int uStatus;
+    private int usersType;
+    private int uId;
+    private ArrayList<Books> listOfBooks;
 
-    public UserCard(String name, String adress,  String num , int status ){
+
+    public UserCard(String name, String secondName, String adress, int id, String num, int usersType ){
         this.uName = name;
+        this.secondName = secondName;
         this.uAdress = adress;
         this.uNumber = num;
-        this.uStatus = status;
+        this.usersType = usersType;
+        this.uId = id;
+    }
+
+    public UserCard UserCardThroughString(String card) {
+        String[] a = card.split(" ");
+        UserCard userCard = new UserCard(a[0], a[1], a[2], Integer.parseInt(a[3]), a[4], Integer.parseInt(a[5]));
+        return userCard;
     }
 
     public int getuId() {
@@ -35,4 +48,17 @@ public class UserCard {
         return uNumber;
     }
 
+    public int getUsersType() {
+        return usersType;
+    }
+
+    public void addBookToTheList(Books book){listOfBooks.add(book);}
+
+    public ArrayList<Books> getListOfBooks() {
+        return listOfBooks;
+    }
+
+    public String getSecondName() {
+        return secondName;
+    }
 }
