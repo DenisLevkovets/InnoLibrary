@@ -15,14 +15,13 @@ public class TC9 {
     static Books b;
 
     public static void main(String[] args) {
-        f = new Patron("Ivan","Ivanov", "Innopolis","112",1, 1);
-        s = new Patron("Alex","Petrov", "Innopolis","333",0, 2);
-        l = new Librarian("Librarian","Librarianov","Innopolis",3232, "2", 2);
-        Books b = new Books("DSA","Cormen", 11,0, "",5, 100, 23, "2017", "Alex", "IT", 1);
+        f = new Patron("Ivan", "Ivanov", "Innopolis", "112", 1, 1);
+        s = new Patron("Alex", "Petrov", "Innopolis", "333", 0, 2);
+        l = new Librarian("Librarian", "Librarianov", "Innopolis", 3232, "2", 2);
+        Books b = new Books("DSA", "Cormen", 11, 0, "", 5, 100, 23, "2017", "Alex", "IT", 1);
         s.checkOut(b);
 
         System.out.println(b.getAccessDue());
-
 
 
     }

@@ -14,7 +14,7 @@ public class UserCard {
     private String uNumber;
     private int usersType;
     private int uId;
-    private ArrayList<Books> listOfBooks = new ArrayList();
+    private ArrayList<Books> listOfBooks;
 
 
     public UserCard(String name, String secondName, String adress, int id, String num, int usersType ){
@@ -24,6 +24,12 @@ public class UserCard {
         this.uNumber = num;
         this.usersType = usersType;
         this.uId = id;
+    }
+
+    public UserCard UserCardThroughString(String card) {
+        String[] a = card.split(" ");
+        UserCard userCard = new UserCard(a[0], a[1], a[2], Integer.parseInt(a[3]), a[4], Integer.parseInt(a[5]));
+        return userCard;
     }
 
     public int getuId() {
@@ -47,6 +53,10 @@ public class UserCard {
     }
 
     public void addBookToTheList(Books book){listOfBooks.add(book);}
+
+    public ArrayList<Books> getListOfBooks() {
+        return listOfBooks;
+    }
 
     public String getSecondName() {
         return secondName;

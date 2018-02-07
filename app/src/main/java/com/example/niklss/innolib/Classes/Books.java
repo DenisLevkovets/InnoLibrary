@@ -20,7 +20,7 @@ public class Books {
     private String published_by;
     private String keywords;
 
-    public Books(String title, String authors, int count, int id, String last_date, int forUser, int price, int edition, String date, String published, String keywords, int isBestSeller){
+    public Books(String title, String authors, int count, int id, String last_date, int forUser, int price, int edition, String date, String published, String keywords, int isBestSeller) {
         this.isBestSeller = isBestSeller;
         this.keywords = keywords;
         this.published_by = published;
@@ -33,7 +33,15 @@ public class Books {
         this.countOfBooks = count;
         this.price = price;
         this.edition = edition;
+    }
 
+    public Books BooksTroughtString(String bookInf) {
+        String[] a = bookInf.split(" ");
+        Books book = new Books(a[0], a[1], Integer.parseInt(a[2]),
+                Integer.parseInt(a[3]), a[4], Integer.parseInt(a[5]),
+                Integer.parseInt(a[6]), Integer.parseInt(a[7]),
+                a[8], a[9], a[10], Integer.parseInt(a[11]));
+        return book;
     }
 
     public String getAccessDue() {
