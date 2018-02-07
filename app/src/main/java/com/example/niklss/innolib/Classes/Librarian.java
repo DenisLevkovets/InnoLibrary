@@ -7,9 +7,9 @@ package com.example.niklss.innolib.Classes;
 
 public class Librarian extends UserCard {
 
-//    public Librarian(String name, String adress, int id, String num) {
-//        super(name, adress, id, num);
-//    }
+    public Librarian(String name, String adress, int id, String num) {
+        super(name, adress, id, num);
+    }
 
     private void add() {
 
