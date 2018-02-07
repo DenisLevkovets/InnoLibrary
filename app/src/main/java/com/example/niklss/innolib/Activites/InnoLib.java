@@ -33,11 +33,9 @@ public class InnoLib extends AppCompatActivity {
         catalog.setOnClickListener(clCatalog);
 
         //database initialization
-<<<<<<< HEAD
         mDBHelper = new Base(this);
-=======
-       mDBHelper = new Base(this);
->>>>>>> 892a6f1a3e1234937369bdaef29ecb2e65b5e478
+
+        mDBHelper = new Base(this);
         try {
             mDBHelper.updateDataBase();
         } catch (IOException mIOException) {
@@ -50,24 +48,14 @@ public class InnoLib extends AppCompatActivity {
             throw mSQLException;
         }
 
-<<<<<<< HEAD
 //        AddU();
         final DbRepository repository = new DbRepository(this.getApplicationContext());
         ArrayList<String> list = repository.getUsers();
-        for (int i = 0; i <list.size() ; i++) {
+        for (int i = 0; i < list.size(); i++) {
             System.out.println(list.get(i));
         }
-=======
-
-
->>>>>>> 892a6f1a3e1234937369bdaef29ecb2e65b5e478
-
-
-
-
-
-
     }
+
 
 
 //return ArrayList of books with author and available copies
@@ -108,19 +96,14 @@ public class InnoLib extends AppCompatActivity {
 
 
 
-<<<<<<< HEAD
-    View.OnClickListener clCatalog = new View.OnClickListener(){
-=======
+        View.OnClickListener clCatalog = new View.OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(InnoLib.this, Catalogs.class);
+                startActivity(intent);
+            }
+        };
 
-        View.OnClickListener clCatalog = new View.OnClickListener(){
->>>>>>> 892a6f1a3e1234937369bdaef29ecb2e65b5e478
-
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent(InnoLib.this, Catalogs.class);
-            startActivity(intent);
-        }
-    };
 }
 

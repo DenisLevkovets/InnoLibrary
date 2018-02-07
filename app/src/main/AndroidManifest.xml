@@ -19,7 +19,6 @@
 
         <activity android:name=".Activites.Catalogs"/>
     <activity android:name=".Activites.InnoLib"/>
-        <activity android:name=".Classes.TC1"/>
 
     </application>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />

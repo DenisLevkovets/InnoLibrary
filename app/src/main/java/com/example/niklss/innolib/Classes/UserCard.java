@@ -10,12 +10,13 @@ public class UserCard {
     private String uAdress;
     private int uId;
     private String uNumber;
+    private int uStatus;
 
-    public UserCard(String name, String adress, int id, String num ){
+    public UserCard(String name, String adress,  String num , int status ){
         this.uName = name;
         this.uAdress = adress;
-        this.uId = id;
         this.uNumber = num;
+        this.uStatus = status;
     }
 
     public int getuId() {

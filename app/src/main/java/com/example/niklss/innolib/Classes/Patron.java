@@ -7,21 +7,21 @@ package com.example.niklss.innolib.Classes;
 
 public class Patron extends UserCard {
 
-    private boolean isStudent;
 
-    public Patron(String name, String adress, int id, String num) {
-        super(name, adress, id, num);
+    public Patron(String name, String adress,  String num, int isStudent) {
+        super(name, adress, num, isStudent);
     }
 
     private void searchDoc(String anyName){
 
     }
 
-    interface checkOut{}
+    public void checkOut(){
+
+    }
 
     private void returnDoc(int id){
 
     }
-
 
 }

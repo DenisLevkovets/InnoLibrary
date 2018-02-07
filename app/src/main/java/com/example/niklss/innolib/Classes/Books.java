@@ -7,14 +7,14 @@ package com.example.niklss.innolib.Classes;
 public class Books {
     private int isForUser;
     private String titleBook;
-    private String[] authorsOfBook;
+    private String authorsOfBook;
     private String dateOfCreationOfBook;
     private boolean isBestSeller;
     private int countOfBooks;
     private UserCard user;
     private String accessDue;
 
-    Books(String title, String[] authors,String date, int forUser, boolean isBestSeller, int count){
+    public Books(String title, String authors, String date, int forUser, boolean isBestSeller, int count){
         this.titleBook = title;
         this.authorsOfBook = authors;
         this.dateOfCreationOfBook = date;
@@ -43,7 +43,7 @@ public class Books {
         return titleBook;
     }
 
-    public String[] getAuthorsOfBook() {
+    public String getAuthorsOfBook() {
         return authorsOfBook;
     }
 
