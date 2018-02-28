@@ -9,10 +9,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.niklss.innolib.Classes.Books;
+import com.example.niklss.innolib.Classes.UserCard;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 
 //this class is needed to work with the database
@@ -29,7 +33,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
      * Конструктор
      * Принимает и сохраняет ссылку на переданный контекст для доступа к ресурсам приложения
      *
-     * @param context
+     * @param context - usually activity
      */
 
     public DataBaseHelper(Context context) {
@@ -74,7 +78,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         if (checkDB != null) {
             checkDB.close();
         }
-        return checkDB != null ? true : false;
+        return checkDB != null;
     }
 
     /**
@@ -167,8 +171,36 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         mCur.moveToFirst();
         db.close();
+        mCur.close();
+
 
         return user;
+    }
+
+    public ArrayList<UserCard> getListOfUsers() {
+        ArrayList<UserCard> list = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        String mQuery = "SELECT First_name,Last_name, address,  user_id, phone, status From Users";
+        Cursor mCur = db.rawQuery(mQuery, new String[]{});
+        mCur.moveToFirst();
+        String user = "";
+        while (!mCur.isAfterLast()) {
+            user += mCur.getString(mCur.getColumnIndex("First_name")) + " ";
+            user += mCur.getString(mCur.getColumnIndex("Last_name")) + " ";
+            user += mCur.getString(mCur.getColumnIndex("address")) + " ";
+            user += mCur.getString(mCur.getColumnIndex("user_id")) + " ";
+            user += mCur.getString(mCur.getColumnIndex("phone")) + " ";
+            user += mCur.getString(mCur.getColumnIndex("status"));
+            UserCard a = new UserCard(user);
+            user = "";
+            list.add(a);
+            mCur.moveToNext();
+        }
+        mCur.moveToFirst();
+        db.close();
+        mCur.close();
+
+        return list;
     }
 
     public String getStringBook(int id) {
@@ -202,7 +234,40 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         mCur.moveToFirst();
         db.close();
+        mCur.close();
 
         return book;
+    }
+
+    public ArrayList<Books> getListOfBooks() {
+        ArrayList<Books> list = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        String mQuery = "SELECT title, author, available_copies,  book_id, last_date_of_taking, type, price, edition, date, published_by, keywords From Books";
+        Cursor mCur = db.rawQuery(mQuery, new String[]{});
+        mCur.moveToFirst();
+        String book = "";
+        while (!mCur.isAfterLast()) {
+            book += mCur.getString(mCur.getColumnIndex("title")) + " ";
+            book += mCur.getString(mCur.getColumnIndex("author")) + " ";
+            book += mCur.getString(mCur.getColumnIndex("available_copies")) + " ";
+            book += mCur.getString(mCur.getColumnIndex("book_id")) + " ";
+            book += mCur.getString(mCur.getColumnIndex("last_date_of_taking")) + " ";
+            book += mCur.getString(mCur.getColumnIndex("type")) + " ";
+            book += mCur.getString(mCur.getColumnIndex("price")) + " ";
+            book += mCur.getString(mCur.getColumnIndex("edition")) + " ";
+            book += mCur.getString(mCur.getColumnIndex("date")) + " ";
+            book += mCur.getString(mCur.getColumnIndex("published_by")) + " ";
+            book += mCur.getString(mCur.getColumnIndex("keywords"));
+            Books b = new Books(book);
+            book = "";
+            list.add(b);
+            mCur.moveToNext();
+        }
+
+        mCur.moveToFirst();
+        db.close();
+        mCur.close();
+
+        return list;
     }
 }

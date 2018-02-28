@@ -7,8 +7,8 @@ package com.example.niklss.innolib.Classes;
 
 public class Patron extends UserCard {
 
-    public Patron(String name, String secondName, String adress, String num, int isStatus, int id) {
-        super(name, secondName, adress, id, num, isStatus);
+    public Patron(String name, String secondName, String address, String num, int isStatus, int id) {
+        super(name, secondName, address, id, num, isStatus);
     }
 
     private void searchDoc(String anyName){

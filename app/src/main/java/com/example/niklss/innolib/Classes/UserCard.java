@@ -10,34 +10,38 @@ import java.util.ArrayList;
 public class UserCard {
     private String uName;
     private String secondName;
-    private String uAdress;
+    private String uAddress;
     private String uNumber;
     private int usersType;
     private int uId;
     private ArrayList<Books> listOfBooks;
 
 
-    public UserCard(String name, String secondName, String adress, int id, String num, int usersType ){
+    public UserCard(String name, String secondName, String address, int id, String num, int usersType ){
         this.uName = name;
         this.secondName = secondName;
-        this.uAdress = adress;
+        this.uAddress = address;
+        this.uId = id;
         this.uNumber = num;
         this.usersType = usersType;
-        this.uId = id;
     }
 
-    public UserCard UserCardThroughString(String card) {
+    public UserCard(String card) {
         String[] a = card.split(" ");
-        UserCard userCard = new UserCard(a[0], a[1], a[2], Integer.parseInt(a[3]), a[4], Integer.parseInt(a[5]));
-        return userCard;
+        this.uName = a[0];
+        this.secondName = a[1];
+        this.uAddress = a[2];
+        this.uId = Integer.parseInt(a[3]);
+        this.uNumber = a[4];
+        this.usersType = Integer.parseInt(a[5]);
     }
 
     public int getuId() {
         return uId;
     }
 
-    public String getuAdress() {
-        return uAdress;
+    public String getuAddress() {
+        return uAddress;
     }
 
     public String getuName() {
