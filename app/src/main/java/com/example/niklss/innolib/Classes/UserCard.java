@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class UserCard extends Activity{
     private String uName;
     private String secondName;
-    private String uAdress;
+    private String uAddress;
     private String uNumber;
     private int usersType;
     private int uId;
@@ -22,7 +22,7 @@ public class UserCard extends Activity{
     public UserCard(String name, String secondName, String adress, int id, String num, int usersType ){
         this.uName = name;
         this.secondName = secondName;
-        this.uAdress = adress;
+        this.uAddress = adress;
         this.uNumber = num;
         this.usersType = usersType;
         this.uId = id;
@@ -34,12 +34,21 @@ public class UserCard extends Activity{
         return userCard;
     }
 
+    public UserCard(String[] card) {
+        this.uName = card[0];
+        this.secondName = card[1];
+        this.uAddress = card[2];
+        this.uId = Integer.parseInt(card[3]);
+        this.uNumber = card[4];
+        this.usersType = Integer.parseInt(card[5]);
+    }
+
     public int getuId() {
         return uId;
     }
 
-    public String getuAdress() {
-        return uAdress;
+    public String getuAddress() {
+        return uAddress;
     }
 
     public String getuName() {
