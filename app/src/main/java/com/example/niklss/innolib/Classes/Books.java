@@ -2,7 +2,6 @@ package com.example.niklss.innolib.Classes;
 
 /**
  * Created by Niklss on 06.02.2018.
- * Class for using UserCards
  */
 
 public class Books {
@@ -22,34 +21,27 @@ public class Books {
     private String keywords;
 
     public Books(String title, String authors, int count, int id, String last_date, int forUser, int price, int edition, String date, String published, String keywords, int isBestSeller) {
+        this.isBestSeller = isBestSeller;
+        this.keywords = keywords;
+        this.published_by = published;
+        this.lastDate = last_date;
+        this.bookId = id;
         this.titleBook = title;
         this.authorsOfBook = authors;
-        this.countOfBooks = count;
-        this.bookId = id;
-        this.lastDate = last_date;
+        this.dateOfCreationOfBook = date;
         this.isForUser = forUser;
+        this.countOfBooks = count;
         this.price = price;
         this.edition = edition;
-        this.dateOfCreationOfBook = date;
-        this.published_by = published;
-        this.keywords = keywords;
-        this.isBestSeller = isBestSeller;
     }
 
-    public Books (String bookInf) {
+    public Books BooksTroughtString(String bookInf) {
         String[] a = bookInf.split(" ");
-        this.titleBook = a[0];
-        this.authorsOfBook = a[1];
-        this.countOfBooks = Integer.parseInt(a[2]);
-        this.bookId = Integer.parseInt(a[3]);
-        this.lastDate = a[4];
-        this.isForUser = Integer.parseInt(a[5]);
-        this.price = Integer.parseInt(a[6]);
-        this.edition = Integer.parseInt(a[7]);
-        this.dateOfCreationOfBook = a[8];
-        this.published_by = a[9];
-        this.keywords = a[10];
-        this.isBestSeller = Integer.parseInt(a[11]);
+        Books book = new Books(a[0], a[1], Integer.parseInt(a[2]),
+                Integer.parseInt(a[3]), a[4], Integer.parseInt(a[5]),
+                Integer.parseInt(a[6]), Integer.parseInt(a[7]),
+                a[8], a[9], a[10], Integer.parseInt(a[11]));
+        return book;
     }
 
     public String getAccessDue() {

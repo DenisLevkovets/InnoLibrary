@@ -9,14 +9,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.niklss.innolib.Classes.Books;
-import com.example.niklss.innolib.Classes.UserCard;
-
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
 
 
 //this class is needed to work with the database
@@ -33,7 +29,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
      * Конструктор
      * Принимает и сохраняет ссылку на переданный контекст для доступа к ресурсам приложения
      *
-     * @param context - usually activity
+     * @param context
      */
 
     public DataBaseHelper(Context context) {
@@ -78,7 +74,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         if (checkDB != null) {
             checkDB.close();
         }
-        return checkDB != null;
+        return checkDB != null ? true : false;
     }
 
     /**
@@ -171,56 +167,28 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         mCur.moveToFirst();
         db.close();
-        mCur.close();
-
 
         return user;
     }
 
-    public ArrayList<UserCard> getListOfUsers() {
-        ArrayList<UserCard> list = new ArrayList<>();
-        SQLiteDatabase db = this.getWritableDatabase();
-        String mQuery = "SELECT First_name,Last_name, address,  user_id, phone, status From Users";
-        Cursor mCur = db.rawQuery(mQuery, new String[]{});
-        mCur.moveToFirst();
-        String user = "";
-        while (!mCur.isAfterLast()) {
-            user += mCur.getString(mCur.getColumnIndex("First_name")) + " ";
-            user += mCur.getString(mCur.getColumnIndex("Last_name")) + " ";
-            user += mCur.getString(mCur.getColumnIndex("address")) + " ";
-            user += mCur.getString(mCur.getColumnIndex("user_id")) + " ";
-            user += mCur.getString(mCur.getColumnIndex("phone")) + " ";
-            user += mCur.getString(mCur.getColumnIndex("status"));
-            UserCard a = new UserCard(user);
-            user = "";
-            list.add(a);
-            mCur.moveToNext();
-        }
-        mCur.moveToFirst();
-        db.close();
-        mCur.close();
-
-        return list;
-    }
-
     public String getStringBook(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String mQuery = "SELECT title, author, available_copies,  book_id, last_date_of_taking, type, price, edition, date, published_by, keywords From Books";
+        String mQuery = "SELECT title, author, available_copies,  id, last_date_of_taking, type, price, edition, date, published_by, keywords From Books";
         Cursor mCur = db.rawQuery(mQuery, new String[]{});
         mCur.moveToFirst();
         String book = "";
         while (!mCur.isAfterLast()) {
-            if (id == mCur.getInt(mCur.getColumnIndex("book_id"))) {
+            if (id == mCur.getInt(mCur.getColumnIndex("id"))) {
                 break;
             }
             mCur.moveToNext();
         }
 
-        if (!mCur.isAfterLast() && id == mCur.getInt(mCur.getColumnIndex("book_id"))) {
+        if (!mCur.isAfterLast() && id == mCur.getInt(mCur.getColumnIndex("id"))) {
             book += mCur.getString(mCur.getColumnIndex("title")) + " ";
             book += mCur.getString(mCur.getColumnIndex("author")) + " ";
             book += mCur.getString(mCur.getColumnIndex("available_copies")) + " ";
-            book += mCur.getString(mCur.getColumnIndex("book_id")) + " ";
+            book += mCur.getString(mCur.getColumnIndex("id")) + " ";
             book += mCur.getString(mCur.getColumnIndex("last_date_of_taking")) + " ";
             book += mCur.getString(mCur.getColumnIndex("type")) + " ";
             book += mCur.getString(mCur.getColumnIndex("price")) + " ";
@@ -234,40 +202,138 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         mCur.moveToFirst();
         db.close();
-        mCur.close();
 
         return book;
     }
 
-    public ArrayList<Books> getListOfBooks() {
-        ArrayList<Books> list = new ArrayList<>();
+
+    public void addB(String title,String author,int available_copies,int type,int price,int edition,String date,String published_by,String keywords,int is_bestseller) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String mQuery = "SELECT title, author, available_copies,  book_id, last_date_of_taking, type, price, edition, date, published_by, keywords From Books";
-        Cursor mCur = db.rawQuery(mQuery, new String[]{});
-        mCur.moveToFirst();
-        String book = "";
-        while (!mCur.isAfterLast()) {
-            book += mCur.getString(mCur.getColumnIndex("title")) + " ";
-            book += mCur.getString(mCur.getColumnIndex("author")) + " ";
-            book += mCur.getString(mCur.getColumnIndex("available_copies")) + " ";
-            book += mCur.getString(mCur.getColumnIndex("book_id")) + " ";
-            book += mCur.getString(mCur.getColumnIndex("last_date_of_taking")) + " ";
-            book += mCur.getString(mCur.getColumnIndex("type")) + " ";
-            book += mCur.getString(mCur.getColumnIndex("price")) + " ";
-            book += mCur.getString(mCur.getColumnIndex("edition")) + " ";
-            book += mCur.getString(mCur.getColumnIndex("date")) + " ";
-            book += mCur.getString(mCur.getColumnIndex("published_by")) + " ";
-            book += mCur.getString(mCur.getColumnIndex("keywords"));
-            Books b = new Books(book);
-            book = "";
-            list.add(b);
-            mCur.moveToNext();
-        }
+        String s = "('"+title+"', '"+author+"', "+available_copies+", "+type+", "+price+", "+edition+", '"+date+"', '"+published_by+"', '"+keywords+"', "+is_bestseller+")";
 
-        mCur.moveToFirst();
+
+        String addbook="INSERT INTO Books (title,author,available_copies,type,price,edition,date,published_by,keywords,is_bestseller) Values "+s;
+        db.beginTransaction();
+        db.execSQL(addbook);
+        db.setTransactionSuccessful();
+        db.endTransaction();
         db.close();
-        mCur.close();
 
-        return list;
+    }
+    public void addArt(String title,String author,String jtitle,String issue,String date,String editor,int numbers, int price) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+
+
+        String s = "('"+title+"', '"+author+"', '"+jtitle+"', '"+issue+"', '"+editor+"', "+numbers+", "+price+")";
+
+
+        String addArticle="INSERT INTO Articles (title,authors,jtitle,issue,editor,numbers,price) Values "+s;
+        db.beginTransaction();
+        db.execSQL(addArticle);
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
+
+    }
+
+    public void addAV(String title,String authors,int numbers, int price) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+
+
+        String s = "('"+title+"', '"+authors+"', "+numbers+", "+price+")";
+
+
+        String addAV="INSERT INTO AV (title,authors,numbers,price) Values "+s;
+        db.beginTransaction();
+        db.execSQL(addAV);
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
+
+    }
+
+    public void deleteBook(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String deleteBook ="DELETE FROM Books WHERE ID = "+id;
+        db.beginTransaction();
+        db.execSQL(deleteBook);
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
+
+    }
+
+    public void deleteArticle(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String deleteArticle ="DELETE FROM Articles WHERE ID = "+id;
+        db.beginTransaction();
+        db.execSQL(deleteArticle);
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
+
+    }
+
+    public void deleteAV(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String deleteAV ="DELETE FROM AV WHERE ID = "+id;
+        db.beginTransaction();
+        db.execSQL(deleteAV);
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
+
+    }
+
+    public void deletePatron(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String deleteUser ="DELETE FROM Users WHERE user_id = "+id;
+        db.beginTransaction();
+        db.execSQL(deleteUser);
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
+    }
+
+    public void updateBook(int id, String title,String author,int available_copies,int type,int price,int edition,String date,String published_by,String keywords,int is_bestseller){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String updateBooks = "Update Books Set title = '"+title+"', author = '"+author+"', available_copies = "+available_copies+", type = "+type+", price = "+price+", edition = "+edition+", date = '"+date+"', published_by = '"+published_by+"', keywords = '"+keywords+"', is_bestseller = "+is_bestseller+" where id="+id;
+        db.beginTransaction();
+        db.execSQL(updateBooks);
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
+    }
+
+    public void updateArticle(int id, String title,String author,String jtitle,String issue,String date,String editor,int numbers,int price){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String updateArticle = "Update Articles Set title = '"+title+"', authors = '"+author+"', jtitle = '"+jtitle+"', issue = '"+issue+"', date = '"+date+"', editor = '"+editor+"', numbers = "+numbers+", price ="+price+" where id="+id;
+        db.beginTransaction();
+        db.execSQL(updateArticle);
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
+    }
+
+    public void updateAV(int id, String title,String author,int numbers,int price){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String updateAV = "Update AV Set title = '"+title+"', authors = '"+author+"', numbers = "+numbers+", price ="+price+" where id="+id;
+        db.beginTransaction();
+        db.execSQL(updateAV);
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
+    }
+
+    public void updateUser(int user_id,String First_name,String Last_name,String address,String phone,int status,int number_books){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String updateUser = "Update Users Set First_name = '"+First_name+"', Last_name = '"+Last_name+"', address = '"+address+"', phone = "+phone+", status ="+status+", number_books="+number_books+" where user_id="+user_id;
+        db.beginTransaction();
+        db.execSQL(updateUser);
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
     }
 }

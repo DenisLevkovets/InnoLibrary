@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.niklss.innolib.Classes.Librarian;
 import com.example.niklss.innolib.DataBase.DataBaseHelper;
 import com.example.niklss.innolib.DataBase.DbRepository;
 import com.example.niklss.innolib.R;
@@ -29,27 +30,6 @@ public class InnoLib extends AppCompatActivity {
         Button catalog = (Button) findViewById(R.id.catalog);
         catalog.setOnClickListener(clCatalog);
 
-        //database initialization
-//        mDBHelper = new Base(this);
-//        try {
-//            mDBHelper.updateDataBase();
-//        } catch (IOException mIOException) {
-//            throw new Error("UnableToUpdateDatabase");
-//        }
-//
-//        try {
-//            mDb = mDBHelper.getWritableDatabase();
-//        } catch (SQLException mSQLException) {
-//            throw mSQLException;
-//        }
-//
-//        ArrayList<String[]> list = getBooks();
-//        for (int i = 0; i <list.size() ; i++) {
-//            for (int j = 0; j <list.get(i).length ; j++) {
-//                System.out.print(list.get(i)[j]+" ");
-//            }
-//            System.out.println("");
-//        }
 
 
 
@@ -57,8 +37,8 @@ public class InnoLib extends AppCompatActivity {
     }
 
 
-//return ArrayList of books with author and available copies
     public ArrayList<String[]> getBooks(){
+//return ArrayList of books with author and available copies
         final DbRepository repository = new DbRepository(this.getApplicationContext());
         ArrayList<String[]> Data = repository.getDataBooks();
         return Data;
@@ -75,6 +55,9 @@ public class InnoLib extends AppCompatActivity {
         ArrayList<String[]> Data = repository.getDataArticles();
         return Data;
     }
+
+
+
 
 
 

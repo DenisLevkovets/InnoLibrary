@@ -14,7 +14,6 @@ import java.io.IOException;
 
 /**
  * Created by user on 04.02.2018.
- * First activity
  */
 
 public class Login extends Activity {
@@ -22,9 +21,9 @@ public class Login extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-        Button bt = (Button) findViewById(R.id.button);
-        EditText name = (EditText) findViewById(R.id.editText);
-        EditText password = (EditText) findViewById(R.id.editText2);
+        Button bt=(Button) findViewById(R.id.button);
+        EditText name=(EditText) findViewById(R.id.editText);
+        EditText password=(EditText) findViewById(R.id.editText2);
 
         bt.setOnClickListener(click);
 
@@ -35,12 +34,13 @@ public class Login extends Activity {
             e.printStackTrace();
         }
 
-        System.out.println(a.getStringBook(3));
+        System.out.println(a.getStringBook(1));
+
 
 
     }
 
-    View.OnClickListener click = new View.OnClickListener() {
+    View.OnClickListener click=new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(Login.this, InnoLib.class);
