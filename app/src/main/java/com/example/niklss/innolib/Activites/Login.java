@@ -34,7 +34,7 @@ public class Login extends Activity {
             e.printStackTrace();
         }
 
-        System.out.println(a.getStringBook(1));
+
 
 
 
