@@ -31,21 +31,21 @@ public class Login extends Activity {
 
         bt.setOnClickListener(click);
 
-        DataBaseHelper db = new DataBaseHelper(Login.this);
-        try {
-            db.createDataBase();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        String[] arr = db.getArrayUser(4);
-        Patron a = new Patron(arr);
-
-        ArrayList<Books> m = a.getAvailiableBooks(this);
-        System.out.println(m.get(0).getCountOfBooks());
-        a.checkOut(m.get(0).getBookId(), this);
-        m = a.getAvailiableBooks(this);
-        System.out.println(m.get(0).getCountOfBooks());
+//        DataBaseHelper db = new DataBaseHelper(Login.this);
+//        try {
+//            db.createDataBase();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        String[] arr = db.getArrayUser(4);
+//        Patron a = new Patron(arr);
+//
+//        ArrayList<Books> m = a.getAvailiableBooks(this);
+//        System.out.println(m.get(0).getCountOfBooks());
+//        a.checkOut(m.get(0).getBookId(), this);
+//        m = a.getAvailiableBooks(this);
+//        System.out.println(m.get(0).getCountOfBooks());
 
 
     }
