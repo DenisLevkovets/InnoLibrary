@@ -327,4 +327,19 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         cv.put("type", type);
         db.insert("time_checker", null, cv);
     }
+
+    public ArrayList<Books> returnListOfUsersBook(int uId){
+        ArrayList<Books> book = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        String mQuery = "SELECT user_id, book_id, time, type From time_checker";
+        Cursor mCur = db.rawQuery(mQuery, new String[]{});
+        mCur.moveToFirst();
+        while (!mCur.isAfterLast()) {
+            if (uId == mCur.getInt(mCur.getColumnIndex("user_id"))){
+                Books b = new Books(this.getArrayBook(mCur.getInt(mCur.getColumnIndex("book_id"))));
+                book.add(b);
+            }
+        }
+        return book;
+    }
 }

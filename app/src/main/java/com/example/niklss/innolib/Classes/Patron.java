@@ -65,6 +65,11 @@ public class Patron extends UserCard {
         return db.hasBook(this.getuId(), id);
     }
 
+    private void addBookToList(Context context){
+        DataBaseHelper db = new DataBaseHelper(context);
+        db.returnListOfUsersBook(this.getuId());
+    }
+
     private void returnDoc(int id){
 
     }
