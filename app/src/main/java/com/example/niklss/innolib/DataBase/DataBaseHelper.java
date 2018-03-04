@@ -30,12 +30,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     private SQLiteDatabase myDataBase;
     private final Context mContext;
 
-    /**
-     * Конструктор
-     * Принимает и сохраняет ссылку на переданный контекст для доступа к ресурсам приложения
-     *
-     * @param context
-     */
+
 
     public DataBaseHelper(Context context) {
         super(context, DB_NAME, null, 3);
@@ -508,7 +503,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             if (user_id == mCur.getInt(mCur.getColumnIndex("user_id")) && book_id == mCur.getInt(mCur.getColumnIndex("book_id"))){
                 return true;
             }
+            mCur.moveToNext();
         }
+        mCur.close();
         return false;
     }
 
@@ -533,7 +530,46 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 Books b = new Books(this.getArrayBook(mCur.getInt(mCur.getColumnIndex("book_id"))));
                 book.add(b);
             }
+            mCur.moveToNext();
         }
+        mCur.close();
         return book;
+    }
+
+    public String getShortInformation(Books book){
+        String a = "";
+        a += book.getTitleBook() + " ";
+        a += book.getAuthorsOfBook() + " ";
+        a += book.getEdition() + " ";
+        return a;
+    }
+
+    public String getFullInformation(Books book){
+        String a = "";
+        a += book.getTitleBook() + " ";
+        a += book.getAuthorsOfBook() + " ";
+        a += book.getEdition() + " ";
+        a += book.getDateOfCreationOfBook() + " ";
+        a += book.getPublished_by() + " ";
+        a += book.getCountOfBooks() + " ";
+        a += book.getIsBestSeller() + " ";
+        a += book.getPrice() + " ";
+
+        return a;
+    }
+
+    public ArrayList<Patron> debtorUsers(){
+        ArrayList<Patron> patron = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        String mQuery = "SELECT user_id, book_id, time, type From time_checker";
+        Cursor mCur = db.rawQuery(mQuery, new String[]{});
+        mCur.moveToFirst();
+        while (!mCur.isAfterLast()){
+            Patron a = new Patron(this.getArrayUser(mCur.getInt(mCur.getColumnIndex("user_id"))));
+            patron.add(a);
+            mCur.moveToNext();
+        }
+        mCur.close();
+        return patron;
     }
 }
