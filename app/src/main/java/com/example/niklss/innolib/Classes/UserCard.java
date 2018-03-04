@@ -18,6 +18,7 @@ public class UserCard {
 
 
     public UserCard(String name, String secondName, String adress, int id, String num, int usersType ){
+        listOfBooks=new ArrayList<>();
         this.uName = name;
         this.secondName = secondName;
         this.uAdress = adress;

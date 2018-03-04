@@ -5,48 +5,35 @@ package com.example.niklss.innolib.Classes;
  */
 
 public class Books {
-    private int isForUser;
+
     private String titleBook;
     private String authorsOfBook;
     private int bookId;
-    private String dateOfCreationOfBook;
     private int isBestSeller;
     private int countOfBooks;
-    private UserCard user;
-    private String accessDue;
+    private int reference;
     private int price;
-    private int edition;
-    private String lastDate;
-    private String published_by;
+    private String edition;
+    private String wasPublished;
+    private UserCard user;
+    private int daysLeft;
     private String keywords;
 
-    public Books(String title, String authors, int count, int id, String last_date, int forUser, int price, int edition, String date, String published, String keywords, int isBestSeller) {
-        this.isBestSeller = isBestSeller;
-        this.keywords = keywords;
-        this.published_by = published;
-        this.lastDate = last_date;
-        this.bookId = id;
-        this.titleBook = title;
-        this.authorsOfBook = authors;
-        this.dateOfCreationOfBook = date;
-        this.isForUser = forUser;
-        this.countOfBooks = count;
-        this.price = price;
-        this.edition = edition;
+
+    public Books(String title, String authors, int reference,int price, String edition, String wasPublished, int count, int isBestSeller, int id, String keywords ) {
+        titleBook=title;
+        authorsOfBook=authors;
+        this.reference=reference;
+        this.price=price;
+        this.edition=edition;
+        this.wasPublished=wasPublished;
+        countOfBooks=count;
+        this.isBestSeller=isBestSeller;
+        bookId=id;
+        this.keywords=keywords;
     }
 
-    public Books BooksTroughtString(String bookInf) {
-        String[] a = bookInf.split(" ");
-        Books book = new Books(a[0], a[1], Integer.parseInt(a[2]),
-                Integer.parseInt(a[3]), a[4], Integer.parseInt(a[5]),
-                Integer.parseInt(a[6]), Integer.parseInt(a[7]),
-                a[8], a[9], a[10], Integer.parseInt(a[11]));
-        return book;
-    }
 
-    public String getAccessDue() {
-        return accessDue;
-    }
 
     public UserCard getUser() {
         return user;
@@ -56,20 +43,9 @@ public class Books {
         this.user = user;
     }
 
-    public int getIsForUser() {
-        return isForUser;
-    }
 
     public String getTitleBook() {
         return titleBook;
-    }
-
-    public String getAuthorsOfBook() {
-        return authorsOfBook;
-    }
-
-    public String getDateOfCreationOfBook() {
-        return dateOfCreationOfBook;
     }
 
     public int getIsBestSeller() {
@@ -84,9 +60,6 @@ public class Books {
         this.countOfBooks = countOfBooks;
     }
 
-    public void setAccessDue(String accessDue) {
-        this.accessDue = accessDue;
-    }
 
     public int getBookId() {
         return bookId;
@@ -100,23 +73,14 @@ public class Books {
         this.price = price;
     }
 
-    public int getEdition() {
+    public int getReference(){ return reference;}
+
+    public String getEdition() {
         return edition;
     }
 
-    public String getLastDate() {
-        return lastDate;
-    }
+    public void setDaysLeft(int daysLeft){ this.daysLeft=daysLeft;}
 
-    public void setLastDate(String lastDate) {
-        this.lastDate = lastDate;
-    }
+    public int getDaysLeft(){return daysLeft;}
 
-    public String getPublished_by() {
-        return published_by;
-    }
-
-    public String getKeywords() {
-        return keywords;
-    }
 }

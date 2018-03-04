@@ -17,20 +17,28 @@ public class Patron extends UserCard {
 
     public void checkOut(Books book) {
 
-        if (getUsersType() >= book.getIsForUser()){
+        if(hasCopy(book)==true){
+            System.out.println("You already have this book");
+        }
+        else if(book.getCountOfBooks()<=0){
+            System.out.println("There is no copies of this book");
+        }
+        else if (book.getReference() == 0){
             if (book.getCountOfBooks() > 0 && !hasCopy(book)) {
                 book.setCountOfBooks(book.getCountOfBooks() - 1);
                 this.addBookToTheList(book);
                 book.setUser(this);
-                if (getUsersType() == 1) {
-                    book.setAccessDue("4 weeks");
-                } else if (book.getIsBestSeller() == 1) {
-                    book.setAccessDue("2 weeks");
+                if (book.getIsBestSeller() == 1) {
+                    book.setDaysLeft(14);
+                }
+                else if (getUsersType() ==1){
+                    book.setDaysLeft(28);
                 }
                 else{
-                    book.setAccessDue("3 weeks");
+                    book.setDaysLeft(21);
                 }
             }
+            System.out.println("You take book \""+book.getTitleBook()+"\" for " +book.getDaysLeft()+" days");
         }
 
         else{
@@ -41,15 +49,10 @@ public class Patron extends UserCard {
     private boolean hasCopy(Books book) {
         for (int i = 0; i < this.getListOfBooks().size() - 1; i++) {
             if (book.getBookId() == this.getListOfBooks().get(i).getBookId()) {
-                System.out.println("You already have this book");
                 return true;
             }
         }
         return false;
-    }
-
-    private void returnDoc(int id){
-
     }
 
 

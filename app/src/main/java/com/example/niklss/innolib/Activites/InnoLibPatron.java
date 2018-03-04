@@ -17,17 +17,20 @@ import java.util.ArrayList;
  * Created by user on 02.02.2018.
  */
 
-public class InnoLib extends AppCompatActivity {
+public class InnoLibPatron extends AppCompatActivity {
 
     private DataBaseHelper mDBHelper;
     private SQLiteDatabase mDb;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_patron);
         Button search = (Button) findViewById(R.id.search);
         Button catalog = (Button) findViewById(R.id.catalog);
+        Button blist = (Button) findViewById(R.id.blist);
+        blist.setOnClickListener(clBList);
         catalog.setOnClickListener(clCatalog);
+
 
         //database initialization
 //        mDBHelper = new Base(this);
@@ -84,9 +87,17 @@ public class InnoLib extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(InnoLib.this, Catalogs.class);
+                Intent intent = new Intent(InnoLibPatron.this, CatalogsPatron.class);
                 startActivity(intent);
             }
         };
+
+        View.OnClickListener clBList = ( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(InnoLibPatron.this, BooksListPatron.class);
+                startActivity(intent);
+            }
+        });
 }
 
