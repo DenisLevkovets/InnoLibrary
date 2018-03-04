@@ -10,7 +10,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.niklss.innolib.Classes.Books;
+import com.example.niklss.innolib.DataBase.DataBaseHelper;
 import com.example.niklss.innolib.R;
+
+import java.util.ArrayList;
 
 /**
  * Created by user on 02.03.2018.
@@ -18,11 +22,20 @@ import com.example.niklss.innolib.R;
 
 public class BooksListPatron extends Activity {
     AlertDialog.Builder ad;
+    String[] arr2;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.booklistpatron);
         ListView list=(ListView) findViewById(R.id.list);
-        String[] arr={"1","2","3"};
+        String[] arr= new String[2];
+        arr2 = new String[2];
+
+        DataBaseHelper db = new DataBaseHelper(this);
+        ArrayList<Books> shortt = db.getListOfBooks(4);
+        for (int i = 0; i < arr.length; i++) {
+            arr[i]=db.getShortInformation(shortt.get(i));
+            arr2[i]=db.getFullInformation(shortt.get(i));
+        }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1,arr);
         list.setAdapter(adapter);
@@ -46,7 +59,7 @@ public class BooksListPatron extends Activity {
     ListView.OnItemClickListener click = (new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            ad.setMessage("Date when you should return"+String.valueOf(i));
+            ad.setMessage(arr2[i]);
             ad.show();
         }
     });
