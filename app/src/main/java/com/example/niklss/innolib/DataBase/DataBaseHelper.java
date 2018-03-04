@@ -33,7 +33,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
 
     public DataBaseHelper(Context context) {
-        super(context, DB_NAME, null, 3);
+        super(context, DB_NAME, null, 10);
         this.mContext = context;
     }
 
@@ -438,7 +438,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public ArrayList<Books> getListOfBooks(int status) {
         ArrayList<Books> list = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
-        String mQuery = "SELECT title, author, available_copies,  book_id, type, price, edition, date, published_by, keywords, is_bestseller From Books";
+        String mQuery = "SELECT title, author, available_copies,  book_id, type, price, edition, date, published_by, keywords, is_bestseller FROM Books";
         Cursor mCur = db.rawQuery(mQuery, new String[]{});
         mCur.moveToFirst();
         String[] book = new String[11];
