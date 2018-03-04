@@ -335,5 +335,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.setTransactionSuccessful();
         db.endTransaction();
         db.close();
+        //2
     }
 }
