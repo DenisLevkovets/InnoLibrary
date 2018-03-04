@@ -44,6 +44,21 @@ public class Books {
         return book;
     }
 
+    public Books (String[] bookInf) {
+        this.titleBook = bookInf[0];
+        this.authorsOfBook = bookInf[1];
+        this.countOfBooks = Integer.parseInt(bookInf[2]);
+        this.bookId = Integer.parseInt(bookInf[3]);
+        this.lastDate = bookInf[4];
+        this.isForUser = Integer.parseInt(bookInf[5]);
+        this.price = Integer.parseInt(bookInf[6]);
+        this.edition = Integer.parseInt(bookInf[7]);
+        this.dateOfCreationOfBook = bookInf[8];
+        this.published_by = bookInf[9];
+        this.keywords = bookInf[10];
+        this.isBestSeller = Integer.parseInt(bookInf[11]);
+    }
+
     public String getAccessDue() {
         return accessDue;
     }

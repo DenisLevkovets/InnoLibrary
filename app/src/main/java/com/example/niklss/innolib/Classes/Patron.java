@@ -1,5 +1,10 @@
 package com.example.niklss.innolib.Classes;
 
+import android.content.Context;
+import com.example.niklss.innolib.DataBase.DataBaseHelper;
+
+import java.util.ArrayList;
+
 /**
  * Created by user on 02.02.2018.
  * It should content the patrons functions and difference between teachers and student
@@ -7,29 +12,41 @@ package com.example.niklss.innolib.Classes;
 
 public class Patron extends UserCard {
 
-    public Patron(String name, String secondName, String adress, String num, int isStatus, int id) {
-        super(name, secondName, adress, id, num, isStatus);
+    public Patron(ArrayList<String> a) {
+        super(a.get(0), a.get(1), a.get(2), Integer.parseInt(a.get(3)), a.get(4), Integer.parseInt(a.get(5)));
+    }
+
+    public Patron(String name, String secondName, String address, String num, int isStatus, int id) {
+        super(name, secondName, address, id, num, isStatus);
+    }
+
+    public Patron(String[] a){
+        super(a);
     }
 
     private void searchDoc(String anyName){
 
     }
 
-    public void checkOut(Books book) {
+    public void checkOut(int id, Context context) {
+        DataBaseHelper db = new DataBaseHelper(context);
+        Books book = new Books(db.getArrayBook(id));
 
         if (getUsersType() >= book.getIsForUser()){
-            if (book.getCountOfBooks() > 0 && !hasCopy(book)) {
+            if (book.getCountOfBooks() > 0 && !hasCopy(context, book.getBookId())) {
                 book.setCountOfBooks(book.getCountOfBooks() - 1);
-                this.addBookToTheList(book);
-                book.setUser(this);
+//                this.addBookToTheList(book);
+//                book.setUser(this);
                 if (getUsersType() == 1) {
-                    book.setAccessDue("4 weeks");
+                    book.setAccessDue("28");
                 } else if (book.getIsBestSeller() == 1) {
-                    book.setAccessDue("2 weeks");
+                    book.setAccessDue("14");
                 }
                 else{
-                    book.setAccessDue("3 weeks");
+                    book.setAccessDue("21");
                 }
+                db.updateBookData(book);
+                db.updateTimeChecker(this.getuId(), book.getBookId(), Integer.parseInt(book.getAccessDue()), 0);
             }
         }
 
@@ -38,14 +55,19 @@ public class Patron extends UserCard {
         }
     }
 
-    private boolean hasCopy(Books book) {
-        for (int i = 0; i < this.getListOfBooks().size() - 1; i++) {
-            if (book.getBookId() == this.getListOfBooks().get(i).getBookId()) {
-                System.out.println("You already have this book");
-                return true;
-            }
-        }
-        return false;
+    public ArrayList<Books> getAvailiableBooks(Context context){
+        DataBaseHelper db = new DataBaseHelper(context);
+        return db.getListOfBooks(this.getUsersType());
+    }
+
+    private boolean hasCopy(Context context, int id) {
+        DataBaseHelper db = new DataBaseHelper(context);
+        return db.hasBook(this.getuId(), id);
+    }
+
+    private void addBookToList(Context context){
+        DataBaseHelper db = new DataBaseHelper(context);
+        db.returnListOfUsersBook(this.getuId());
     }
 
     private void returnDoc(int id){
