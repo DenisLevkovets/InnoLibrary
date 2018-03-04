@@ -408,7 +408,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         String mQuery = "SELECT title, author, available_copies, type, price, edition, date, published_by, keywords, is_bestseller From Books";
         Cursor mCur = db.rawQuery(mQuery, new String[]{});
         mCur.moveToFirst();
-        String[] book = new String[12];
+        String[] book = new String[11];
         while (!mCur.isAfterLast()) {
             if (id == mCur.getInt(mCur.getColumnIndex("book_id"))) {
                 break;
@@ -445,7 +445,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         String mQuery = "SELECT title, author, available_copies,  book_id, type, price, edition, date, published_by, keywords, is_bestseller From Books";
         Cursor mCur = db.rawQuery(mQuery, new String[]{});
         mCur.moveToFirst();
-        String[] book = new String[12];
+        String[] book = new String[11];
         while (!mCur.isAfterLast()) {
             if (status >= mCur.getInt(mCur.getColumnIndex("type"))) {
                 book[0] = mCur.getString(mCur.getColumnIndex("title"));
