@@ -9,10 +9,15 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.niklss.innolib.Classes.Books;
+import com.example.niklss.innolib.Classes.Patron;
+import com.example.niklss.innolib.Classes.UserCard;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 
 //this class is needed to work with the database
@@ -25,12 +30,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     private SQLiteDatabase myDataBase;
     private final Context mContext;
 
-    /**
-     * Конструктор
-     * Принимает и сохраняет ссылку на переданный контекст для доступа к ресурсам приложения
-     *
-     * @param context
-     */
+
 
     public DataBaseHelper(Context context) {
         super(context, DB_NAME, null, 3);
@@ -336,5 +336,241 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.endTransaction();
         db.close();
         //2
+    }
+
+
+    public String[] getArrayUser(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String mQuery = "SELECT First_name,Last_name, address,  user_id, phone, status From Users";
+        Cursor mCur = db.rawQuery(mQuery, new String[]{});
+        mCur.moveToFirst();
+        String[] user = new String[6];
+        while (!mCur.isAfterLast()) {
+            if (id == mCur.getInt(mCur.getColumnIndex("user_id"))) {
+                break;
+            }
+            mCur.moveToNext();
+        }
+
+        if (!mCur.isAfterLast() && id == mCur.getInt(mCur.getColumnIndex("user_id"))) {
+            user[0] = mCur.getString(mCur.getColumnIndex("First_name"));
+            user[1] = mCur.getString(mCur.getColumnIndex("Last_name"));
+            user[2] = mCur.getString(mCur.getColumnIndex("address"));
+            user[3] = mCur.getString(mCur.getColumnIndex("user_id"));
+            user[4] = mCur.getString(mCur.getColumnIndex("phone"));
+            user[5] = mCur.getString(mCur.getColumnIndex("status"));
+        } else {
+            return null;
+        }
+
+        mCur.moveToFirst();
+        db.close();
+        mCur.close();
+
+
+        return user;
+    }
+
+    public ArrayList<Patron> getListOfUsers() {
+        ArrayList<Patron> list = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        String mQuery = "SELECT First_name,Last_name, address,  user_id, phone, status From Users";
+        Cursor mCur = db.rawQuery(mQuery, new String[]{});
+        mCur.moveToFirst();
+        ArrayList<String> user = new ArrayList<>();
+        while (!mCur.isAfterLast()) {
+            if (!mCur.getString(mCur.getColumnIndex("status")).equals("2")) {
+                user.add(mCur.getString(mCur.getColumnIndex("First_name")));
+                user.add(mCur.getString(mCur.getColumnIndex("Last_name")));
+                user.add(mCur.getString(mCur.getColumnIndex("address")));
+                user.add(mCur.getString(mCur.getColumnIndex("user_id")));
+                user.add(mCur.getString(mCur.getColumnIndex("phone")));
+                user.add(mCur.getString(mCur.getColumnIndex("status")));
+                Patron a = new Patron(user);
+                user.clear();
+                list.add(a);
+            }
+            mCur.moveToNext();
+        }
+        mCur.moveToFirst();
+        db.close();
+        mCur.close();
+
+        return list;
+    }
+
+    public String[] getArrayBook(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String mQuery = "SELECT title, author, available_copies, type, price, edition, date, published_by, keywords, is_bestseller From Books";
+        Cursor mCur = db.rawQuery(mQuery, new String[]{});
+        mCur.moveToFirst();
+        String[] book = new String[11];
+        while (!mCur.isAfterLast()) {
+            if (id == mCur.getInt(mCur.getColumnIndex("book_id"))) {
+                break;
+            }
+            mCur.moveToNext();
+        }
+
+        if (!mCur.isAfterLast() && id == mCur.getInt(mCur.getColumnIndex("book_id"))) {
+            book[0] = mCur.getString(mCur.getColumnIndex("title"));
+            book[1] = mCur.getString(mCur.getColumnIndex("author"));
+            book[2] = mCur.getString(mCur.getColumnIndex("available_copies"));
+            book[3] = mCur.getString(mCur.getColumnIndex("book_id"));
+            book[4] = mCur.getString(mCur.getColumnIndex("type"));
+            book[5] = mCur.getString(mCur.getColumnIndex("price"));
+            book[6] = mCur.getString(mCur.getColumnIndex("edition"));
+            book[7] = mCur.getString(mCur.getColumnIndex("date"));
+            book[8] = mCur.getString(mCur.getColumnIndex("published_by"));
+            book[9] = mCur.getString(mCur.getColumnIndex("keywords"));
+            book[10] = mCur.getString(mCur.getColumnIndex("is_bestseller"));
+        } else {
+            return null;
+        }
+
+        mCur.moveToFirst();
+        db.close();
+        mCur.close();
+
+        return book;
+    }
+
+    public ArrayList<Books> getListOfBooks(int status) {
+        ArrayList<Books> list = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        String mQuery = "SELECT title, author, available_copies,  book_id, type, price, edition, date, published_by, keywords, is_bestseller From Books";
+        Cursor mCur = db.rawQuery(mQuery, new String[]{});
+        mCur.moveToFirst();
+        String[] book = new String[11];
+        while (!mCur.isAfterLast()) {
+            if (status >= mCur.getInt(mCur.getColumnIndex("type"))) {
+                book[0] = mCur.getString(mCur.getColumnIndex("title"));
+                book[1] = mCur.getString(mCur.getColumnIndex("author"));
+                book[2] = mCur.getString(mCur.getColumnIndex("available_copies"));
+                book[3] = mCur.getString(mCur.getColumnIndex("book_id"));
+                book[4] = mCur.getString(mCur.getColumnIndex("type"));
+                book[5] = mCur.getString(mCur.getColumnIndex("price"));
+                book[6] = mCur.getString(mCur.getColumnIndex("edition"));
+                book[7] = mCur.getString(mCur.getColumnIndex("date"));
+                book[8] = mCur.getString(mCur.getColumnIndex("published_by"));
+                book[9] = mCur.getString(mCur.getColumnIndex("keywords"));
+                book[10] = mCur.getString(mCur.getColumnIndex("is_bestseller"));
+                Books b = new Books(book);
+                list.add(b);
+            }
+            mCur.moveToNext();
+        }
+
+        mCur.moveToFirst();
+        db.close();
+        mCur.close();
+
+        return list;
+    }
+
+    public int updateBookData(Books book) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("title", book.getTitleBook());
+        cv.put("author", book.getAuthorsOfBook());
+        cv.put("available_copies", book.getCountOfBooks());
+        cv.put("type", book.getReference());
+        cv.put("price", book.getPrice());
+        cv.put("edition", book.getEdition());
+        cv.put("date", book.getDateOfCreationOfBook());
+        cv.put("published_by", book.getPublished_by());
+        cv.put("keywords", book.getKeywords());
+        cv.put("is_bestseller", book.getIsBestSeller());
+        return db.update("Books", cv, "book_id = ?", new String[]{Integer.toString(book.getBookId())});
+    }
+
+    public int updateUserData(UserCard user) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("First_name", user.getuName());
+        cv.put("Last_name", user.getSecondName());
+        cv.put("phone", user.getuNumber());
+        cv.put("address", user.getuAddress());
+        cv.put("status", user.getUsersType());
+        return db.update("Users", cv, "user_id = ?", new String[]{Integer.toString(user.getuId())});
+    }
+
+    public boolean hasBook(int user_id, int book_id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String mQuery = "SELECT user_id, book_id, time, type From time_checker";
+        Cursor mCur = db.rawQuery(mQuery, new String[]{});
+        mCur.moveToFirst();
+        while (!mCur.isAfterLast()) {
+            if (user_id == mCur.getInt(mCur.getColumnIndex("user_id")) && book_id == mCur.getInt(mCur.getColumnIndex("book_id"))){
+                return true;
+            }
+            mCur.moveToNext();
+        }
+        mCur.close();
+        return false;
+    }
+
+    public void updateTimeChecker(int user_id, int book_id, int time, int type){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("user_id", user_id);
+        cv.put("book_id", book_id);
+        cv.put("time", time);
+        cv.put("type", type);
+        db.insert("time_checker", null, cv);
+    }
+
+    public ArrayList<Books> returnListOfUsersBook(int uId){
+        ArrayList<Books> book = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        String mQuery = "SELECT user_id, book_id, time, type From time_checker";
+        Cursor mCur = db.rawQuery(mQuery, new String[]{});
+        mCur.moveToFirst();
+        while (!mCur.isAfterLast()) {
+            if (uId == mCur.getInt(mCur.getColumnIndex("user_id"))){
+                Books b = new Books(this.getArrayBook(mCur.getInt(mCur.getColumnIndex("book_id"))));
+                book.add(b);
+            }
+            mCur.moveToNext();
+        }
+        mCur.close();
+        return book;
+    }
+
+    public String getShortInformation(Books book){
+        String a = "";
+        a += book.getTitleBook() + " ";
+        a += book.getAuthorsOfBook() + " ";
+        a += book.getEdition() + " ";
+        return a;
+    }
+
+    public String getFullInformation(Books book){
+        String a = "";
+        a += book.getTitleBook() + " ";
+        a += book.getAuthorsOfBook() + " ";
+        a += book.getEdition() + " ";
+        a += book.getDateOfCreationOfBook() + " ";
+        a += book.getPublished_by() + " ";
+        a += book.getCountOfBooks() + " ";
+        a += book.getIsBestSeller() + " ";
+        a += book.getPrice() + " ";
+
+        return a;
+    }
+
+    public ArrayList<Patron> debtorUsers(){
+        ArrayList<Patron> patron = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        String mQuery = "SELECT user_id, book_id, time, type From time_checker";
+        Cursor mCur = db.rawQuery(mQuery, new String[]{});
+        mCur.moveToFirst();
+        while (!mCur.isAfterLast()){
+            Patron a = new Patron(this.getArrayUser(mCur.getInt(mCur.getColumnIndex("user_id"))));
+            patron.add(a);
+            mCur.moveToNext();
+        }
+        mCur.close();
+        return patron;
     }
 }

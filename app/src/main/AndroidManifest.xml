@@ -17,8 +17,13 @@
         </intent-filter>
     </activity>
 
-        <activity android:name=".Activites.Catalogs"/>
-    <activity android:name=".Activites.InnoLib"/>
+        <activity android:name=".Activites.CatalogsPatron"/>
+        <activity android:name=".Activites.CatalogsLib"/>
+        <activity android:name=".Activites.InnoLibLib"/>
+        <activity android:name=".Activites.InnoLibPatron"/>
+        <activity android:name=".Activites.UsersLib"/>
+        <activity android:name=".Activites.ReturnSystem"/>
+    <activity android:name=".Activites.BooksListPatron"/>
 
     </application>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
