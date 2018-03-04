@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/InnoLib.iml" filepath="$PROJECT_DIR$/InnoLib.iml" />
       <module fileurl="file://D:\InnoLib-master\InnoLib.iml" filepath="D:\InnoLib-master\InnoLib.iml" />
+      <module fileurl="file://D:\GitProject\InnoLib1\InnoLib.iml" filepath="D:\GitProject\InnoLib1\InnoLib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/InnoLib1.iml" filepath="$PROJECT_DIR$/InnoLib1.iml" />
       <module fileurl="file://D:\Projects\ITP\Del_1\InnoLib\InnoLib1.iml" filepath="D:\Projects\ITP\Del_1\InnoLib\InnoLib1.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/sqlite-jdbc-3.21.0/sqlite-jdbc-3.21.0.iml" filepath="$PROJECT_DIR$/sqlite-jdbc-3.21.0/sqlite-jdbc-3.21.0.iml" />
