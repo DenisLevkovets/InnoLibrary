@@ -549,7 +549,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         String a = "";
         a += book.getTitleBook() + " ";
         a += book.getAuthorsOfBook() + " ";
-        a += book.getEdition() + " ";
+        a += book.getEdition() + " ";//2
         a += book.getDateOfCreationOfBook() + " ";
         a += book.getPublished_by() + " ";
         a += book.getCountOfBooks() + " ";
