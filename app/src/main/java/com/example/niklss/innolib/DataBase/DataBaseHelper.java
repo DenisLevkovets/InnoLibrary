@@ -205,4 +205,135 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         return book;
     }
+
+    public void addB(String title,String author,int available_copies,int type,int price,int edition,String date,String published_by,String keywords,int is_bestseller) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String s = "('"+title+"', '"+author+"', "+available_copies+", "+type+", "+price+", "+edition+", '"+date+"', '"+published_by+"', '"+keywords+"', "+is_bestseller+")";
+
+
+        String addbook="INSERT INTO Books (title,author,available_copies,type,price,edition,date,published_by,keywords,is_bestseller) Values "+s;
+        db.beginTransaction();
+        db.execSQL(addbook);
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
+
+    }
+    public void addArt(String title,String author,String jtitle,String issue,String date,String editor,int numbers, int price) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+
+
+        String s = "('"+title+"', '"+author+"', '"+jtitle+"', '"+issue+"', '"+editor+"', "+numbers+", "+price+")";
+
+
+        String addArticle="INSERT INTO Articles (title,authors,jtitle,issue,editor,numbers,price) Values "+s;
+        db.beginTransaction();
+        db.execSQL(addArticle);
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
+
+    }
+
+    public void addAV(String title,String authors,int numbers, int price) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+
+
+        String s = "('"+title+"', '"+authors+"', "+numbers+", "+price+")";
+
+
+        String addAV="INSERT INTO AV (title,authors,numbers,price) Values "+s;
+        db.beginTransaction();
+        db.execSQL(addAV);
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
+
+    }
+
+    public void deleteBook(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String deleteBook ="DELETE FROM Books WHERE ID = "+id;
+        db.beginTransaction();
+        db.execSQL(deleteBook);
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
+
+    }
+
+    public void deleteArticle(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String deleteArticle ="DELETE FROM Articles WHERE ID = "+id;
+        db.beginTransaction();
+        db.execSQL(deleteArticle);
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
+        //kkkk
+
+    }
+
+    public void deleteAV(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String deleteAV ="DELETE FROM AV WHERE ID = "+id;
+        db.beginTransaction();
+        db.execSQL(deleteAV);
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
+
+    }
+
+    public void deletePatron(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String deleteUser ="DELETE FROM Users WHERE user_id = "+id;
+        db.beginTransaction();
+        db.execSQL(deleteUser);
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
+    }
+
+    public void updateBook(int id, String title,String author,int available_copies,int type,int price,int edition,String date,String published_by,String keywords,int is_bestseller){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String updateBooks = "Update Books Set title = '"+title+"', author = '"+author+"', available_copies = "+available_copies+", type = "+type+", price = "+price+", edition = "+edition+", date = '"+date+"', published_by = '"+published_by+"', keywords = '"+keywords+"', is_bestseller = "+is_bestseller+" where id="+id;
+        db.beginTransaction();
+        db.execSQL(updateBooks);
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
+    }
+
+    public void updateArticle(int id, String title,String author,String jtitle,String issue,String date,String editor,int numbers,int price){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String updateArticle = "Update Articles Set title = '"+title+"', authors = '"+author+"', jtitle = '"+jtitle+"', issue = '"+issue+"', date = '"+date+"', editor = '"+editor+"', numbers = "+numbers+", price ="+price+" where id="+id;
+        db.beginTransaction();
+        db.execSQL(updateArticle);
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
+    }
+
+    public void updateAV(int id, String title,String author,int numbers,int price){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String updateAV = "Update AV Set title = '"+title+"', authors = '"+author+"', numbers = "+numbers+", price ="+price+" where id="+id;
+        db.beginTransaction();
+        db.execSQL(updateAV);
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
+    }
+
+    public void updateUser(int user_id,String First_name,String Last_name,String address,String phone,int status,int number_books){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String updateUser = "Update Users Set First_name = '"+First_name+"', Last_name = '"+Last_name+"', address = '"+address+"', phone = "+phone+", status ="+status+", number_books="+number_books+" where user_id="+user_id;
+        db.beginTransaction();
+        db.execSQL(updateUser);
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
+    }
 }
