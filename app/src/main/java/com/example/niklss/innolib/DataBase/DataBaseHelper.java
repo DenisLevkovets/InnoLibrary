@@ -80,7 +80,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         //Открываем локальную БД как входящий поток
         InputStream myInput = mContext.getAssets().open(DB_NAME);
 
-        //Путь ко вновь созданной БД
         String outFileName = DB_PATH + DB_NAME;
 
         //Открываем пустую базу данных как исходящий поток
