@@ -30,12 +30,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     private SQLiteDatabase myDataBase;
     private final Context mContext;
 
-    /**
-     * Конструктор
-     * Принимает и сохраняет ссылку на переданный контекст для доступа к ресурсам приложения
-     *
-     * @param context
-     */
+
 
     public DataBaseHelper(Context context) {
         super(context, DB_NAME, null, 3);

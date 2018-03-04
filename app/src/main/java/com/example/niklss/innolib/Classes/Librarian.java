@@ -15,6 +15,7 @@ public class Librarian extends UserCard{
 
     public Librarian(String name, String secondName, String adress, int id, String num, int isLib) {
         super(name, secondName, adress, id, num, isLib);
+        //asd
     }
 
     public Librarian(String[] a){
