@@ -1,6 +1,7 @@
 package com.example.niklss.innolib.DataBase;
 
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -18,7 +19,7 @@ import java.io.OutputStream;
 public class Base extends SQLiteOpenHelper {
     private static String DB_NAME = "Libary.db";//name of Database
     private static String DB_PATH = "/data/data/com.example.niklss.innolib.DataBase/databases/";//path to the database
-    private static  int DB_VERSION = 3;//version of database
+    private static  int DB_VERSION = 10;//version of database
 
     private SQLiteDatabase mDataBase;
     private final Context mContext;
