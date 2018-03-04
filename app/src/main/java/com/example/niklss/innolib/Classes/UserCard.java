@@ -1,5 +1,7 @@
 package com.example.niklss.innolib.Classes;
 
+import android.app.Activity;
+
 import java.util.ArrayList;
 
 /**
@@ -7,10 +9,10 @@ import java.util.ArrayList;
  * UserCards with all information
  */
 
-public class UserCard {
+public class UserCard extends Activity{
     private String uName;
     private String secondName;
-    private String uAdress;
+    private String uAddress;
     private String uNumber;
     private int usersType;
     private int uId;
@@ -21,7 +23,7 @@ public class UserCard {
         listOfBooks=new ArrayList<>();
         this.uName = name;
         this.secondName = secondName;
-        this.uAdress = adress;
+        this.uAddress = adress;
         this.uNumber = num;
         this.usersType = usersType;
         this.uId = id;
@@ -33,12 +35,21 @@ public class UserCard {
         return userCard;
     }
 
+    public UserCard(String[] card) {
+        this.uName = card[0];
+        this.secondName = card[1];
+        this.uAddress = card[2];
+        this.uId = Integer.parseInt(card[3]);
+        this.uNumber = card[4];
+        this.usersType = Integer.parseInt(card[5]);
+    }
+
     public int getuId() {
         return uId;
     }
 
-    public String getuAdress() {
-        return uAdress;
+    public String getuAddress() {
+        return uAddress;
     }
 
     public String getuName() {
