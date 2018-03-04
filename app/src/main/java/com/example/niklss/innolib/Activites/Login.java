@@ -27,12 +27,12 @@ public class Login extends Activity {
 
         bt.setOnClickListener(click);
 
-        DataBaseHelper a = new DataBaseHelper(Login.this);
-        try {
-            a.createDataBase();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        DataBaseHelper a = new DataBaseHelper(Login.this);
+//        try {
+//            a.createDataBase();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
 
 
