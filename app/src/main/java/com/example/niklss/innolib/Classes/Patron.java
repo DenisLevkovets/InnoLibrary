@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.example.niklss.innolib.DataBase.DataBaseHelper;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -29,7 +30,7 @@ public class Patron extends UserCard {
 
     }
 
-    public void checkOut(int id, Context context) {
+    public void checkOut(int id, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
         Books book = new Books(db.getArrayBook(id));
 
@@ -56,17 +57,14 @@ public class Patron extends UserCard {
         }
     }
 
-    public ArrayList<Books> getAvailiableBooks(Context context){
-        DataBaseHelper db = new DataBaseHelper(context);
-        return db.getListOfBooks(this.getUsersType());
-    }
+   
 
-    private boolean hasCopy(Context context, int id) {
+    private boolean hasCopy(Context context, int id) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
         return db.hasBook(this.getuId(), id);
     }
 
-    private void addBookToList(Context context){
+    private void addBookToList(Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
         db.returnListOfUsersBook(this.getuId());
     }

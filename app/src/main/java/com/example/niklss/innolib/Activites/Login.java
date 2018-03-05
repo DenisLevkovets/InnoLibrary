@@ -23,8 +23,6 @@ public class Login extends Activity {
         Button bt=(Button) findViewById(R.id.button);
         name=(EditText) findViewById(R.id.editText);
         EditText password=(EditText) findViewById(R.id.editText2);
-
-        //FSDKJGLKJHSDLGJ
         bt.setOnClickListener(click);
 
 

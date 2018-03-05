@@ -22,20 +22,11 @@ import java.util.ArrayList;
 
 public class BooksListPatron extends Activity {
     AlertDialog.Builder ad;
-    String[] arr2;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.booklistpatron);
         ListView list=(ListView) findViewById(R.id.list);
-        String[] arr= new String[2];
-        arr2 = new String[2];
-
-        DataBaseHelper db = new DataBaseHelper(this);
-        ArrayList<Books> shortt = db.getListOfBooks(4);
-        for (int i = 0; i < arr.length; i++) {
-            arr[i]=db.getShortInformation(shortt.get(i));
-            arr2[i]=db.getFullInformation(shortt.get(i));
-        }
+        String[] arr= {"1","2","3"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1,arr);
         list.setAdapter(adapter);
@@ -59,7 +50,7 @@ public class BooksListPatron extends Activity {
     ListView.OnItemClickListener click = (new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            ad.setMessage(arr2[i]);
+            ad.setMessage("Your book");
             ad.show();
         }
     });

@@ -25,16 +25,18 @@ import java.util.ArrayList;
 public class DataBaseHelper extends SQLiteOpenHelper {
 
     // путь к базе данных вашего приложения
-    private static String DB_PATH = "/data/data/com.example.niklss.innolib/databases/";
-    private static String DB_NAME = "Libary.db";
+    private static String DB_PATH = "";
+    private static String DB_NAME = "Library.db";
     private SQLiteDatabase myDataBase;
     private final Context mContext;
 
 
 
+
     public DataBaseHelper(Context context) {
-        super(context, DB_NAME, null, 10);
+        super(context, DB_NAME, null, 1);
         this.mContext = context;
+
     }
 
     /**
@@ -335,7 +337,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.setTransactionSuccessful();
         db.endTransaction();
         db.close();
-        //2
     }
 
 
@@ -435,7 +436,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return book;
     }
 
-    public ArrayList<Books> getListOfBooks(int status) {
+    public ArrayList<Books> getListOfBooks() {
         ArrayList<Books> list = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
         String mQuery = "SELECT title, author, available_copies,  book_id, type, price, edition, date, published_by, keywords, is_bestseller FROM Books";
@@ -443,7 +444,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         mCur.moveToFirst();
         String[] book = new String[11];
         while (!mCur.isAfterLast()) {
-            if (status >= mCur.getInt(mCur.getColumnIndex("type"))) {
                 book[0] = mCur.getString(mCur.getColumnIndex("title"));
                 book[1] = mCur.getString(mCur.getColumnIndex("author"));
                 book[2] = mCur.getString(mCur.getColumnIndex("available_copies"));
@@ -457,7 +457,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 book[10] = mCur.getString(mCur.getColumnIndex("is_bestseller"));
                 Books b = new Books(book);
                 list.add(b);
-            }
             mCur.moveToNext();
         }
 
@@ -523,7 +522,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public ArrayList<Books> returnListOfUsersBook(int uId){
         ArrayList<Books> book = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
-        String mQuery = "SELECT user_id, book_id, time, type From time_checker";
+        String mQuery = "SELECT user_id, book_id, time, type From time_checker;";
         Cursor mCur = db.rawQuery(mQuery, new String[]{});
         mCur.moveToFirst();
         while (!mCur.isAfterLast()) {
