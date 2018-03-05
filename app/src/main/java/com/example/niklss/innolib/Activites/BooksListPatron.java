@@ -26,7 +26,19 @@ public class BooksListPatron extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.booklistpatron);
         ListView list=(ListView) findViewById(R.id.list);
+<<<<<<< HEAD
         String[] arr= {"1","2","3"};
+=======
+        DataBaseHelper db = new DataBaseHelper(this);
+        ArrayList<Books> shortt = db.getListOfBooks(4);
+
+        String[] arr= new String[shortt.size()];
+        arr2 = new String[shortt.size()];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i]=db.getShortInformation(shortt.get(i));
+            arr2[i]=db.getFullInformation(shortt.get(i));
+        }
+>>>>>>> 31d999b26ae036a1bfadc4f459a6f66d6793e5f6
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1,arr);
         list.setAdapter(adapter);
