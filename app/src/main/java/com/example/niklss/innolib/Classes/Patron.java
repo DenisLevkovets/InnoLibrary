@@ -58,7 +58,7 @@ public class Patron extends UserCard {
 
     public ArrayList<Books> getAvailiableBooks(Context context){
         DataBaseHelper db = new DataBaseHelper(context);
-        return db.getListOfBooks(this.getUsersType());
+        return db.getListOfBooks();
     }
 
     private boolean hasCopy(Context context, int id) {

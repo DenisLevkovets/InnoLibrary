@@ -432,7 +432,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return book;
     }
 
-    public ArrayList<Books> getListOfBooks(int status) {
+    public ArrayList<Books> getListOfBooks() {
         ArrayList<Books> list = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
         String mQuery = "SELECT title, author, available_copies,  book_id, type, price, edition, date, published_by, keywords, is_bestseller From Books";

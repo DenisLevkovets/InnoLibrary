@@ -22,24 +22,24 @@ public class Librarian extends UserCard{
         super(a);
     }
 
-    private void add() {
-
-    }
-
-    private void remove(int id){
-
-    }
-
-    private void modify(int id){
-
-    }
-
-    private void checkOverDue(){
-
-    }
-
-    interface managePatrons{
-    }
+//    private void add() {
+//
+//    }
+//
+//    private void remove(int id){
+//
+//    }
+//
+//    private void modify(int id){
+//
+//    }
+//
+//    private void checkOverDue(){
+//
+//    }
+//
+//    interface managePatrons{
+//    }
 
     private ArrayList<Patron> getUsers(Context context){
         DataBaseHelper db = new DataBaseHelper(context);

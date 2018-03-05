@@ -28,7 +28,7 @@ public class BooksListPatron extends Activity {
         setContentView(R.layout.booklistpatron);
         ListView list=(ListView) findViewById(R.id.list);
         DataBaseHelper db = new DataBaseHelper(this);
-        ArrayList<Books> shortt = db.getListOfBooks(4);
+        ArrayList<Books> shortt = db.getListOfBooks();
 
         String[] arr= new String[shortt.size()];
         arr2 = new String[shortt.size()];
