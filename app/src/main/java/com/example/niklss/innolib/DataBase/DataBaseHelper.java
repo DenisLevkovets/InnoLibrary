@@ -253,7 +253,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public void deleteBook(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String deleteBook = "DELETE FROM Books WHERE ID = " + id;
+        String deleteBook = "DELETE FROM Books WHERE book_id = " + id;
         db.beginTransaction();
         db.execSQL(deleteBook);
         db.setTransactionSuccessful();
