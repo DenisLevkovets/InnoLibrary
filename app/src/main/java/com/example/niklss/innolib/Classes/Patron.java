@@ -22,11 +22,11 @@ public class Patron extends UserCard {
         super(name, secondName, address, id, num, isStatus);
     }
 
-    public Patron(String[] a){
+    public Patron(String[] a) {
         super(a);
     }
 
-    private void searchDoc(String anyName){
+    private void searchDoc(String anyName) {
 
     }
 
@@ -34,30 +34,37 @@ public class Patron extends UserCard {
         DataBaseHelper db = new DataBaseHelper(context);
         Books book = new Books(db.getArrayBook(id));
 
-        if (getUsersType() >= book.getReference()){
-            if (book.getCountOfBooks() > 0 && !hasCopy(context, book.getBookId())) {
-                book.setCountOfBooks(book.getCountOfBooks() - 1);
+        if (getUsersType() >= book.getReference()) {
+            if (!hasCopy(context, book.getBookId())) {
+                if (book.getCountOfBooks() > 0) {
+                    book.setCountOfBooks(book.getCountOfBooks() - 1);
 //                this.addBookToTheList(book);
 //                book.setUser(this);
-                if (getUsersType() == 1) {
-                    book.setDaysLeft(28);
-                } else if (book.getIsBestSeller() == 1) {
-                    book.setDaysLeft(14);
+                    if (getUsersType() == 1) {
+                        book.setDaysLeft(28);
+                    } else if (book.getIsBestSeller() == 1) {
+                        book.setDaysLeft(14);
+                    } else {
+                        book.setDaysLeft(21);
+                    }
+                    db.updateBookData(book);
+                    db.updateTimeChecker(this.getuId(), book.getBookId(), book.getDaysLeft(), 0);
                 }
                 else{
-                    book.setDaysLeft(21);
+                    System.out.println("You are in queue for this book");
+                    db.standInQueue(this, book);
                 }
-                db.updateBookData(book);
-                db.updateTimeChecker(this.getuId(), book.getBookId(), book.getDaysLeft(), 0);
+            }
+            else{
+                System.out.println("You already have this book");
             }
         }
-
-        else{
-            System.out.println("Not available");
+        else {
+            System.out.println("Isn't your type");
         }
-    }
 
-   
+
+    }
 
     private boolean hasCopy(Context context, int id) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
@@ -67,9 +74,21 @@ public class Patron extends UserCard {
     private void addBookToList(Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
         db.returnListOfUsersBook(this.getuId());
+
+
     }
 
-    private void returnDoc(int id){
+    private void renewDoc(int id, Context context) {
+        DataBaseHelper db = new DataBaseHelper(context);
+        Books book = new Books(db.getArrayBook(id));
+
+        if (db.noOneInQueue(this.getuId())) {
+            book.setDaysLeft(14);
+            db.updateTimeChecker(this.getuId(), book.getBookId(), book.getDaysLeft(), 0);
+        }
+    }
+
+    private void returnDoc(int id) {
 
     }
 
