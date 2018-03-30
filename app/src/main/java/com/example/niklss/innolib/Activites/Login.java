@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.niklss.innolib.DataBase.DataBaseHelper;
 import com.example.niklss.innolib.R;
 
 /**
@@ -24,6 +25,10 @@ public class Login extends Activity {
         name=(EditText) findViewById(R.id.editText);
         EditText password=(EditText) findViewById(R.id.editText2);
         bt.setOnClickListener(click);
+
+        DataBaseHelper db = new DataBaseHelper(this);
+        db.addB("Introduction to Algorithms", "Thomas H. Cormen, Charles E. Leiseron, Ronald L. Rivest and Clifford Stein", 3, 0, 255, 3, "2009", "MIT press", "ee", 0);
+        System.out.println(db.getListOfBooks().get(4).getPrice());
 
 
     }

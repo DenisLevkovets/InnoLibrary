@@ -26,12 +26,6 @@ public class UserCard {
         this.uId = id;
     }
 
-    public UserCard UserCardThroughString(String card) {
-        String[] a = card.split(" ");
-        UserCard userCard = new UserCard(a[0], a[1], a[2], Integer.parseInt(a[3]), a[4], Integer.parseInt(a[5]));
-        return userCard;
-    }
-
     public UserCard(String[] card) {
         this.uName = card[0];
         this.secondName = card[1];
