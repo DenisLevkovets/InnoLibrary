@@ -17,7 +17,7 @@ public class UserCard {
     private ArrayList<Books> listOfBooks;
 
 
-    public UserCard(String name, String secondName, String adress, int id, String num, int usersType ){
+    public UserCard(String name, String secondName, String adress, int id, String num, int usersType) {
         this.uName = name;
         this.secondName = secondName;
         this.uAddress = adress;
@@ -55,7 +55,9 @@ public class UserCard {
         return usersType;
     }
 
-    public void addBookToTheList(Books book){listOfBooks.add(book);}
+    public void addBookToTheList(Books book) {
+        listOfBooks.add(book);
+    }
 
     public ArrayList<Books> getListOfBooks() {
         return listOfBooks;

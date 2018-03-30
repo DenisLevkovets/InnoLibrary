@@ -49,17 +49,14 @@ public class Patron extends UserCard {
                     }
                     db.updateBookData(book);
                     db.updateTimeChecker(this.getuId(), book.getBookId(), book.getDaysLeft(), 0);
-                }
-                else{
+                } else {
                     System.out.println("You are in queue for this book");
                     db.standInQueue(this, book);
                 }
-            }
-            else{
+            } else {
                 System.out.println("You already have this book");
             }
-        }
-        else {
+        } else {
             System.out.println("Isn't your type");
         }
 
