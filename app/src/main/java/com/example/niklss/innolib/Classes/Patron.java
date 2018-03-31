@@ -7,7 +7,7 @@ import com.example.niklss.innolib.DataBase.DataBaseHelper;
 import java.io.IOException;
 import java.util.ArrayList;
 
-/**
+/**d
  * Created by user on 02.02.2018.
  * It should content the patrons functions and difference between teachers and student
  */
