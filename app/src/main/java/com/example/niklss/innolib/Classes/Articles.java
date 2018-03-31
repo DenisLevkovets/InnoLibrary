@@ -1,5 +1,7 @@
 package com.example.niklss.innolib.Classes;
 
+import java.util.ArrayList;
+
 /**
  * Created by Niklss on 31.03.2018.
  */
@@ -17,7 +19,7 @@ public class Articles {
     private UserCard user;
     private int daysLeft;
 
-    public void Articles(String title, String authors, String jtitle, String issue, String date, String editor, int avId, int countAv) {
+    public Articles(String title, String authors, String jtitle, String issue, String date, String editor, int countAv, int avId) {
         this.title = title;
         this.authors = authors;
         this.jtitle = jtitle;
@@ -28,15 +30,26 @@ public class Articles {
         this.countAv = countAv;
     }
 
-    public void Articles(String[] av) {
+    public Articles(String[] av) {
         this.title = av[0];
         this.authors = av[1];
         this.jtitle = av[2];
         this.issue = av[3];
         this.date = av[4];
         this.editor = av[5];
-        this.avId = Integer.parseInt(av[6]);
-        this.countAv = Integer.parseInt(av[7]);
+        this.countAv = Integer.parseInt(av[6]);
+        this.avId = Integer.parseInt(av[7]);
+    }
+
+    public Articles(ArrayList<String> av) {
+        this.title = av.get(0);
+        this.authors = av.get(1);
+        this.jtitle = av.get(2);
+        this.issue = av.get(3);
+        this.date = av.get(4);
+        this.editor = av.get(5);
+        this.countAv = Integer.parseInt(av.get(6));
+        this.avId = Integer.parseInt(av.get(7));
     }
 
     public String getTitle() {

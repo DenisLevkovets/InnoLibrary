@@ -63,11 +63,11 @@ public class Patron extends UserCard {
 
     public void checkOutAV(int id, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
-        ArrayList<String> av = db.getAVMaterial(id);
+        AV av = new AV(db.getAVMaterial(id));
 
-        if (Integer.parseInt(av.get(3)) > 0 && !hasCopy(context, Integer.parseInt(av.get(2)), 2)) {
-            db.updateAV(Integer.parseInt(av.get(2)), av.get(0), av.get(1), Integer.parseInt(av.get(3)));
-            db.updateTimeChecker(this.getuId(), Integer.parseInt(av.get(2)), 21, 2);
+        if (av.getCountAv() > 0 && !hasCopy(context, av.getAvId(), 2)) {
+            db.updateAV(av.getAvId(), av.getTitle(), av.getAuthors(), av.getCountAv());
+            db.updateTimeChecker(this.getuId(), av.getAvId(), 21, 2);
         } else {
             System.out.println("Not available");
         }
@@ -75,11 +75,11 @@ public class Patron extends UserCard {
 
     public void checkOutArticle(int id, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
-        ArrayList<String> av = db.getArticleMaterial(id);
+        Articles art = new Articles(db.getArticleMaterial(id));
 
-        if (Integer.parseInt(av.get(6)) > 0 && !hasCopy(context, Integer.parseInt(av.get(7)), 1)) {
-            db.updateArticle(Integer.parseInt(av.get(7)), av.get(0), av.get(1), av.get(2), av.get(3), av.get(4), av.get(5), Integer.parseInt(av.get(6)));
-            db.updateTimeChecker(this.getuId(), Integer.parseInt(av.get(2)), 21, 1);
+        if (art.getCountAv() > 0 && !hasCopy(context, art.getAvId(), 1)) {
+            db.updateArticle(art.getAvId(), art.getTitle(), art.getAuthors(), art.getJtitle(), art.getIssue(), art.getDate(), art.getEditor(), art.getCountAv());
+            db.updateTimeChecker(this.getuId(), art.getAvId(), 21, 1);
         } else {
             System.out.println("Not available");
         }
@@ -89,6 +89,11 @@ public class Patron extends UserCard {
         DataBaseHelper db = new DataBaseHelper(context);
         return db.getListOfBooks();
     }
+
+//    public ArrayList<AV> getAvailiableAV(Context context) throws IOException{
+//        DataBaseHelper db = new DataBaseHelper(context);
+//        return db.get
+//    }
 
     private boolean hasCopy(Context context, int id, int type) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
