@@ -13,14 +13,14 @@ public class AV {
     private UserCard user;
     private int daysLeft;
 
-    public void AV(String title, String authors, int avId, int countAv){
+    public void AV(String title, String authors, int avId, int countAv) {
         this.title = title;
         this.authors = authors;
         this.avId = avId;
         this.countAv = countAv;
     }
 
-    public void AV(String[] av){
+    public void AV(String[] av) {
         this.title = av[0];
         this.authors = av[1];
         this.avId = Integer.parseInt(av[2]);

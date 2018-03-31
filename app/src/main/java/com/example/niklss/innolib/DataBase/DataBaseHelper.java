@@ -21,6 +21,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
+
 import java.util.PriorityQueue;
 
 
@@ -38,11 +39,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public DataBaseHelper(Context context) throws IOException {
         super(context, DB_NAME, null, 1);
         this.mContext = context;
-        if(android.os.Build.VERSION.SDK_INT >= 17){
+        if (android.os.Build.VERSION.SDK_INT >= 17) {
             DB_PATH = context.getApplicationInfo().dataDir + "/databases/";
-        }
-        else
-        {
+        } else {
             DB_PATH = "/data/data/" + context.getPackageName() + "/databases/";
         }
 
@@ -54,18 +53,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
      */
     public void createDataBase() throws IOException {
         boolean mDataBaseExist = checkDataBase();
-        if(!mDataBaseExist)
-        {
+        if (!mDataBaseExist) {
             this.getReadableDatabase();
             this.close();
-            try
-            {
+            try {
                 //Copy the database from assests
                 copyDataBase();
                 Log.e(TAG, "createDatabase database created");
-            }
-            catch (IOException mIOException)
-            {
+            } catch (IOException mIOException) {
                 throw new Error("ErrorCopyingDataBase");
             }
         }
@@ -209,12 +204,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return book;
     }
 
-    public void addB(String title,String author,int available_copies,int type,int price,int edition,String date,String published_by,String keywords,int is_bestseller) {
+    public void addB(String title, String author, int available_copies, int type, int price, int edition, String date, String published_by, String keywords, int is_bestseller) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String s = "('"+title+"', '"+author+"', "+available_copies+", "+type+", "+price+", "+edition+", '"+date+"', '"+published_by+"', '"+keywords+"', "+is_bestseller+")";
+        String s = "('" + title + "', '" + author + "', " + available_copies + ", " + type + ", " + price + ", " + edition + ", '" + date + "', '" + published_by + "', '" + keywords + "', " + is_bestseller + ")";
 
 
-        String addbook="INSERT INTO Books (title,author,available_copies,type,price,edition,date,published_by,keywords,is_bestseller) Values "+s;
+        String addbook = "INSERT INTO Books (title,author,available_copies,type,price,edition,date,published_by,keywords,is_bestseller) Values " + s;
         db.beginTransaction();
         db.execSQL(addbook);
         db.setTransactionSuccessful();
@@ -255,7 +250,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public void deleteBook(int id){
+    public void deleteBook(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         String deleteBook = "DELETE FROM Books WHERE book_id = " + id;
         db.beginTransaction();
@@ -266,9 +261,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public void deleteArticle(int id){
+    public void deleteArticle(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String deleteArticle ="DELETE FROM Articles WHERE ID = "+id;
+        String deleteArticle = "DELETE FROM Articles WHERE ID = " + id;
         db.beginTransaction();
         db.execSQL(deleteArticle);
         db.setTransactionSuccessful();
@@ -278,9 +273,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public void deleteAV(int id){
+    public void deleteAV(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String deleteAV ="DELETE FROM AV WHERE ID = "+id;
+        String deleteAV = "DELETE FROM AV WHERE ID = " + id;
         db.beginTransaction();
         db.execSQL(deleteAV);
         db.setTransactionSuccessful();
@@ -289,9 +284,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public void deletePatron(int id){
+    public void deletePatron(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String deleteUser ="DELETE FROM Users WHERE user_id = "+id;
+        String deleteUser = "DELETE FROM Users WHERE user_id = " + id;
         db.beginTransaction();
         db.execSQL(deleteUser);
         db.setTransactionSuccessful();
@@ -510,7 +505,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return false;
     }
 
-    public void updateTimeChecker(int user_id, int book_id, int time, int type){
+    public void updateTimeChecker(int user_id, int book_id, int time, int type) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put("user_id", user_id);
@@ -520,14 +515,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.insert("time_checker", null, cv);
     }
 
-    public ArrayList<Books> returnListOfUsersBook(int uId){
+    public ArrayList<Books> returnListOfUsersBook(int uId) {
         ArrayList<Books> book = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
         String mQuery = "SELECT user_id, book_id, time, type From time_checker;";
         Cursor mCur = db.rawQuery(mQuery, new String[]{});
         mCur.moveToFirst();
         while (!mCur.isAfterLast()) {
-            if (uId == mCur.getInt(mCur.getColumnIndex("user_id"))){
+            if (uId == mCur.getInt(mCur.getColumnIndex("user_id"))) {
                 Books b = new Books(this.getArrayBook(mCur.getInt(mCur.getColumnIndex("book_id"))));
                 book.add(b);
             }
@@ -537,7 +532,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return book;
     }
 
-    public String getShortInformation(Books book){
+    public String getShortInformation(Books book) {
         String a = "";
         a += book.getTitleBook() + " ";
         a += book.getAuthorsOfBook() + " ";
@@ -545,7 +540,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return a;
     }
 
-    public String getFullInformation(Books book){
+    public String getFullInformation(Books book) {
         String a = "";
         a += book.getTitleBook() + " ";
         a += book.getAuthorsOfBook() + " ";
@@ -559,13 +554,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return a;
     }
 
-    public ArrayList<Patron> debtorUsers(){
+    public ArrayList<Patron> debtorUsers() {
         ArrayList<Patron> patron = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
         String mQuery = "SELECT user_id, book_id, time, type From time_checker";
         Cursor mCur = db.rawQuery(mQuery, new String[]{});
         mCur.moveToFirst();
-        while (!mCur.isAfterLast()){
+        while (!mCur.isAfterLast()) {
             Patron a = new Patron(this.getArrayUser(mCur.getInt(mCur.getColumnIndex("user_id"))));
             patron.add(a);
             mCur.moveToNext();
@@ -688,13 +683,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return list;
     }
 
-    public boolean noOneInQueue(int id, int type){
+    public boolean noOneInQueue(int id, int type) {
         SQLiteDatabase db = this.getWritableDatabase();
         String mQuery;
         mQuery = "SELECT document_id, document_type From Queue ";
         Cursor mCur = db.rawQuery(mQuery, new String[]{});
         mCur.moveToFirst();
-        ArrayList<String> list = new ArrayList<> ();
+        ArrayList<String> list = new ArrayList<>();
         while (!mCur.isAfterLast()) {
             if (id == mCur.getInt(mCur.getColumnIndex("document_id")) && type == mCur.getInt(mCur.getColumnIndex("document_type"))) {
                 list.add(mCur.getString(mCur.getColumnIndex("document_id")));
@@ -705,10 +700,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         mCur.close();
 
-        return list.size()==0;
+        return list.size() == 0;
 
     }
-    public void standInQueue(Patron pat, Books book){
+
+    public void standInQueue(Patron pat, Books book) {
 
     }
 }

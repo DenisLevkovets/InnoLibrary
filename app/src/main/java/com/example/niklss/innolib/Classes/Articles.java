@@ -17,7 +17,7 @@ public class Articles {
     private UserCard user;
     private int daysLeft;
 
-    public void Articles(String title, String authors, String jtitle, String issue, String date, String editor, int avId, int countAv){
+    public void Articles(String title, String authors, String jtitle, String issue, String date, String editor, int avId, int countAv) {
         this.title = title;
         this.authors = authors;
         this.jtitle = jtitle;
@@ -28,7 +28,7 @@ public class Articles {
         this.countAv = countAv;
     }
 
-    public void Articles(String[] av){
+    public void Articles(String[] av) {
         this.title = av[0];
         this.authors = av[1];
         this.jtitle = av[2];

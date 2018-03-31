@@ -108,7 +108,7 @@ public class Patron extends UserCard {
         db.returnListOfUsersBook(this.getuId());
     }
 
-    private void returnDoc(int id){
+    private void returnDoc(int id) {
 
     }
 }
