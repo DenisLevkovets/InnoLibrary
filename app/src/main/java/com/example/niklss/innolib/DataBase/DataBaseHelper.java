@@ -1,12 +1,15 @@
 package com.example.niklss.innolib.DataBase;
 
 
+import android.annotation.TargetApi;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 
 import com.example.niklss.innolib.Classes.Books;
@@ -21,6 +24,8 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
+
+import java.util.Comparator;
 import java.util.PriorityQueue;
 
 
@@ -708,7 +713,50 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return list.size()==0;
 
     }
-    public void standInQueue(Patron pat, Books book){
 
+
+    @TargetApi(Build.VERSION_CODES.N)
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void standInQueue(Patron patron, Books book){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        String mQuery = "SELECT user_id,user_type, document_id,document_type From Queue";
+        Cursor mCur = db.rawQuery(mQuery, new String[]{});
+        mCur.moveToFirst();
+        ArrayList<int []> list = new ArrayList<>();
+        while (!mCur.isAfterLast()) {
+            int [] arr = new int [4];
+            arr[0]=(mCur.getInt(mCur.getColumnIndex("user_id")));
+            arr[1]=(mCur.getInt(mCur.getColumnIndex("user_type")));
+            arr[2]=(mCur.getInt(mCur.getColumnIndex("document_id")));
+            arr[3]=(mCur.getInt(mCur.getColumnIndex("document_type")));
+
+
+
+            list.add(arr);
+
+            mCur.moveToNext();
+        }
+        mCur.moveToFirst();
+
+        mCur.close();
+        int [] e = new int [4];
+        e[0]=patron.getuId();
+        e[1]=patron.getUsersType();
+        e[2]=book.getBookId();
+        e[3]=0;
+        list.add(e);
+        list.sort((a, b) -> Integer.compare(a[1], b[1]));
+        for (int i = 0; i < list.size(); i++) {
+            System.out.print(list.get(i)[1]+" ");
+            System.out.println(list.get(i)[0]);
+        }
+        db.execSQL("DELETE FROM Queue");
+        for (int i = 0; i <list.size(); i++) {
+            String cc = "INSERT INTO Queue (user_id,user_type,document_id,document_type) VALUES ("+list.get(i)[0]+", "+list.get(i)[1]+", "+list.get(i)[2]+", "+list.get(i)[3]+");";
+            db.execSQL(cc);
+        }
+
+        db.close();
     }
 }
