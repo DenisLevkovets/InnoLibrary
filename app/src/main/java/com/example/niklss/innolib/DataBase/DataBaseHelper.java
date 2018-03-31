@@ -747,10 +747,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         e[3]=0;
         list.add(e);
         list.sort((a, b) -> Integer.compare(a[1], b[1]));
-        for (int i = 0; i < list.size(); i++) {
-            System.out.print(list.get(i)[1]+" ");
-            System.out.println(list.get(i)[0]);
-        }
+
         db.execSQL("DELETE FROM Queue");
         for (int i = 0; i <list.size(); i++) {
             String cc = "INSERT INTO Queue (user_id,user_type,document_id,document_type) VALUES ("+list.get(i)[0]+", "+list.get(i)[1]+", "+list.get(i)[2]+", "+list.get(i)[3]+");";
