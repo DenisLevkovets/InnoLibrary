@@ -95,15 +95,12 @@ public class Patron extends UserCard {
         return db.hasBook(this.getuId(), id, type);
     }
 
-    private void renewDoc(int id, Context context) {
+    private void renewDoc(Books book, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
-        Books book = new Books(db.getArrayBook(id));
-
-        if (db.noOneInQueue(this.getuId())) {
+        if (db.noOneInQueue(this.getuId(), book.getBookId())) {
             book.setDaysLeft(14);
             db.updateTimeChecker(this.getuId(), book.getBookId(), book.getDaysLeft(), 0);
         }
-        DataBaseHelper db = new DataBaseHelper(context);
     }
 
     private void addBookToList(Context context) throws IOException {
