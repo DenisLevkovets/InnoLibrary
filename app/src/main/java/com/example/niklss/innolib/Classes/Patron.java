@@ -22,11 +22,11 @@ public class Patron extends UserCard {
         super(name, secondName, address, id, num, isStatus);
     }
 
-    public Patron(String[] a) {
+    public Patron(String[] a){
         super(a);
     }
 
-    private void searchDoc(String anyName) {
+    private void searchDoc(String anyName){
 
     }
 
@@ -35,7 +35,7 @@ public class Patron extends UserCard {
         Books book = new Books(db.getArrayBook(id));
 
         if (getUsersType() >= book.getReference()) {
-            if (!hasCopy(context, book.getBookId())) {
+            if (!hasCopy(context, book.getBookId(), 0)) {
                 if (book.getCountOfBooks() > 0) {
                     book.setCountOfBooks(book.getCountOfBooks() - 1);
 //                this.addBookToTheList(book);
@@ -59,13 +59,40 @@ public class Patron extends UserCard {
         } else {
             System.out.println("Isn't your type");
         }
-
-
     }
 
-    private boolean hasCopy(Context context, int id) throws IOException {
+    public void checkOutAV(int id, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
-        return db.hasBook(this.getuId(), id);
+        ArrayList<String> av = db.getAVMaterial(id);
+
+        if (Integer.parseInt(av.get(3)) > 0 && !hasCopy(context, Integer.parseInt(av.get(2)), 2)) {
+            db.updateAV(Integer.parseInt(av.get(2)), av.get(0), av.get(1), Integer.parseInt(av.get(3)));
+            db.updateTimeChecker(this.getuId(), Integer.parseInt(av.get(2)), 21, 2);
+        } else {
+            System.out.println("Not available");
+        }
+    }
+
+    public void checkOutArticle(int id, Context context) throws IOException {
+        DataBaseHelper db = new DataBaseHelper(context);
+        ArrayList<String> av = db.getArticleMaterial(id);
+
+        if (Integer.parseInt(av.get(6)) > 0 && !hasCopy(context, Integer.parseInt(av.get(7)), 1)) {
+            db.updateArticle(Integer.parseInt(av.get(7)), av.get(0), av.get(1), av.get(2), av.get(3), av.get(4), av.get(5), Integer.parseInt(av.get(6)));
+            db.updateTimeChecker(this.getuId(), Integer.parseInt(av.get(2)), 21, 1);
+        } else {
+            System.out.println("Not available");
+        }
+    }
+
+    public ArrayList<Books> getAvailiableBooks(Context context) throws IOException {
+        DataBaseHelper db = new DataBaseHelper(context);
+        return db.getListOfBooks();
+    }
+
+    private boolean hasCopy(Context context, int id, int type) throws IOException {
+        DataBaseHelper db = new DataBaseHelper(context);
+        return db.hasBook(this.getuId(), id, type);
     }
 
     private void addBookToList(Context context) throws IOException {
@@ -85,7 +112,7 @@ public class Patron extends UserCard {
         }
     }
 
-    private void returnDoc(int id) {
+    private void returnDoc(int id){
 
     }
 
