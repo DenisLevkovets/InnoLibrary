@@ -21,6 +21,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
+import java.util.PriorityQueue;
 
 
 //this class is needed to work with the database
@@ -685,5 +686,29 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         mCur.close();
 
         return list;
+    }
+
+    public boolean noOneInQueue(int id, int type){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String mQuery;
+        mQuery = "SELECT document_id, document_type From Queue ";
+        Cursor mCur = db.rawQuery(mQuery, new String[]{});
+        mCur.moveToFirst();
+        ArrayList<String> list = new ArrayList<> ();
+        while (!mCur.isAfterLast()) {
+            if (id == mCur.getInt(mCur.getColumnIndex("document_id")) && type == mCur.getInt(mCur.getColumnIndex("document_type"))) {
+                list.add(mCur.getString(mCur.getColumnIndex("document_id")));
+                break;
+            }
+            mCur.moveToNext();
+        }
+
+        mCur.close();
+
+        return list.size()==0;
+
+    }
+    public void standInQueue(Patron pat, Books book){
+
     }
 }
