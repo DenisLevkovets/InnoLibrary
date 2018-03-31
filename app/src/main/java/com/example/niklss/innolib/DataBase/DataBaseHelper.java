@@ -25,8 +25,7 @@ import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
 
-import java.util.Comparator;
-import java.util.PriorityQueue;
+
 
 
 //this class is needed to work with the database
