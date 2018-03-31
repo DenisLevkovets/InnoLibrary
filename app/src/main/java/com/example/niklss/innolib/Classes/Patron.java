@@ -22,11 +22,11 @@ public class Patron extends UserCard {
         super(name, secondName, address, id, num, isStatus);
     }
 
-    public Patron(String[] a){
+    public Patron(String[] a) {
         super(a);
     }
 
-    private void searchDoc(String anyName){
+    private void searchDoc(String anyName) {
 
     }
 
@@ -95,13 +95,6 @@ public class Patron extends UserCard {
         return db.hasBook(this.getuId(), id, type);
     }
 
-    private void addBookToList(Context context) throws IOException {
-        DataBaseHelper db = new DataBaseHelper(context);
-        db.returnListOfUsersBook(this.getuId());
-
-
-    }
-
     private void renewDoc(int id, Context context) {
         DataBaseHelper db = new DataBaseHelper(context);
         Books book = new Books(db.getArrayBook(id));
@@ -110,10 +103,15 @@ public class Patron extends UserCard {
             book.setDaysLeft(14);
             db.updateTimeChecker(this.getuId(), book.getBookId(), book.getDaysLeft(), 0);
         }
+        DataBaseHelper db = new DataBaseHelper(context);
+    }
+
+    private void addBookToList(Context context) throws IOException {
+        DataBaseHelper db = new DataBaseHelper(context);
+        db.returnListOfUsersBook(this.getuId());
     }
 
     private void returnDoc(int id){
 
     }
-
 }

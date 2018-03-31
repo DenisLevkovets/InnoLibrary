@@ -7,11 +7,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.niklss.innolib.Classes.Patron;
+import com.example.niklss.innolib.DataBase.DataBaseHelper;
 import com.example.niklss.innolib.R;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by user on 28.02.2018.
@@ -23,7 +27,23 @@ public class UsersLib extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.userslib);
         ListView list=(ListView) findViewById(R.id.list);
-        String[] arr={"1","2","3"};
+
+
+        DataBaseHelper db = null;
+        try {
+            db= new DataBaseHelper(getApplicationContext());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ArrayList<Patron> users= db.debtorUsers();
+
+        String[] arr=new String[users.size()];
+
+        for (int i = 0; i < users.size(); i++) {
+            arr[i]=users.get(i).getuName()+" "+users.get(i).getSecondName();
+        }
+
+
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1,arr);
         list.setAdapter(adapter);
