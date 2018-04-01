@@ -7,6 +7,7 @@ import java.util.ArrayList;
  */
 
 public class AV {
+    private int typeOfMaterial = 2;
 
     private String title;
     private String authors;
@@ -88,5 +89,9 @@ public class AV {
 
     public int getPrice() {
         return price;
+    }
+
+    public int getTypeOfMaterial() {
+        return typeOfMaterial;
     }
 }

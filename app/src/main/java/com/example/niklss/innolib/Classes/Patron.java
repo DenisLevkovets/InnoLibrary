@@ -38,12 +38,12 @@ public class Patron extends UserCard {
             if (!hasCopy(context, book.getBookId(), 0)) {
                 if (book.getCountOfBooks() > 0) {
                     book.setCountOfBooks(book.getCountOfBooks() - 1);
-//                this.addBookToTheList(book);
-//                book.setUser(this);
-                    if (getUsersType() == 1) {
-                        book.setDaysLeft(28);
+                    if (getUsersType() == 3) {
+                        book.setDaysLeft(7);
                     } else if (book.getIsBestSeller() == 1) {
                         book.setDaysLeft(14);
+                    } else if (getUsersType() == 1 || getUsersType() == 2 || getUsersType() == 4) {
+                        book.setDaysLeft(28);
                     } else {
                         book.setDaysLeft(21);
                     }
@@ -65,11 +65,22 @@ public class Patron extends UserCard {
         DataBaseHelper db = new DataBaseHelper(context);
         AV av = new AV(db.getAVMaterial(id));
 
-        if (av.getCountAv() > 0 && !hasCopy(context, av.getAvId(), 2)) {
-            db.updateAV(av.getAvId(), av.getTitle(), av.getAuthors(), av.getCountAv());
-            db.updateTimeChecker(this.getuId(), av.getAvId(), 21, 2);
+        if (!hasCopy(context, av.getAvId(), av.getTypeOfMaterial())) {
+            if (av.getCountAv() > 0) {
+                av.setCountAv(av.getCountAv() - 1);
+                if (getUsersType() == 3) {
+                    av.setDaysLeft(7);
+                } else {
+                    av.setDaysLeft(14);
+                }
+                db.updateAV(av.getAvId(), av.getTitle(), av.getAuthors(), av.getCountAv());
+                db.updateTimeChecker(this.getuId(), av.getAvId(), av.getDaysLeft(), av.getTypeOfMaterial());
+            } else {
+                System.out.println("You are in queue for this AV material");
+                db.standInQueue(this, av);
+            }
         } else {
-            System.out.println("Not available");
+            System.out.println("You already have this AV material");
         }
     }
 
@@ -77,11 +88,22 @@ public class Patron extends UserCard {
         DataBaseHelper db = new DataBaseHelper(context);
         Articles art = new Articles(db.getArticleMaterial(id));
 
-        if (art.getCountAv() > 0 && !hasCopy(context, art.getAvId(), 1)) {
-            db.updateArticle(art.getAvId(), art.getTitle(), art.getAuthors(), art.getJtitle(), art.getIssue(), art.getDate(), art.getEditor(), art.getCountAv());
-            db.updateTimeChecker(this.getuId(), art.getAvId(), 21, 1);
+        if (!hasCopy(context, art.getArticleId(), art.getTypeOfMaterial())) {
+            if (art.getCountArticle() > 0) {
+                art.setCountArticle(art.getCountArticle() - 1);
+                if (getUsersType() == 3) {
+                    art.setDaysLeft(7);
+                } else {
+                    art.setDaysLeft(14);
+                }
+                db.updateAV(art.getArticleId(), art.getTitle(), art.getAuthors(), art.getCountArticle());
+                db.updateTimeChecker(this.getuId(), art.getArticleId(), art.getDaysLeft(), art.getTypeOfMaterial());
+            } else {
+                System.out.println("You are in queue for this article");
+                db.standInQueue(this, art);
+            }
         } else {
-            System.out.println("Not available");
+            System.out.println("You already have this article");
         }
     }
 
@@ -92,7 +114,7 @@ public class Patron extends UserCard {
 
 //    public ArrayList<AV> getAvailiableAV(Context context) throws IOException{
 //        DataBaseHelper db = new DataBaseHelper(context);
-//        return db.get
+//        return db.
 //    }
 
     private boolean hasCopy(Context context, int id, int type) throws IOException {
@@ -100,18 +122,49 @@ public class Patron extends UserCard {
         return db.hasBook(this.getuId(), id, type);
     }
 
-    private void renewDoc(Books book, Context context) throws IOException {
+    private void renewBook(Books book, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
-        if (db.noOneInQueue(this.getuId(), book.getBookId())) {
-            book.setDaysLeft(14);
+        if (db.noOneInQueue(this.getuId(), book.getBookId(), book.getTypeOfMaterial())) {
+            if (this.getUsersType() == 3){
+                book.setDaysLeft(7);
+            }
+            else {
+                book.setDaysLeft(14);
+            }
             db.updateTimeChecker(this.getuId(), book.getBookId(), book.getDaysLeft(), 0);
         }
     }
 
-    private void addBookToList(Context context) throws IOException {
+    private void renewArticle(Articles article, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
-        db.returnListOfUsersBook(this.getuId());
+        if (db.noOneInQueue(this.getuId(), article.getArticleId(), article.getTypeOfMaterial())) {
+            if (this.getUsersType() == 3){
+                article.setDaysLeft(7);
+            }
+            else {
+                article.setDaysLeft(14);
+            }
+            db.updateTimeChecker(this.getuId(), article.getArticleId(), article.getDaysLeft(), article.getTypeOfMaterial());
+        }
     }
+
+    private void renewAv(AV av, Context context) throws IOException {
+        DataBaseHelper db = new DataBaseHelper(context);
+        if (db.noOneInQueue(this.getuId(), av.getAvId(), av.getTypeOfMaterial())) {
+            if (this.getUsersType() == 3){
+                av.setDaysLeft(7);
+            }
+            else {
+                av.setDaysLeft(14);
+            }
+            db.updateTimeChecker(this.getuId(), av.getAvId(), av.getDaysLeft(), av.getTypeOfMaterial());
+        }
+    }
+
+//    private void addBookToList(Context context) throws IOException {
+//        DataBaseHelper db = new DataBaseHelper(context);
+//         = db.returnListOfUsersBook(this.getuId());
+//    }
 
     private void returnDoc(int id) {
 

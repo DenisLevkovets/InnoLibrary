@@ -5,6 +5,7 @@ package com.example.niklss.innolib.Classes;
  */
 
 public class Books {
+    private int typeOfMaterial = 0;
 
     private int reference;
     private String titleBook;
@@ -114,5 +115,9 @@ public class Books {
 
     public void setDaysLeft(int daysLeft) {
         this.daysLeft = daysLeft;
+    }
+
+    public int getTypeOfMaterial() {
+        return typeOfMaterial;
     }
 }

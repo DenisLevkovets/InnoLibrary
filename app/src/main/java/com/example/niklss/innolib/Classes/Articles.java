@@ -7,6 +7,7 @@ import java.util.ArrayList;
  */
 
 public class Articles {
+    private int typeOfMaterial = 1;
 
     private String title;
     private String authors;
@@ -14,24 +15,26 @@ public class Articles {
     private String issue;
     private String date;
     private String editor;
-    private int avId;
-    private int countAv;
+    private int articleId;
+    private int countArticle;
     private UserCard user;
     private int daysLeft;
     private int reference;
     private String keywords;
+    private int price;
 
-    public Articles(String title, String authors, String jtitle, String issue, String date, String editor, int countAv, int avId, int reference, String keywords) {
+    public Articles(String title, String authors, String jtitle, String issue, String date, String editor, int countArticle, int articleId, int reference, String keywords, int price) {
         this.title = title;
         this.authors = authors;
         this.jtitle = jtitle;
         this.issue = issue;
         this.date = date;
         this.editor = editor;
-        this.countAv = countAv;
-        this.avId = avId;
+        this.countArticle = countArticle;
+        this.articleId = articleId;
         this.reference = reference;
         this.keywords = keywords;
+        this.price = price;
     }
 
     public Articles(String[] av) {
@@ -41,10 +44,11 @@ public class Articles {
         this.issue = av[3];
         this.date = av[4];
         this.editor = av[5];
-        this.countAv = Integer.parseInt(av[6]);
-        this.avId = Integer.parseInt(av[7]);
+        this.countArticle = Integer.parseInt(av[6]);
+        this.articleId = Integer.parseInt(av[7]);
         this.reference = Integer.parseInt(av[8]);
         this.keywords = av[9];
+        this.price = Integer.parseInt(av[10]);
     }
 
     public Articles(ArrayList<String> av) {
@@ -54,10 +58,11 @@ public class Articles {
         this.issue = av.get(3);
         this.date = av.get(4);
         this.editor = av.get(5);
-        this.countAv = Integer.parseInt(av.get(6));
-        this.avId = Integer.parseInt(av.get(7));
+        this.countArticle = Integer.parseInt(av.get(6));
+        this.articleId = Integer.parseInt(av.get(7));
         this.reference = Integer.parseInt(av.get(8));
         this.keywords = av.get(9);
+        this.price = Integer.parseInt(av.get(10));
     }
 
     public String getTitle() {
@@ -84,16 +89,16 @@ public class Articles {
         return editor;
     }
 
-    public int getAvId() {
-        return avId;
+    public int getArticleId() {
+        return articleId;
     }
 
-    public int getCountAv() {
-        return countAv;
+    public int getCountArticle() {
+        return countArticle;
     }
 
-    public void setCountAv(int countAv) {
-        this.countAv = countAv;
+    public void setCountArticle(int countAv) {
+        this.countArticle = countAv;
     }
 
     public UserCard getUser() {
@@ -118,5 +123,13 @@ public class Articles {
 
     public String getKeywords() {
         return keywords;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public int getTypeOfMaterial() {
+        return typeOfMaterial;
     }
 }
