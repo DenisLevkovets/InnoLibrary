@@ -12,6 +12,8 @@ public class AV {
     private String authors;
     private int avId;
     private int countAv;
+    private String keywords;
+    private int price;
     private UserCard user;
     private int daysLeft;
 
@@ -20,13 +22,17 @@ public class AV {
         this.authors = av.get(1);
         this.avId = Integer.parseInt(av.get(2));
         this.countAv = Integer.parseInt(av.get(3));
+        this.keywords = av.get(4);
+        this.price = Integer.parseInt(av.get(5));
     }
 
-    public AV(String title, String authors, int avId, int countAv) {
+    public AV(String title, String authors, int avId, int countAv, String keywords, int price) {
         this.title = title;
         this.authors = authors;
         this.avId = avId;
         this.countAv = countAv;
+        this.keywords = keywords;
+        this.price = price;
     }
 
     public AV(String[] av) {
@@ -34,6 +40,8 @@ public class AV {
         this.authors = av[1];
         this.avId = Integer.parseInt(av[2]);
         this.countAv = Integer.parseInt(av[3]);
+        this.keywords = av[4];
+        this.price = Integer.parseInt(av[5]);
     }
 
 
@@ -72,5 +80,13 @@ public class AV {
 
     public void setDaysLeft(int daysLeft) {
         this.daysLeft = daysLeft;
+    }
+
+    public String getKeywords() {
+        return keywords;
+    }
+
+    public int getPrice() {
+        return price;
     }
 }

@@ -18,16 +18,20 @@ public class Articles {
     private int countAv;
     private UserCard user;
     private int daysLeft;
+    private int reference;
+    private String keywords;
 
-    public Articles(String title, String authors, String jtitle, String issue, String date, String editor, int countAv, int avId) {
+    public Articles(String title, String authors, String jtitle, String issue, String date, String editor, int countAv, int avId, int reference, String keywords) {
         this.title = title;
         this.authors = authors;
         this.jtitle = jtitle;
         this.issue = issue;
         this.date = date;
         this.editor = editor;
-        this.avId = avId;
         this.countAv = countAv;
+        this.avId = avId;
+        this.reference = reference;
+        this.keywords = keywords;
     }
 
     public Articles(String[] av) {
@@ -39,6 +43,8 @@ public class Articles {
         this.editor = av[5];
         this.countAv = Integer.parseInt(av[6]);
         this.avId = Integer.parseInt(av[7]);
+        this.reference = Integer.parseInt(av[8]);
+        this.keywords = av[9];
     }
 
     public Articles(ArrayList<String> av) {
@@ -50,6 +56,8 @@ public class Articles {
         this.editor = av.get(5);
         this.countAv = Integer.parseInt(av.get(6));
         this.avId = Integer.parseInt(av.get(7));
+        this.reference = Integer.parseInt(av.get(8));
+        this.keywords = av.get(9);
     }
 
     public String getTitle() {
@@ -102,5 +110,13 @@ public class Articles {
 
     public void setDaysLeft(int daysLeft) {
         this.daysLeft = daysLeft;
+    }
+
+    public int getReference() {
+        return reference;
+    }
+
+    public String getKeywords() {
+        return keywords;
     }
 }
