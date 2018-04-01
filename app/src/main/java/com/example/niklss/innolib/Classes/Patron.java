@@ -13,6 +13,9 @@ import java.util.ArrayList;
  */
 
 public class Patron extends UserCard {
+    private ArrayList<Integer> wasRenewedBook = new ArrayList<>();
+    private ArrayList<Integer> wasRenewedArticle = new ArrayList<>();
+    private ArrayList<Integer> wasRenewedAv = new ArrayList<>();
 
     public Patron(ArrayList<String> a) {
         super(a.get(0), a.get(1), a.get(2), Integer.parseInt(a.get(3)), a.get(4), Integer.parseInt(a.get(5)));
@@ -51,7 +54,7 @@ public class Patron extends UserCard {
                     db.updateTimeChecker(this.getuId(), book.getBookId(), book.getDaysLeft(), 0);
                 } else {
                     System.out.println("You are in queue for this book");
-                    db.standInQueue(this, book);
+                    db.standInQueue(this, book.getBookId(), book.getTypeOfMaterial());
                 }
             } else {
                 System.out.println("You already have this book");
@@ -77,7 +80,7 @@ public class Patron extends UserCard {
                 db.updateTimeChecker(this.getuId(), av.getAvId(), av.getDaysLeft(), av.getTypeOfMaterial());
             } else {
                 System.out.println("You are in queue for this AV material");
-                db.standInQueue(this, av);
+                db.standInQueue(this, av.getAvId(), av.getTypeOfMaterial());
             }
         } else {
             System.out.println("You already have this AV material");
@@ -100,7 +103,7 @@ public class Patron extends UserCard {
                 db.updateTimeChecker(this.getuId(), art.getArticleId(), art.getDaysLeft(), art.getTypeOfMaterial());
             } else {
                 System.out.println("You are in queue for this article");
-                db.standInQueue(this, art);
+                db.standInQueue(this, art.getArticleId(), art.getTypeOfMaterial());
             }
         } else {
             System.out.println("You already have this article");
@@ -125,39 +128,58 @@ public class Patron extends UserCard {
     private void renewBook(Books book, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
         if (db.noOneInQueue(this.getuId(), book.getBookId(), book.getTypeOfMaterial())) {
-            if (this.getUsersType() == 3){
+            if (this.getUsersType() == 3) {
                 book.setDaysLeft(7);
-            }
-            else {
-                book.setDaysLeft(14);
+            } else {
+                if (this.wasRenewedBook.contains(book.getBookId())) {
+                    System.out.println("You cant renew this book again");
+                } else {
+                    book.setDaysLeft(14);
+                    this.wasRenewedBook.add(book.getBookId());
+                }
             }
             db.updateTimeChecker(this.getuId(), book.getBookId(), book.getDaysLeft(), 0);
+        } else {
+            System.out.println("Someone already waits for this book");
         }
     }
 
     private void renewArticle(Articles article, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
         if (db.noOneInQueue(this.getuId(), article.getArticleId(), article.getTypeOfMaterial())) {
-            if (this.getUsersType() == 3){
+            if (this.getUsersType() == 3) {
                 article.setDaysLeft(7);
-            }
-            else {
-                article.setDaysLeft(14);
+            } else {
+                if (this.wasRenewedArticle.contains(article.getArticleId())) {
+                    System.out.println("You cant renew this book again");
+                } else {
+                    article.setDaysLeft(14);
+                    this.wasRenewedArticle.add(article.getArticleId());
+                }
             }
             db.updateTimeChecker(this.getuId(), article.getArticleId(), article.getDaysLeft(), article.getTypeOfMaterial());
+        } else {
+            System.out.println("Someone already waits for this article");
         }
     }
 
     private void renewAv(AV av, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
         if (db.noOneInQueue(this.getuId(), av.getAvId(), av.getTypeOfMaterial())) {
-            if (this.getUsersType() == 3){
+            if (this.getUsersType() == 3) {
                 av.setDaysLeft(7);
-            }
-            else {
-                av.setDaysLeft(14);
+            } else {
+                if (this.wasRenewedAv.contains(av.getAvId())){
+                    System.out.println("You cant renew this book again");
+                }
+                else {
+                    av.setDaysLeft(14);
+                    this.wasRenewedAv.add(av.getAvId());
+                }
             }
             db.updateTimeChecker(this.getuId(), av.getAvId(), av.getDaysLeft(), av.getTypeOfMaterial());
+        } else {
+            System.out.println("Someone already waits for this AV material");
         }
     }
 
