@@ -45,8 +45,6 @@ public class AV {
         this.price = Integer.parseInt(av[5]);
     }
 
-
-
     public String getTitle() {
         return title;
     }
