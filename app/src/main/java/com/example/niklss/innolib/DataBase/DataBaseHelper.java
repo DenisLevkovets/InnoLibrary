@@ -397,7 +397,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public String[] getArrayBook(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String mQuery = "SELECT title, author, available_copies, type, price, edition, date, published_by, keywords, is_bestseller From Books";
+        String mQuery = "SELECT title, author, available_copies, type, price, edition, date, published_by, keywords, is_bestseller, book_id From Books";
         Cursor mCur = db.rawQuery(mQuery, new String[]{});
         mCur.moveToFirst();
         String[] book = new String[11];

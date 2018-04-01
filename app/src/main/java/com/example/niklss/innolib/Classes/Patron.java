@@ -54,7 +54,7 @@ public class Patron extends UserCard {
                     db.updateTimeChecker(this.getuId(), book.getBookId(), book.getDaysLeft(), 0);
                 } else {
                     System.out.println("You are in queue for this book");
-                    db.standInQueue(this, book.getBookId(), book.getTypeOfMaterial());
+//                    db.standInQueue(this, book.getBookId(), book.getTypeOfMaterial());
                 }
             } else {
                 System.out.println("You already have this book");
@@ -80,7 +80,7 @@ public class Patron extends UserCard {
                 db.updateTimeChecker(this.getuId(), av.getAvId(), av.getDaysLeft(), av.getTypeOfMaterial());
             } else {
                 System.out.println("You are in queue for this AV material");
-                db.standInQueue(this, av.getAvId(), av.getTypeOfMaterial());
+//                db.standInQueue(this, av.getAvId(), av.getTypeOfMaterial());
             }
         } else {
             System.out.println("You already have this AV material");
@@ -103,7 +103,7 @@ public class Patron extends UserCard {
                 db.updateTimeChecker(this.getuId(), art.getArticleId(), art.getDaysLeft(), art.getTypeOfMaterial());
             } else {
                 System.out.println("You are in queue for this article");
-                db.standInQueue(this, art.getArticleId(), art.getTypeOfMaterial());
+//                db.standInQueue(this, art.getArticleId(), art.getTypeOfMaterial());
             }
         } else {
             System.out.println("You already have this article");
@@ -125,7 +125,7 @@ public class Patron extends UserCard {
         return db.hasBook(this.getuId(), id, type);
     }
 
-    private void renewBook(Books book, Context context) throws IOException {
+    public void renewBook(Books book, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
         if (db.noOneInQueue(book.getBookId(), book.getTypeOfMaterial())) {
             if (this.getUsersType() == 3) {
@@ -144,7 +144,7 @@ public class Patron extends UserCard {
         }
     }
 
-    private void renewArticle(Articles article, Context context) throws IOException {
+    public void renewArticle(Articles article, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
         if (db.noOneInQueue(article.getArticleId(), article.getTypeOfMaterial())) {
             if (this.getUsersType() == 3) {
@@ -163,7 +163,7 @@ public class Patron extends UserCard {
         }
     }
 
-    private void renewAv(AV av, Context context) throws IOException {
+    public void renewAv(AV av, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
         if (db.noOneInQueue(av.getAvId(), av.getTypeOfMaterial())) {
             if (this.getUsersType() == 3) {
@@ -182,10 +182,10 @@ public class Patron extends UserCard {
         }
     }
 
-//    private void addBookToList(Context context) throws IOException {
-//        DataBaseHelper db = new DataBaseHelper(context);
-//         = db.returnListOfUsersBook(this.getuId());
-//    }
+    public ArrayList<Books> getListOfUsersBook (Context context) throws IOException {
+        DataBaseHelper db = new DataBaseHelper(context);
+        return db.returnListOfUsersBook(this.getuId());
+    }
     //puck
 
     private void returnDoc(int id) {
