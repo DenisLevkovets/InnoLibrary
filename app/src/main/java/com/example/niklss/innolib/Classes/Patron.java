@@ -127,7 +127,7 @@ public class Patron extends UserCard {
 
     private void renewBook(Books book, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
-        if (db.noOneInQueue(this.getuId(), book.getBookId(), book.getTypeOfMaterial())) {
+        if (db.noOneInQueue(book.getBookId(), book.getTypeOfMaterial())) {
             if (this.getUsersType() == 3) {
                 book.setDaysLeft(7);
             } else {
@@ -146,7 +146,7 @@ public class Patron extends UserCard {
 
     private void renewArticle(Articles article, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
-        if (db.noOneInQueue(this.getuId(), article.getArticleId(), article.getTypeOfMaterial())) {
+        if (db.noOneInQueue(article.getArticleId(), article.getTypeOfMaterial())) {
             if (this.getUsersType() == 3) {
                 article.setDaysLeft(7);
             } else {
@@ -165,14 +165,13 @@ public class Patron extends UserCard {
 
     private void renewAv(AV av, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
-        if (db.noOneInQueue(this.getuId(), av.getAvId(), av.getTypeOfMaterial())) {
+        if (db.noOneInQueue(av.getAvId(), av.getTypeOfMaterial())) {
             if (this.getUsersType() == 3) {
                 av.setDaysLeft(7);
             } else {
-                if (this.wasRenewedAv.contains(av.getAvId())){
+                if (this.wasRenewedAv.contains(av.getAvId())) {
                     System.out.println("You cant renew this book again");
-                }
-                else {
+                } else {
                     av.setDaysLeft(14);
                     this.wasRenewedAv.add(av.getAvId());
                 }

@@ -522,7 +522,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         Cursor mCur = db.rawQuery(mQuery, new String[]{});
         mCur.moveToFirst();
         while (!mCur.isAfterLast()) {
-            if (uId == mCur.getInt(mCur.getColumnIndex("user_id"))) {
+            if (uId == mCur.getInt(mCur.getColumnIndex("user_id")) && mCur.getInt(mCur.getColumnIndex("type")) == 0) {
                 Books b = new Books(this.getArrayBook(mCur.getInt(mCur.getColumnIndex("book_id"))));
                 book.add(b);
             }
