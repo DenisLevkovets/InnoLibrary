@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.niklss.innolib.Classes.AV;
+import com.example.niklss.innolib.Classes.Articles;
 import com.example.niklss.innolib.Classes.Books;
 import com.example.niklss.innolib.Classes.Patron;
 import com.example.niklss.innolib.Classes.UserCard;
@@ -532,6 +534,40 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return book;
     }
 
+    public ArrayList<Articles> returnListOfUsersArticles(int uId) {
+        ArrayList<Articles> articles = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        String mQuery = "SELECT user_id, book_id, time, type From time_checker;";
+        Cursor mCur = db.rawQuery(mQuery, new String[]{});
+        mCur.moveToFirst();
+        while (!mCur.isAfterLast()) {
+            if (uId == mCur.getInt(mCur.getColumnIndex("user_id")) && mCur.getInt(mCur.getColumnIndex("type")) == 1) {
+                Articles a = new Articles(this.getArrayBook(mCur.getInt(mCur.getColumnIndex("id"))));
+                articles.add(a);
+            }
+            mCur.moveToNext();
+        }
+        mCur.close();
+        return articles;
+    }
+
+    public ArrayList<AV> returnListOfUsersAv(int uId) {
+        ArrayList<AV> av = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        String mQuery = "SELECT user_id, book_id, time, type From time_checker;";
+        Cursor mCur = db.rawQuery(mQuery, new String[]{});
+        mCur.moveToFirst();
+        while (!mCur.isAfterLast()) {
+            if (uId == mCur.getInt(mCur.getColumnIndex("user_id")) && mCur.getInt(mCur.getColumnIndex("type")) == 2) {
+                AV a = new AV(this.getArrayBook(mCur.getInt(mCur.getColumnIndex("id"))));
+                av.add(a);
+            }
+            mCur.moveToNext();
+        }
+        mCur.close();
+        return av;
+    }
+
     public String getShortInformation(Books book) {
         String a = "";
         a += book.getTitleBook() + " ";
@@ -702,6 +738,16 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         return list.size() == 0;
 
+    }
+
+    public Patron getUser(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String mQuery;
+        mQuery = "SELECT user_id From UserId ";
+        Cursor mCur = db.rawQuery(mQuery, new String[]{});
+        mCur.moveToFirst();
+
+        return new Patron(getArrayUser(mCur.getInt(mCur.getColumnIndex("document_id"))));
     }
 
     public void standInQueue(Patron pat, Books book) {

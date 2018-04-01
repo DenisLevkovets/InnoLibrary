@@ -186,6 +186,16 @@ public class Patron extends UserCard {
         DataBaseHelper db = new DataBaseHelper(context);
         return db.returnListOfUsersBook(this.getuId());
     }
+
+    public ArrayList<Articles> getListOfUsersArticles (Context context) throws IOException {
+        DataBaseHelper db = new DataBaseHelper(context);
+        return db.returnListOfUsersArticles(this.getuId());
+    }
+
+    public ArrayList<AV> getListOfUsersAv (Context context) throws IOException {
+        DataBaseHelper db = new DataBaseHelper(context);
+        return db.returnListOfUsersAv(this.getuId());
+    }
     //puck
 
     private void returnDoc(int id) {
