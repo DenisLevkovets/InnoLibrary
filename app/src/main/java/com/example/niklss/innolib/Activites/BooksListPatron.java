@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.niklss.innolib.Classes.Books;
+import com.example.niklss.innolib.Classes.Patron;
 import com.example.niklss.innolib.DataBase.DataBaseHelper;
 import com.example.niklss.innolib.R;
 
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 public class BooksListPatron extends Activity {
     AlertDialog.Builder ad;
     String[] arr2;
+    DataBaseHelper db;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.booklistpatron);
@@ -31,13 +33,15 @@ public class BooksListPatron extends Activity {
         String[] arr= new String[2];
         arr2 = new String[2];
 
-        DataBaseHelper db = null;
+
         try {
             db = new DataBaseHelper(this);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        ArrayList<Books> shortt = db.getListOfBooks();
+
+        Patron patron=db.getUser();
+        ArrayList<Books> shortt = patron.getListOfBooks();
         for (int i = 0; i < arr.length; i++) {
             arr[i]=db.getShortInformation(shortt.get(i));
             arr2[i]=db.getFullInformation(shortt.get(i));
@@ -56,6 +60,16 @@ public class BooksListPatron extends Activity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Toast.makeText(BooksListPatron.this,"You didnt choose",Toast.LENGTH_SHORT).show();
+            }
+        });
+        ad.setPositiveButton("Renew", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                try {
+                    db.getUser().renewBook(shortt.get(i),getApplicationContext());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
         ad.setCancelable(true);

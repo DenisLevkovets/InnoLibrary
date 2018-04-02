@@ -10,7 +10,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.niklss.innolib.Classes.Patron;
+import com.example.niklss.innolib.DataBase.DataBaseHelper;
 import com.example.niklss.innolib.R;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by user on 02.03.2018.
@@ -18,11 +23,24 @@ import com.example.niklss.innolib.R;
 
 public class ReturnSystem extends Activity {
     AlertDialog.Builder ad;
+    DataBaseHelper db;
+    ArrayList<Patron> deptors;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.returnsystem);
         ListView list=(ListView) findViewById(R.id.list);
-        String[] arr={"1","2","3"};
+
+        try {
+            db = new DataBaseHelper(getApplicationContext());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        deptors =db.debtorUsers();
+
+        String[] arr=new String[deptors.size()];
+        for (int i = 0; i < deptors.size(); i++) {
+            arr[i]=db.getUserInfoShort(deptors.get(i));
+        }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1,arr);
         list.setAdapter(adapter);
@@ -51,7 +69,7 @@ public class ReturnSystem extends Activity {
     ListView.OnItemClickListener click = (new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            ad.setMessage("Did he return a book?"+String.valueOf(i));
+            ad.setMessage(db.getUserInfoFull(deptors.get(i)));
             ad.show();
         }
     });

@@ -1,6 +1,8 @@
 package com.example.niklss.innolib.Classes;
 
 import android.content.Context;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 
 import com.example.niklss.innolib.DataBase.DataBaseHelper;
 
@@ -33,6 +35,7 @@ public class Patron extends UserCard {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void checkOut(int id, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
         Books book = new Books(db.getArrayBook(id));
@@ -64,6 +67,7 @@ public class Patron extends UserCard {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void checkOutAV(int id, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
         AV av = new AV(db.getAVMaterial(id));
@@ -76,7 +80,7 @@ public class Patron extends UserCard {
                 } else {
                     av.setDaysLeft(14);
                 }
-                db.updateAV(av.getAvId(), av.getTitle(), av.getAuthors(), av.getCountAv());
+                db.updateAV(av.getAvId(), av.getTitle(), av.getAuthors(), av.getCountAv(), av.getKeywords(),av.getPrice());
                 db.updateTimeChecker(this.getuId(), av.getAvId(), av.getDaysLeft(), av.getTypeOfMaterial());
             } else {
                 System.out.println("You are in queue for this AV material");
@@ -87,6 +91,7 @@ public class Patron extends UserCard {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void checkOutArticle(int id, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
         Articles art = new Articles(db.getArticleMaterial(id));
@@ -99,7 +104,7 @@ public class Patron extends UserCard {
                 } else {
                     art.setDaysLeft(14);
                 }
-                db.updateAV(art.getArticleId(), art.getTitle(), art.getAuthors(), art.getCountArticle());
+                db.updateAV(art.getArticleId(), art.getTitle(), art.getAuthors(), art.getCountArticle(),art.getKeywords(),art.getPrice());
                 db.updateTimeChecker(this.getuId(), art.getArticleId(), art.getDaysLeft(), art.getTypeOfMaterial());
             } else {
                 System.out.println("You are in queue for this article");
@@ -125,9 +130,9 @@ public class Patron extends UserCard {
         return db.hasBook(this.getuId(), id, type);
     }
 
-    private void renewBook(Books book, Context context) throws IOException {
+    public void renewBook(Books book, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
-        if (db.noOneInQueue(this.getuId(), book.getBookId(), book.getTypeOfMaterial())) {
+        if (db.noOneInQueue(book.getBookId(), book.getTypeOfMaterial())) {
             if (this.getUsersType() == 3) {
                 book.setDaysLeft(7);
             } else {
@@ -144,9 +149,9 @@ public class Patron extends UserCard {
         }
     }
 
-    private void renewArticle(Articles article, Context context) throws IOException {
+    public void renewArticle(Articles article, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
-        if (db.noOneInQueue(this.getuId(), article.getArticleId(), article.getTypeOfMaterial())) {
+        if (db.noOneInQueue(article.getArticleId(), article.getTypeOfMaterial())) {
             if (this.getUsersType() == 3) {
                 article.setDaysLeft(7);
             } else {
@@ -163,9 +168,9 @@ public class Patron extends UserCard {
         }
     }
 
-    private void renewAv(AV av, Context context) throws IOException {
+    public void renewAv(AV av, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
-        if (db.noOneInQueue(this.getuId(), av.getAvId(), av.getTypeOfMaterial())) {
+        if (db.noOneInQueue(av.getAvId(), av.getTypeOfMaterial())) {
             if (this.getUsersType() == 3) {
                 av.setDaysLeft(7);
             } else {

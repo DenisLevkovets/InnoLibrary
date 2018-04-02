@@ -1,11 +1,17 @@
 package com.example.niklss.innolib.Activites;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ExpandableListView;
+import android.widget.Toast;
 
 import com.example.niklss.innolib.Classes.Books;
 import com.example.niklss.innolib.DataBase.DataBaseHelper;
+import com.example.niklss.innolib.Dialogs.ModifyArticle;
 import com.example.niklss.innolib.R;
 
 import java.io.IOException;
@@ -16,12 +22,16 @@ import java.util.ArrayList;
  */
 
 public class CatalogsLib extends Activity   {
-
+    AlertDialog.Builder ad;
+    DataBaseHelper db;
+    ArrayList<Books>  book;
+    ArrayList<String[]> article;
+    ArrayList<String[]> AV;
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cataloglib);
-        DataBaseHelper db=null;
+
 
         try {
             db = new DataBaseHelper(getApplicationContext());
@@ -29,27 +39,139 @@ public class CatalogsLib extends Activity   {
             e.printStackTrace();
         }
 
+
+
         ExpandableListView listView = (ExpandableListView)findViewById(R.id.elv);
 
         ArrayList<ArrayList<String>> groups = new ArrayList<ArrayList<String>>();  //now we will fill names by our own, but then we will use database methods
         ArrayList<String> books = new ArrayList<String>();
-        ArrayList<String> children2 = new ArrayList<String>();
-        ArrayList<String> children3 = new ArrayList<String>();
+        ArrayList<String> artricles = new ArrayList<String>();
+        ArrayList<String> AVs = new ArrayList<String>();
 
-        ArrayList<Books> book= db.getListOfBooks();
+        book= db.getListOfBooks();
         for (int i = 0; i < book.size(); i++) {
                 books.add(db.getShortInformation(book.get(i)));
         }
 
+        article = db.getListOfArticles();
+        for (int i = 0; i < article.size(); i++) {
+            artricles.add(db.getArticleInfoShort(article.get(i)));
+        }
+
+        AV = db.getListOfAV();
+        for (int i = 0; i < AV.size(); i++) {
+            AVs.add(db.getAVInfoShort(AV.get(i)));
+        }
+
+
         groups.add(books);
-        children2.add("Article_1");
-        children2.add("Article_2");
-        children2.add("Article_3");
-        groups.add(children2);
-        children3.add("AVM_1");
-        groups.add(children3);
+        groups.add(artricles);
+        groups.add(AVs);
 
         ExpListAdapter adapter = new ExpListAdapter(getApplicationContext(), groups);
         listView.setAdapter(adapter);
+
+        listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
+//                Toast.makeText(getApplicationContext(),"okay",Toast.LENGTH_SHORT).show();
+                switch (i) {
+                    case 0:
+                        clickBook(book.get(i1).getBookId());
+                        break;
+                    case 1:
+                        clickArticle(Integer.parseInt(article.get(i1)[6]));
+                        break;
+                    case 2:
+                        clickAv(Integer.parseInt(AV.get(i1)[2]));
+                }
+                ad.show();
+                return false;
+            }
+        });
     }
+
+
+    public void clickBook(final int id){
+        ad = new AlertDialog.Builder(CatalogsLib.this).setTitle("Book");
+
+        ad.setPositiveButton("Modify", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast.makeText(getApplicationContext(),"Modify",Toast.LENGTH_SHORT) .show();
+            }
+        });
+
+        ad.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast.makeText(getApplicationContext(),"Cancel",Toast.LENGTH_SHORT) .show();
+            }
+        });
+
+        ad.setNeutralButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                db.deleteBook(id);
+            }
+        });
+        ad.setCancelable(true);
+    }
+
+    public void clickAv(final int id){
+        ad = new AlertDialog.Builder(CatalogsLib.this).setTitle("Book");
+
+        ad.setPositiveButton("Modify", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast.makeText(getApplicationContext(),"Modify",Toast.LENGTH_SHORT) .show();
+            }
+        });
+
+        ad.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast.makeText(getApplicationContext(),"Cancel",Toast.LENGTH_SHORT) .show();
+            }
+        });
+
+        ad.setNeutralButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                db.deleteAV(id);
+            }
+        });
+        ad.setCancelable(true);
+    }
+
+
+
+
+
+    public void clickArticle(final int id){
+        ad = new AlertDialog.Builder(CatalogsLib.this).setTitle("Book");
+
+        ad.setPositiveButton("Modify", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                DialogFragment modify =new ModifyArticle(0);
+            }
+        });
+
+        ad.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast.makeText(getApplicationContext(),"Cancel",Toast.LENGTH_SHORT) .show();
+            }
+        });
+
+        ad.setNeutralButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                db.deleteArticle(id);
+            }
+        });
+        ad.setCancelable(true);
+    }
+
 }
