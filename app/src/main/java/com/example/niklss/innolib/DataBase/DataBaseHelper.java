@@ -336,7 +336,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-
     public String[] getArrayUser(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         String mQuery = "SELECT First_name,Last_name, address,  user_id, phone, status From Users";
@@ -345,26 +344,20 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         String[] user = new String[6];
         while (!mCur.isAfterLast()) {
             if (id == mCur.getInt(mCur.getColumnIndex("user_id"))) {
+                user[0] = mCur.getString(mCur.getColumnIndex("First_name"));
+                user[1] = mCur.getString(mCur.getColumnIndex("Last_name"));
+                user[2] = mCur.getString(mCur.getColumnIndex("address"));
+                user[3] = mCur.getString(mCur.getColumnIndex("user_id"));
+                user[4] = mCur.getString(mCur.getColumnIndex("phone"));
+                user[5] = mCur.getString(mCur.getColumnIndex("status"));
                 break;
             }
             mCur.moveToNext();
         }
 
-        if (!mCur.isAfterLast() && id == mCur.getInt(mCur.getColumnIndex("user_id"))) {
-            user[0] = mCur.getString(mCur.getColumnIndex("First_name"));
-            user[1] = mCur.getString(mCur.getColumnIndex("Last_name"));
-            user[2] = mCur.getString(mCur.getColumnIndex("address"));
-            user[3] = mCur.getString(mCur.getColumnIndex("user_id"));
-            user[4] = mCur.getString(mCur.getColumnIndex("phone"));
-            user[5] = mCur.getString(mCur.getColumnIndex("status"));
-        } else {
-            return null;
-        }
-
         mCur.moveToFirst();
         db.close();
         mCur.close();
-
 
         return user;
     }
@@ -598,7 +591,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         mCur.moveToFirst();
         while (!mCur.isAfterLast()) {
             Patron a = new Patron(this.getArrayUser(mCur.getInt(mCur.getColumnIndex("user_id"))));
-            patron.add(a);
+            if (!patron.contains(a)) {
+                patron.add(a);
+            }
             mCur.moveToNext();
         }
         mCur.close();
@@ -748,9 +743,5 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         mCur.moveToFirst();
 
         return new Patron(getArrayUser(mCur.getInt(mCur.getColumnIndex("document_id"))));
-    }
-
-    public void standInQueue(Patron pat, Books book) {
-
     }
 }
