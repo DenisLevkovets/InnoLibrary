@@ -731,16 +731,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     private void setUser(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String mQuery;
-        mQuery = "SELECT user_id From UserId";
-        Cursor mCur = db.rawQuery(mQuery, new String[]{});
-        mCur.moveToFirst();
-        int pId = mCur.getInt(mCur.getColumnIndex("user_id"));
+        db.execSQL("DELETE from UserId");
         ContentValues cv = new ContentValues();
         cv.put("user_id", id);
-        mCur.close();
 
-        db.update("UserId", cv, "user_id = ?", new String[]{Integer.toString(pId)});
+        db.insert("UserId", null, cv);
     }
 
     public boolean Login(String login, String password) {
@@ -750,7 +745,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         Cursor mCur = db.rawQuery(mQuery, new String[]{});
         mCur.moveToFirst();
         while (!mCur.isAfterLast()){
-            if (mCur.getString(mCur.getColumnIndex("login")) == login && mCur.getString(mCur.getColumnIndex("password")) == password){
+            if (mCur.getString(mCur.getColumnIndex("login")).equals(login) && mCur.getString(mCur.getColumnIndex("password")).equals(password)){
                 setUser(mCur.getInt(mCur.getColumnIndex("id")));
                 return true;
             }
