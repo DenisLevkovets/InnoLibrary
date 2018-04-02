@@ -901,7 +901,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return docs;
 
     }
-
+//
     public ArrayList<Articles> waitingListOfArticles(int uId){
         SQLiteDatabase db = this.getWritableDatabase();
         ArrayList<Articles> docs = new ArrayList<>();

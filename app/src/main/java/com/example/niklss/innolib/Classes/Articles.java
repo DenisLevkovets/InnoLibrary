@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Created by Niklss on 31.03.2018.
  */
 
-public class Articles {
+public class Articles  {
     private int typeOfMaterial = 1;
 
     private String title;
