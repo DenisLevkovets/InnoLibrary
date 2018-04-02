@@ -549,7 +549,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.insert("time_checker", null, cv);
     }
 
-    private Integer findDifDays(String d1, String d2){
+    private Integer findDifDays(String d1, String d2) {
         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
         Date date1 = null;
         Date date2 = null;
@@ -560,7 +560,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             e.printStackTrace();
         }
         long difference = date1.getTime() - date2.getTime();
-        long days =  difference / (24 * 60 * 60 * 1000);
+        long days = difference / (24 * 60 * 60 * 1000);
         System.out.println(days);
         return (int) days;
     }
@@ -842,23 +842,23 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return a;
     }
 
-        private void setUser(int id) {
-            SQLiteDatabase db = this.getWritableDatabase();
-            db.execSQL("DELETE from UserId");
-            ContentValues cv = new ContentValues();
-            cv.put("user_id", id);
+    private void setUser(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE from UserId");
+        ContentValues cv = new ContentValues();
+        cv.put("user_id", id);
 
-            db.insert("UserId", null, cv);
-        }
+        db.insert("UserId", null, cv);
+    }
 
     public boolean Login(String login, String password) {
         SQLiteDatabase db = this.getWritableDatabase();
         String mQuery;
-        mQuery = "SELECT login, password, id,  From Login";
+        mQuery = "SELECT login, password, id  From Login";
         Cursor mCur = db.rawQuery(mQuery, new String[]{});
         mCur.moveToFirst();
-        while (!mCur.isAfterLast()){
-            if (mCur.getString(mCur.getColumnIndex("login")).equals(login) && mCur.getString(mCur.getColumnIndex("password")).equals(password)){
+        while (!mCur.isAfterLast()) {
+            if (mCur.getString(mCur.getColumnIndex("login")).equals(login) && mCur.getString(mCur.getColumnIndex("password")).equals(password)) {
                 setUser(mCur.getInt(mCur.getColumnIndex("id")));
                 return true;
             }
@@ -933,7 +933,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return "Name: " + user.getuName() + "\nSurname: " + user.getSecondName() + "\nAddress: " + user.getuAddress() + "\nNumber: " + user.getuNumber();
     }
 
-    public ArrayList<Books> waitingListOfBooks(int uId){
+    public ArrayList<Books> waitingListOfBooks(int uId) {
         SQLiteDatabase db = this.getWritableDatabase();
         ArrayList<Books> docs = new ArrayList<>();
         String mQuery = "SELECT user_id, user_type, document_id, document_type From Queue";
@@ -942,7 +942,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         ArrayList<String> list = new ArrayList<>();
         while (!mCur.isAfterLast()) {
             if (uId == mCur.getInt(mCur.getColumnIndex("user_id"))) {
-                if (mCur.getInt(mCur.getColumnIndex("document_type"))==0){
+                if (mCur.getInt(mCur.getColumnIndex("document_type")) == 0) {
                     Books b = new Books(getArrayBook(mCur.getInt(mCur.getColumnIndex("document_id"))));
                     docs.add(b);
                 }
@@ -958,7 +958,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public ArrayList<Articles> waitingListOfArticles(int uId){
+    public ArrayList<Articles> waitingListOfArticles(int uId) {
         SQLiteDatabase db = this.getWritableDatabase();
         ArrayList<Articles> docs = new ArrayList<>();
         String mQuery = "SELECT user_id, user_type, document_id, document_type From Queue";
@@ -967,7 +967,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         while (!mCur.isAfterLast()) {
             if (uId == mCur.getInt(mCur.getColumnIndex("user_id"))) {
-                if (mCur.getInt(mCur.getColumnIndex("document_type"))==1){
+                if (mCur.getInt(mCur.getColumnIndex("document_type")) == 1) {
                     Articles b = new Articles(getArrayArticle(mCur.getInt(mCur.getColumnIndex("document_id"))));
                     docs.add(b);
                 }
@@ -983,7 +983,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public ArrayList<AV> waitingListOfAV(int uId){
+    public ArrayList<AV> waitingListOfAV(int uId) {
         SQLiteDatabase db = this.getWritableDatabase();
         ArrayList<AV> docs = new ArrayList<>();
         String mQuery = "SELECT user_id, user_type, document_id, document_type From Queue";
@@ -992,7 +992,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         while (!mCur.isAfterLast()) {
             if (uId == mCur.getInt(mCur.getColumnIndex("user_id"))) {
-                if (mCur.getInt(mCur.getColumnIndex("document_type"))==2){
+                if (mCur.getInt(mCur.getColumnIndex("document_type")) == 2) {
                     AV b = new AV(getArrayAV(mCur.getInt(mCur.getColumnIndex("document_id"))));
                     docs.add(b);
                 }
