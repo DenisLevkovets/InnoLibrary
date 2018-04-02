@@ -866,6 +866,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         mCur.close();
         return false;
     }
+    //
 
     @TargetApi(Build.VERSION_CODES.N)
     @RequiresApi(api = Build.VERSION_CODES.N)
