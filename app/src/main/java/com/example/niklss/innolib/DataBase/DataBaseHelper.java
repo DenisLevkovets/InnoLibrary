@@ -729,7 +729,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return a;
     }
 
-    public void setUser(int id) {
+    private void setUser(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         String mQuery;
         mQuery = "SELECT user_id From UserId";
@@ -742,6 +742,24 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         db.update("UserId", cv, "user_id = ?", new String[]{Integer.toString(pId)});
     }
+
+    public boolean Login(String login, String password) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String mQuery;
+        mQuery = "SELECT login, password, id,  From Login";
+        Cursor mCur = db.rawQuery(mQuery, new String[]{});
+        mCur.moveToFirst();
+        while (!mCur.isAfterLast()){
+            if (mCur.getString(mCur.getColumnIndex("login")) == login && mCur.getString(mCur.getColumnIndex("password")) == password){
+                setUser(mCur.getInt(mCur.getColumnIndex("id")));
+                return true;
+            }
+        }
+        mCur.close();
+        return false;
+    }
+
+
 
 
     @TargetApi(Build.VERSION_CODES.N)
