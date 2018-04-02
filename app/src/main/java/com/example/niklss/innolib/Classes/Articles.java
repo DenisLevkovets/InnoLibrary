@@ -22,6 +22,7 @@ public class Articles {
     private int reference;
     private String keywords;
     private int price;
+    private boolean overDue;
 
     public Articles(String title, String authors, String jtitle, String issue, String date, String editor, int countArticle, int articleId, int reference, String keywords, int price) {
         this.title = title;
@@ -131,5 +132,13 @@ public class Articles {
 
     public int getTypeOfMaterial() {
         return typeOfMaterial;
+    }
+
+    public boolean isOverDue() {
+        return overDue;
+    }
+
+    public void setOverDue(boolean overDue) {
+        this.overDue = overDue;
     }
 }

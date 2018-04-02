@@ -49,9 +49,9 @@ public class ExampleInstrumentedTest {
         Books b3 = new Books("The Mythical Man-month","Brooks,Jr., Frederick P",1,3,1,2324, 2,"1995","Addison-Wesley Longman Publishing Co., Inc.","kk",0);
         p1.checkOut(db.getListOfBooks().get(0).getBookId(),appContext);
         p1.checkOut(db.getListOfBooks().get(1).getBookId(),appContext);
-        p1.checkOut(db.getListOfBooks().get(2).getBookId(),appContext);
-        p2.checkOut(db.getListOfBooks().get(0).getBookId(),appContext);
-        p2.checkOut(db.getListOfBooks().get(1).getBookId(),appContext);
+//        p1.checkOut(db.getListOfBooks().get(2).getBookId(),appContext);
+//        p2.checkOut(db.getListOfBooks().get(0).getBookId(),appContext);
+//        p2.checkOut(db.getListOfBooks().get(1).getBookId(),appContext);
 
 //        ArrayList<Books> arr = p1.getListOfUsersBook(appContext);
 //        for (int i = 0; i < arr.size(); i++) {
@@ -86,6 +86,6 @@ public class ExampleInstrumentedTest {
 //
 //        assertThat(Integer.toString(bi + avi + ai), is("8"));
 //        assertThat(Integer.toString(u.size()), is("3"));
-        assertThat(4,is(db.debtorUsers().size()));
+        assertThat(2,is(db.debtorUsers().size()));
     }
 }

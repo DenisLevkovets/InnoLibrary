@@ -20,6 +20,7 @@ public class Books {
     private String published_by;
     private String keywords;
     private int daysLeft;
+    private boolean overDue;
 
     public Books(String title, String authors, int count, int id, int forUser, int price, int edition, String date, String published, String keywords, int isBestSeller) {
         this.isBestSeller = isBestSeller;
@@ -119,5 +120,13 @@ public class Books {
 
     public int getTypeOfMaterial() {
         return typeOfMaterial;
+    }
+
+    public boolean isOverDue() {
+        return overDue;
+    }
+
+    public void setOverDue(boolean overDue) {
+        this.overDue = overDue;
     }
 }

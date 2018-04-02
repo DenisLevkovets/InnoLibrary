@@ -17,6 +17,7 @@ public class AV {
     private int price;
     private UserCard user;
     private int daysLeft;
+    private boolean overDue;
 
     public AV(ArrayList<String> av) {
         this.title = av.get(0);
@@ -91,5 +92,13 @@ public class AV {
 
     public int getTypeOfMaterial() {
         return typeOfMaterial;
+    }
+
+    public boolean isOverDue() {
+        return overDue;
+    }
+
+    public void setOverDue(boolean overDue) {
+        this.overDue = overDue;
     }
 }

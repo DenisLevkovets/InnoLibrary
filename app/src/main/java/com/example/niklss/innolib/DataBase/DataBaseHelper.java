@@ -741,7 +741,23 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         mQuery = "SELECT user_id From UserId ";
         Cursor mCur = db.rawQuery(mQuery, new String[]{});
         mCur.moveToFirst();
+        Patron a = new Patron(getArrayUser(mCur.getInt(mCur.getColumnIndex("user_id"))));
+        mCur.close();
 
-        return new Patron(getArrayUser(mCur.getInt(mCur.getColumnIndex("document_id"))));
+        return a;
+    }
+
+    public void setUser(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String mQuery;
+        mQuery = "SELECT user_id From UserId";
+        Cursor mCur = db.rawQuery(mQuery, new String[]{});
+        mCur.moveToFirst();
+        int pId = mCur.getInt(mCur.getColumnIndex("user_id"));
+        ContentValues cv = new ContentValues();
+        cv.put("user_id", id);
+        mCur.close();
+
+        db.update("UserId", cv, "user_id = ?", new String[]{Integer.toString(pId)});
     }
 }
