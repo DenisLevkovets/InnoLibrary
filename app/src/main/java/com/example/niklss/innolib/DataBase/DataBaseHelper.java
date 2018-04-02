@@ -180,41 +180,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return user;
     }
 
-    public String getStringBook(int id) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        String mQuery = "SELECT title, author, available_copies,  book_id, last_date_of_taking, type, price, edition, date, published_by, keywords From Books";
-        Cursor mCur = db.rawQuery(mQuery, new String[]{});
-        mCur.moveToFirst();
-        String book = "";
-        while (!mCur.isAfterLast()) {
-            if (id == mCur.getInt(mCur.getColumnIndex("book_id"))) {
-                break;
-            }
-            mCur.moveToNext();
-        }
 
-        if (!mCur.isAfterLast() && id == mCur.getInt(mCur.getColumnIndex("book_id"))) {
-            book += mCur.getString(mCur.getColumnIndex("title")) + " ";
-            book += mCur.getString(mCur.getColumnIndex("author")) + " ";
-            book += mCur.getString(mCur.getColumnIndex("available_copies")) + " ";
-            book += mCur.getString(mCur.getColumnIndex("book_id")) + " ";
-            book += mCur.getString(mCur.getColumnIndex("type")) + " ";
-            book += mCur.getString(mCur.getColumnIndex("price")) + " ";
-            book += mCur.getString(mCur.getColumnIndex("edition")) + " ";
-            book += mCur.getString(mCur.getColumnIndex("date")) + " ";
-            book += mCur.getString(mCur.getColumnIndex("published_by")) + " ";
-            book += mCur.getString(mCur.getColumnIndex("keywords")) + " ";
-            book += mCur.getString(mCur.getColumnIndex("is_bestseller"));
-
-        } else {
-            return null;
-        }
-
-        mCur.moveToFirst();
-        db.close();
-
-        return book;
-    }
 
     public void addB(String title, String author, int available_copies, int type, int price, int edition, String date, String published_by, String keywords, int is_bestseller) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -316,9 +282,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void updateArticle(int id, String title, String author, String jtitle, String issue, String date, String editor, int numbers, int reference,String keywords, int price) {
+    public void updateArticle(int id, String title, String author, String jtitle, String issue, String date, String editor,  int reference,String keywords, int price) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String updateArticle = "Update Articles Set title = '" + title + "', authors = '" + author + "', jtitle = '" + jtitle + "', issue = '" + issue + "', date = '" + date + "', editor = '" + editor + "', numbers = " + numbers +", reference = "+reference+", keywords = '"+keywords+"', price = "+price+ " where id=" + id;
+        String updateArticle = "Update Articles Set title = '" + title + "', authors = '" + author + "', jtitle = '" + jtitle + "', issue = '" + issue + "', date = '" + date + "', editor = '" + editor + ", reference = "+reference+", keywords = '"+keywords+"', price = "+price+ " where id=" + id;
         db.beginTransaction();
         db.execSQL(updateArticle);
         db.setTransactionSuccessful();
@@ -336,9 +302,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void updateUser(int user_id, String First_name, String Last_name, String address, String phone, int status, int number_books) {
+    public void updateUser(int user_id, String First_name, String Last_name, String address, String phone, int status) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String updateUser = "Update Users Set First_name = '" + First_name + "', Last_name = '" + Last_name + "', address = '" + address + "', phone = " + phone + ", status =" + status + ", number_books=" + number_books + " where user_id=" + user_id;
+        String updateUser = "Update Users Set First_name = '" + First_name + "', Last_name = '" + Last_name + "', address = '" + address + "', phone = " + phone + ", status =" + status + " where user_id=" + user_id;
         db.beginTransaction();
         db.execSQL(updateUser);
         db.setTransactionSuccessful();
@@ -587,14 +553,16 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     public String getFullInformation(Books book) {
-        String a = "";
-        a += book.getTitleBook() + " ";
-        a += book.getAuthorsOfBook() + " ";
-        a += book.getEdition() + " ";
-        a += book.getDateOfCreationOfBook() + " ";
-        a += book.getPublished_by() + " ";
-        a += book.getCountOfBooks() + " ";
-        a += book.getIsBestSeller() + " ";
+        String a = "Title: ";
+        a += book.getTitleBook() + "\nAuthors:  ";
+        a += book.getAuthorsOfBook() + "\nEdition: ";
+        a += book.getEdition() + "\nDate: ";
+        a += book.getDateOfCreationOfBook() + "\nPublished by: ";
+        a += book.getPublished_by() + "\nCount: ";
+        a += book.getCountOfBooks() + "\nIs bestseller: ";
+        if(book.getIsBestSeller()==0)  a+="Yes";
+        else a+="No";
+        a += "\nPrice: ";
         a += book.getPrice() + " ";
 
         return a;
@@ -817,7 +785,30 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return new Patron(getArrayUser(mCur.getInt(mCur.getColumnIndex("document_id"))));
     }
 
-    public void standInQueue(Patron pat, Books book) {
 
+
+    public  String getArticleInfoShort(String[] article){
+        return article[0]+ " "+article[1]+ " "+article[2];
+    }
+
+    public String getArticleInfoFull(String[] article){
+        return "Journal: "+article[0]+ "\nAuthors: "+article[1]+ "\nTitle: "+article[2]+ "\nIssue: "+article[3]+ "\nDate: "
+                +article[4]+ "\nEditor: "+article[5]+ "\nNumber: "+article[6];
+    }
+
+    public String getAVInfoShort(String[] AV){
+        return AV[0]+" " + AV[1];
+    }
+
+    public String getAVInfoFull(String[] AV){
+        return "Title: "+AV[0]+"\nAuthors: " + AV[1]+"\nNumber: "+AV[2];
+    }
+
+    public String getUserInfoShort(Patron user){
+        return user.getuName()+" "+user.getSecondName()+" "+user.getuNumber();
+    }
+
+    public String getUserInfoFull(Patron user){
+        return "Name: "+user.getuName()+"\nSurname: "+user.getSecondName()+"\nAddress: "+user.getuAddress()+"\nNumber: "+user.getuNumber();
     }
 }
