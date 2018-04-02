@@ -66,6 +66,7 @@ public class Patron extends UserCard {
             System.out.println("Isn't your type");
         }
     }
+    //
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void checkOutAV(int id, Context context) throws IOException {
