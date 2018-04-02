@@ -37,7 +37,7 @@ public class Books {
         this.edition = edition;
     }
 
-    public Books (String[] bookInf) {
+    public Books(String[] bookInf) {
         this.titleBook = bookInf[0];
         this.authorsOfBook = bookInf[1];
         this.countOfBooks = Integer.parseInt(bookInf[2]);
