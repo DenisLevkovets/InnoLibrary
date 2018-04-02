@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.niklss.innolib.Classes.Patron;
 import com.example.niklss.innolib.DataBase.DataBaseHelper;
 import com.example.niklss.innolib.R;
 
@@ -30,6 +31,8 @@ public class InnoLibPatron extends AppCompatActivity {
         Button blist = (Button) findViewById(R.id.blist);
         blist.setOnClickListener(clBList);
         catalog.setOnClickListener(clCatalog);
+
+
     }
 
 
