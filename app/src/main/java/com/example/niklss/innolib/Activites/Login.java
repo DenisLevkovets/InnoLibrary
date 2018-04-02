@@ -16,25 +16,25 @@ import com.example.niklss.innolib.R;
 public class Login extends Activity {
     EditText name;
     EditText password;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-        Button bt=(Button) findViewById(R.id.button);
-        name=(EditText) findViewById(R.id.editText);
-        password=(EditText) findViewById(R.id.editText2);
+        Button bt = (Button) findViewById(R.id.button);
+        name = (EditText) findViewById(R.id.editText);
+        password = (EditText) findViewById(R.id.editText2);
         bt.setOnClickListener(click);
     }
 
-    View.OnClickListener click=new View.OnClickListener() {
+    View.OnClickListener click = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             Intent intent;
             if (String.valueOf(name.getText()).equals("librarian")) {
                 intent = new Intent(Login.this, InnoLibLib.class);
 
-            }
-            else {
+            } else {
                 intent = new Intent(Login.this, InnoLibPatron.class);
             }
             startActivity(intent);
