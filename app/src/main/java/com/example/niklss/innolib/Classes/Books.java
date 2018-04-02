@@ -21,6 +21,7 @@ public class Books {
     private String keywords;
     private int daysLeft;
     private boolean overDue;
+    private int fine;
 
     public Books(String title, String authors, int count, int id, int forUser, int price, int edition, String date, String published, String keywords, int isBestSeller) {
         this.isBestSeller = isBestSeller;
@@ -128,5 +129,13 @@ public class Books {
 
     public void setOverDue(boolean overDue) {
         this.overDue = overDue;
+    }
+
+    public int getFine() {
+        return fine;
+    }
+
+    public void setFine(int fine) {
+        this.fine = fine;
     }
 }

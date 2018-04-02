@@ -23,7 +23,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import static android.content.ContentValues.TAG;
 
@@ -478,6 +482,22 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.insert("time_checker", null, cv);
     }
 
+    private Integer findDifDays(String d1, String d2){
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+        Date date1 = null;
+        Date date2 = null;
+        try {
+            date1 = format.parse(d1);
+            date2 = format.parse(d2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        long difference = date1.getTime() - date2.getTime();
+        long days =  difference / (24 * 60 * 60 * 1000);
+        System.out.println(days);
+        return (int) days;
+    }
+
     public ArrayList<Books> returnListOfUsersBook(int uId) {
         ArrayList<Books> book = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
@@ -487,6 +507,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         while (!mCur.isAfterLast()) {
             if (uId == mCur.getInt(mCur.getColumnIndex("user_id")) && mCur.getInt(mCur.getColumnIndex("type")) == 0) {
                 Books b = new Books(this.getArrayBook(mCur.getInt(mCur.getColumnIndex("book_id"))));
+                String d1 = mCur.getString(mCur.getColumnIndex("time"));
+                Calendar c = new GregorianCalendar();
+                String d2 = c.get(Calendar.DAY_OF_MONTH) + "." + c.get(Calendar.MONTH) + "." + c.get(Calendar.YEAR);
+                b.setOverDue(false);
+                b.setFine(0);
+                if (findDifDays(d1, d2) < 0) {
+                    b.setFine(findDifDays(d1, d2) * -100);
+                    b.setOverDue(true);
+                }
                 book.add(b);
             }
             mCur.moveToNext();
@@ -504,6 +533,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         while (!mCur.isAfterLast()) {
             if (uId == mCur.getInt(mCur.getColumnIndex("user_id")) && mCur.getInt(mCur.getColumnIndex("type")) == 1) {
                 Articles a = new Articles(this.getArrayBook(mCur.getInt(mCur.getColumnIndex("id"))));
+                String d1 = mCur.getString(mCur.getColumnIndex("time"));
+                Calendar c = new GregorianCalendar();
+                String d2 = c.get(Calendar.DAY_OF_MONTH) + "." + c.get(Calendar.MONTH) + "." + c.get(Calendar.YEAR);
+                a.setOverDue(false);
+                a.setFine(0);
+                if (findDifDays(d1, d2) < 0) {
+                    a.setFine(findDifDays(d1, d2) * -100);
+                    a.setOverDue(true);
+                }
                 articles.add(a);
             }
             mCur.moveToNext();
@@ -521,6 +559,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         while (!mCur.isAfterLast()) {
             if (uId == mCur.getInt(mCur.getColumnIndex("user_id")) && mCur.getInt(mCur.getColumnIndex("type")) == 2) {
                 AV a = new AV(this.getArrayBook(mCur.getInt(mCur.getColumnIndex("id"))));
+                String d1 = mCur.getString(mCur.getColumnIndex("time"));
+                Calendar c = new GregorianCalendar();
+                String d2 = c.get(Calendar.DAY_OF_MONTH) + "." + c.get(Calendar.MONTH) + "." + c.get(Calendar.YEAR);
+                a.setOverDue(false);
+                a.setFine(0);
+                if (findDifDays(d1, d2) < 0) {
+                    a.setFine(findDifDays(d1, d2) * -100);
+                    a.setOverDue(true);
+                }
                 av.add(a);
             }
             mCur.moveToNext();
@@ -643,7 +690,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-
     public ArrayList<String[]> getListOfAV() {
         ArrayList<String[]> list = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
@@ -753,9 +799,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         mCur.close();
         return false;
     }
-
-
-
 
     @TargetApi(Build.VERSION_CODES.N)
     @RequiresApi(api = Build.VERSION_CODES.N)

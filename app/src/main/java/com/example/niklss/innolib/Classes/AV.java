@@ -18,6 +18,7 @@ public class AV {
     private UserCard user;
     private int daysLeft;
     private boolean overDue;
+    private int fine;
 
     public AV(ArrayList<String> av) {
         this.title = av.get(0);
@@ -100,5 +101,13 @@ public class AV {
 
     public void setOverDue(boolean overDue) {
         this.overDue = overDue;
+    }
+
+    public int getFine() {
+        return fine;
+    }
+
+    public void setFine(int fine) {
+        this.fine = fine;
     }
 }

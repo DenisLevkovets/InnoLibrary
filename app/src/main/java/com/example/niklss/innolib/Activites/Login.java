@@ -3,11 +3,15 @@ package com.example.niklss.innolib.Activites;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.niklss.innolib.DataBase.DataBaseHelper;
 import com.example.niklss.innolib.R;
+
+import java.io.IOException;
 
 /**
  * Created by user on 04.02.2018.
@@ -28,8 +32,22 @@ public class Login extends Activity {
     }
 
     View.OnClickListener click = new View.OnClickListener() {
+        DataBaseHelper db;
+
+
+
+
         @Override
         public void onClick(View v) {
+            try
+            {
+                db = new DataBaseHelper(getApplicationContext());
+            } catch(IOException e)
+            {
+                Log.e("Mistake", "fff");
+                e.printStackTrace();
+            }
+
             Intent intent;
             if (String.valueOf(name.getText()).equals("librarian")) {
                 intent = new Intent(Login.this, InnoLibLib.class);
@@ -37,7 +55,10 @@ public class Login extends Activity {
             } else {
                 intent = new Intent(Login.this, InnoLibPatron.class);
             }
-            startActivity(intent);
+
+            if (db.Login(name.toString(), password.toString())) {
+                startActivity(intent);
+            }
         }
     };
 }

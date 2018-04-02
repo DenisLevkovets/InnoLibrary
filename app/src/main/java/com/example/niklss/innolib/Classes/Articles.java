@@ -23,6 +23,7 @@ public class Articles {
     private String keywords;
     private int price;
     private boolean overDue;
+    private int fine;
 
     public Articles(String title, String authors, String jtitle, String issue, String date, String editor, int countArticle, int articleId, int reference, String keywords, int price) {
         this.title = title;
@@ -140,5 +141,13 @@ public class Articles {
 
     public void setOverDue(boolean overDue) {
         this.overDue = overDue;
+    }
+
+    public int getFine() {
+        return fine;
+    }
+
+    public void setFine(int fine) {
+        this.fine = fine;
     }
 }
