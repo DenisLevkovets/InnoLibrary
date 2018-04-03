@@ -1,18 +1,19 @@
 package com.example.niklss.innolib.Activites;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.niklss.innolib.Classes.Patron;
 import com.example.niklss.innolib.DataBase.DataBaseHelper;
 import com.example.niklss.innolib.R;
-
-import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * Created by user on 02.02.2018.
@@ -31,8 +32,7 @@ public class InnoLibPatron extends AppCompatActivity {
         Button blist = (Button) findViewById(R.id.blist);
         blist.setOnClickListener(clBList);
         catalog.setOnClickListener(clCatalog);
-
-
+        notification();
     }
 
 
@@ -53,5 +53,35 @@ public class InnoLibPatron extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+        public void notification(){
+            Intent notificationIntent = new Intent(this, CatalogsPatron.class);
+            PendingIntent contentIntent = PendingIntent.getActivity(this,
+                    0, notificationIntent,
+                    PendingIntent.FLAG_CANCEL_CURRENT);
+
+            Resources res = this.getResources();
+
+            // до версии Android 8.0 API 26
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+
+            builder.setContentIntent(contentIntent)
+                    // обязательные настройки
+                    .setSmallIcon(R.drawable.inn)
+                    //.setContentTitle(res.getString(R.string.notifytitle)) // Заголовок уведомления
+                    .setContentTitle("Напоминание")
+                    //.setContentText(res.getString(R.string.notifytext))
+                    .setContentText("Пора покормить кота")
+                    .setAutoCancel(true); // Текст уведомления
+                    // необязательные настройки
+
+
+            NotificationManager notificationManager =
+                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            // Альтернативный вариант
+            // NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+            notificationManager.notify(101, builder.build());
+        }
 }
 

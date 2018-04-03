@@ -23,7 +23,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import static android.content.ContentValues.TAG;
 
@@ -210,7 +214,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         String s = "('" + title + "', '" + authors + "', " + numbers + ", '" + keywords + "', " + price + ")";
 
 
-        String addAV = "INSERT INTO AV (title,authors,numbers) Values " + s;
+        String addAV = "INSERT INTO AV (title,authors,numbers,keywords,price) Values " + s;
         db.beginTransaction();
         db.execSQL(addAV);
         db.setTransactionSuccessful();
@@ -535,7 +539,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return false;
     }
 
-    public void updateTimeChecker(int user_id, int book_id, int time, int type) {
+    public void updateTimeChecker(int user_id, int book_id, String time, int type) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put("user_id", user_id);
@@ -545,15 +549,40 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.insert("time_checker", null, cv);
     }
 
+    private Integer findDifDays(String d1, String d2) {
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+        Date date1 = null;
+        Date date2 = null;
+        try {
+            date1 = format.parse(d1);
+            date2 = format.parse(d2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        long difference = date1.getTime() - date2.getTime();
+        long days = difference / (24 * 60 * 60 * 1000);
+        System.out.println(days);
+        return (int) days;
+    }
+
     public ArrayList<Books> returnListOfUsersBook(int uId) {
         ArrayList<Books> book = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
-        String mQuery = "SELECT user_id, book_id, time, type From time_checker;";
+        String mQuery = "SELECT user_id, book_id, time, type From time_checker";
         Cursor mCur = db.rawQuery(mQuery, new String[]{});
         mCur.moveToFirst();
         while (!mCur.isAfterLast()) {
             if (uId == mCur.getInt(mCur.getColumnIndex("user_id")) && mCur.getInt(mCur.getColumnIndex("type")) == 0) {
                 Books b = new Books(this.getArrayBook(mCur.getInt(mCur.getColumnIndex("book_id"))));
+                String d1 = mCur.getString(mCur.getColumnIndex("time"));
+                Calendar c = new GregorianCalendar();
+                String d2 = c.get(Calendar.DAY_OF_MONTH) + "." + c.get(Calendar.MONTH) + "." + c.get(Calendar.YEAR);
+                b.setOverDue(false);
+                b.setFine(0);
+                if (findDifDays(d1, d2) < 0) {
+                    b.setFine(findDifDays(d1, d2) * -100);
+                    b.setOverDue(true);
+                }
                 book.add(b);
             }
             mCur.moveToNext();
@@ -571,6 +600,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         while (!mCur.isAfterLast()) {
             if (uId == mCur.getInt(mCur.getColumnIndex("user_id")) && mCur.getInt(mCur.getColumnIndex("type")) == 1) {
                 Articles a = new Articles(this.getArrayBook(mCur.getInt(mCur.getColumnIndex("id"))));
+                String d1 = mCur.getString(mCur.getColumnIndex("time"));
+                Calendar c = new GregorianCalendar();
+                String d2 = c.get(Calendar.DAY_OF_MONTH) + "." + c.get(Calendar.MONTH) + "." + c.get(Calendar.YEAR);
+                a.setOverDue(false);
+                a.setFine(0);
+                if (findDifDays(d1, d2) < 0) {
+                    a.setFine(findDifDays(d1, d2) * -100);
+                    a.setOverDue(true);
+                }
                 articles.add(a);
             }
             mCur.moveToNext();
@@ -588,6 +626,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         while (!mCur.isAfterLast()) {
             if (uId == mCur.getInt(mCur.getColumnIndex("user_id")) && mCur.getInt(mCur.getColumnIndex("type")) == 2) {
                 AV a = new AV(this.getArrayBook(mCur.getInt(mCur.getColumnIndex("id"))));
+                String d1 = mCur.getString(mCur.getColumnIndex("time"));
+                Calendar c = new GregorianCalendar();
+                String d2 = c.get(Calendar.DAY_OF_MONTH) + "." + c.get(Calendar.MONTH) + "." + c.get(Calendar.YEAR);
+                a.setOverDue(false);
+                a.setFine(0);
+                if (findDifDays(d1, d2) < 0) {
+                    a.setFine(findDifDays(d1, d2) * -100);
+                    a.setOverDue(true);
+                }
                 av.add(a);
             }
             mCur.moveToNext();
@@ -627,8 +674,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         Cursor mCur = db.rawQuery(mQuery, new String[]{});
         mCur.moveToFirst();
         while (!mCur.isAfterLast()) {
-            Patron a = new Patron(this.getArrayUser(mCur.getInt(mCur.getColumnIndex("user_id"))));
-            if (!patron.contains(a)) {
+            boolean contains = false;
+            for (int i = 0; i < patron.size(); i++) {
+                if (patron.get(i).getuId() == mCur.getInt(mCur.getColumnIndex("user_id"))){
+                    contains = true;
+                }
+            }
+
+            if (!contains) {
+                Patron a = new Patron(this.getArrayUser(mCur.getInt(mCur.getColumnIndex("user_id"))));
                 patron.add(a);
             }
             mCur.moveToNext();
@@ -710,9 +764,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-
-    public ArrayList<String[]> getListOfAV() {
-        ArrayList<String[]> list = new ArrayList<>();
+    public ArrayList<AV> getListOfAV() {
+        ArrayList<AV> list = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
         String mQuery = "SELECT title, authors, id, numbers,keywords,price From AV";
         Cursor mCur = db.rawQuery(mQuery, new String[]{});
@@ -725,7 +778,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             av[3] = (mCur.getString(mCur.getColumnIndex("numbers")));
             av[4] = (mCur.getString(mCur.getColumnIndex("keywords")));
             av[5] = (mCur.getString(mCur.getColumnIndex("price")));
-            list.add(av);
+            list.add(new AV(av));
             mCur.moveToNext();
         }
         mCur.moveToFirst();
@@ -735,8 +788,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return list;
     }
 
-    public ArrayList<String[]> getListOfArticles() {
-        ArrayList<String[]> list = new ArrayList<>();
+    public ArrayList<Articles> getListOfArticles() {
+        ArrayList<Articles> list = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
         String mQuery = "SELECT title, authors, jtitle, issue, date, editor, numbers, id, reference,keywords,price From Articles";
         Cursor mCur = db.rawQuery(mQuery, new String[]{});
@@ -754,7 +807,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             av[8] = (mCur.getString(mCur.getColumnIndex("reference")));
             av[9] = (mCur.getString(mCur.getColumnIndex("keywords")));
             av[10] = (mCur.getString(mCur.getColumnIndex("price")));
-            list.add(av);
+            list.add(new Articles(av));
             mCur.moveToNext();
         }
         mCur.moveToFirst();
@@ -763,6 +816,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         return list;
     }
+    //
 
     public boolean noOneInQueue(int id, int type) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -796,20 +850,31 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return a;
     }
 
-    public void setUser(int id) {
+    private void setUser(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String mQuery;
-        mQuery = "SELECT user_id From UserId";
-        Cursor mCur = db.rawQuery(mQuery, new String[]{});
-        mCur.moveToFirst();
-        int pId = mCur.getInt(mCur.getColumnIndex("user_id"));
+        db.execSQL("DELETE from UserId");
         ContentValues cv = new ContentValues();
         cv.put("user_id", id);
-        mCur.close();
 
-        db.update("UserId", cv, "user_id = ?", new String[]{Integer.toString(pId)});
+        db.insert("UserId", null, cv);
     }
 
+    public boolean Login(String login, String password) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String mQuery;
+        mQuery = "SELECT login, password, id  From Login";
+        Cursor mCur = db.rawQuery(mQuery, new String[]{});
+        mCur.moveToFirst();
+        while (!mCur.isAfterLast()) {
+            if (mCur.getString(mCur.getColumnIndex("login")).equals(login) && mCur.getString(mCur.getColumnIndex("password")).equals(password)) {
+                setUser(mCur.getInt(mCur.getColumnIndex("id")));
+                return true;
+            }
+        }
+        mCur.close();
+        return false;
+    }
+    //
 
     @TargetApi(Build.VERSION_CODES.N)
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -852,21 +917,21 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public String getArticleInfoShort(String[] article) {
-        return article[0] + " " + article[1] + " " + article[2];
+    public String getArticleInfoShort(Articles article) {
+        return article.getJtitle() + " " + article.getAuthors() + " " + article.getTitle();
     }
 
-    public String getArticleInfoFull(String[] article) {
-        return "Journal: " + article[0] + "\nAuthors: " + article[1] + "\nTitle: " + article[2] + "\nIssue: " + article[3] + "\nDate: "
-                + article[4] + "\nEditor: " + article[5] + "\nNumber: " + article[6];
+    public String getArticleInfoFull(Articles article) {
+        return "Journal: " + article.getJtitle() + "\nAuthors: " + article.getAuthors() + "\nTitle: " + article.getTitle() + "\nIssue: "
+                + article.getIssue() + "\nDate: " + article.getDate() + "\nEditor: " + article.getEditor() + "\nNumber: " + article.getCountArticle();
     }
 
-    public String getAVInfoShort(String[] AV) {
-        return AV[0] + " " + AV[1];
+    public String getAVInfoShort(AV av) {
+        return av.getTitle() + " " + av.getAuthors();
     }
 
-    public String getAVInfoFull(String[] AV) {
-        return "Title: " + AV[0] + "\nAuthors: " + AV[1] + "\nNumber: " + AV[2];
+    public String getAVInfoFull(AV av) {
+        return "Title: " + av.getTitle() + "\nAuthors: " + av.getAuthors() + "\nNumber: " + av.getCountAv();
     }
 
     public String getUserInfoShort(Patron user) {
@@ -877,7 +942,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return "Name: " + user.getuName() + "\nSurname: " + user.getSecondName() + "\nAddress: " + user.getuAddress() + "\nNumber: " + user.getuNumber();
     }
 
-    public ArrayList<Books> waitingListOfBooks(int uId){
+    public ArrayList<Books> waitingListOfBooks(int uId) {
         SQLiteDatabase db = this.getWritableDatabase();
         ArrayList<Books> docs = new ArrayList<>();
         String mQuery = "SELECT user_id, user_type, document_id, document_type From Queue";
@@ -886,7 +951,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         ArrayList<String> list = new ArrayList<>();
         while (!mCur.isAfterLast()) {
             if (uId == mCur.getInt(mCur.getColumnIndex("user_id"))) {
-                if (mCur.getInt(mCur.getColumnIndex("document_type"))==0){
+                if (mCur.getInt(mCur.getColumnIndex("document_type")) == 0) {
                     Books b = new Books(getArrayBook(mCur.getInt(mCur.getColumnIndex("document_id"))));
                     docs.add(b);
                 }
@@ -901,8 +966,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return docs;
 
     }
-//
-    public ArrayList<Articles> waitingListOfArticles(int uId){
+
+    public ArrayList<Articles> waitingListOfArticles(int uId) {
         SQLiteDatabase db = this.getWritableDatabase();
         ArrayList<Articles> docs = new ArrayList<>();
         String mQuery = "SELECT user_id, user_type, document_id, document_type From Queue";
@@ -911,7 +976,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         while (!mCur.isAfterLast()) {
             if (uId == mCur.getInt(mCur.getColumnIndex("user_id"))) {
-                if (mCur.getInt(mCur.getColumnIndex("document_type"))==1){
+                if (mCur.getInt(mCur.getColumnIndex("document_type")) == 1) {
                     Articles b = new Articles(getArrayArticle(mCur.getInt(mCur.getColumnIndex("document_id"))));
                     docs.add(b);
                 }
@@ -927,7 +992,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public ArrayList<AV> waitingListOfAV(int uId){
+    public ArrayList<AV> waitingListOfAV(int uId) {
         SQLiteDatabase db = this.getWritableDatabase();
         ArrayList<AV> docs = new ArrayList<>();
         String mQuery = "SELECT user_id, user_type, document_id, document_type From Queue";
@@ -936,7 +1001,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         while (!mCur.isAfterLast()) {
             if (uId == mCur.getInt(mCur.getColumnIndex("user_id"))) {
-                if (mCur.getInt(mCur.getColumnIndex("document_type"))==2){
+                if (mCur.getInt(mCur.getColumnIndex("document_type")) == 2) {
                     AV b = new AV(getArrayAV(mCur.getInt(mCur.getColumnIndex("document_id"))));
                     docs.add(b);
                 }
@@ -951,4 +1016,38 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return docs;
 
     }
+
+    public int daysLeft(int user_id, int doc_id, int doc_type){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String date=null;
+        String date_time = null;
+        int daysLeft;
+        String mQuery = "SELECT user_id, book_id, time, type From time_checker";
+        Cursor mCur = db.rawQuery(mQuery, new String[]{});
+        mCur.moveToFirst();
+
+        while (!mCur.isAfterLast()) {
+            if (user_id == mCur.getInt(mCur.getColumnIndex("user_id")) && doc_id==mCur.getInt(mCur.getColumnIndex("book_id")) && doc_type == mCur.getInt(mCur.getColumnIndex("type")) ) {
+                SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+                date = mCur.getString(mCur.getColumnIndex("time"));
+
+
+
+                Date date1 = new Date(System.currentTimeMillis());
+
+                SimpleDateFormat formatter1 = new SimpleDateFormat("dd.MM.yyyy");
+                date_time = formatter1.format(date1);
+                daysLeft = findDifDays(date,date_time);
+
+            }
+            mCur.moveToNext();
+        }
+        daysLeft = findDifDays(date,date_time);
+
+        mCur.close();
+        return daysLeft;
+    }
+
+
+
 }

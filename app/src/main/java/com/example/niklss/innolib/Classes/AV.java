@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Created by Niklss on 31.03.2018.
  */
 
-public class AV  {
+public class AV {
     private int typeOfMaterial = 2;
 
     private String title;
@@ -18,6 +18,7 @@ public class AV  {
     private UserCard user;
     private int daysLeft;
     private boolean overDue;
+    private int fine;
 
     public AV(ArrayList<String> av) {
         this.title = av.get(0);
@@ -45,8 +46,6 @@ public class AV  {
         this.keywords = av[4];
         this.price = Integer.parseInt(av[5]);
     }
-
-
 
     public String getTitle() {
         return title;
@@ -102,5 +101,13 @@ public class AV  {
 
     public void setOverDue(boolean overDue) {
         this.overDue = overDue;
+    }
+
+    public int getFine() {
+        return fine;
+    }
+
+    public void setFine(int fine) {
+        this.fine = fine;
     }
 }
