@@ -53,7 +53,8 @@ public class BooksListPatron extends Activity {
         ArrayList<String> artriclesfine = new ArrayList<String>();
         ArrayList<String> AVsfine = new ArrayList<String>();
 
-        book= db.getListOfBooks();
+        book= db.returnListOfUsersBook(4);
+
         for (int i = 0; i < book.size(); i++) {
             if(book.get(i).isOverDue()==true) booksfine.add(db.getShortInformation(book.get(i)));
             else books.add(db.getShortInformation(book.get(i)));
@@ -67,7 +68,7 @@ public class BooksListPatron extends Activity {
 
         Av = db.getListOfAV();
         for (int i = 0; i < Av.size(); i++) {
-            if(Av.get(i)==null) AVs.add(db.getAVInfoShort(Av.get(i)));
+            if(Av.get(i)==null) AVsfine.add(db.getAVInfoShort(Av.get(i)));
             else AVs.add(db.getAVInfoShort(Av.get(i)));
         }
 

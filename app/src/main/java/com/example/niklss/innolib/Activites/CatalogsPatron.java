@@ -3,7 +3,9 @@ package com.example.niklss.innolib.Activites;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
@@ -11,6 +13,7 @@ import android.widget.Toast;
 import com.example.niklss.innolib.Classes.AV;
 import com.example.niklss.innolib.Classes.Articles;
 import com.example.niklss.innolib.Classes.Books;
+import com.example.niklss.innolib.Classes.Patron;
 import com.example.niklss.innolib.DataBase.DataBaseHelper;
 import com.example.niklss.innolib.R;
 
@@ -99,9 +102,15 @@ public class CatalogsPatron extends Activity   {
         ad = new AlertDialog.Builder(CatalogsPatron.this).setTitle("Book");
 
         ad.setPositiveButton("Checkout", new DialogInterface.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-
+                Patron patron=db.getUser();
+                try {
+                    patron.checkOut(id,CatalogsPatron.this);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
