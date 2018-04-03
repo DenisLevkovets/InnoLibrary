@@ -273,7 +273,6 @@ public class Patron extends UserCard {
         DataBaseHelper db = new DataBaseHelper(context);
         return db.returnListOfUsersAv(this.getuId());
     }
-    //puck
 
     private void returnDoc(int id) {
 
