@@ -175,10 +175,15 @@ public class Patron extends UserCard {
         return db.getListOfBooks();
     }
 
-//    public ArrayList<AV> getAvailiableAV(Context context) throws IOException{
-//        DataBaseHelper db = new DataBaseHelper(context);
-//        return db.
-//    }
+    public ArrayList<AV> getAvailiableAV(Context context) throws IOException{
+        DataBaseHelper db = new DataBaseHelper(context);
+        return db.getListOfAV();
+    }
+
+    public ArrayList<Articles> getAvailiableAricles(Context context) throws IOException{
+        DataBaseHelper db = new DataBaseHelper(context);
+        return db.getListOfArticles();
+    }
 
     private boolean hasCopy(Context context, int id, int type) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
