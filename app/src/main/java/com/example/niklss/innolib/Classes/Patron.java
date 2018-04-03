@@ -68,7 +68,7 @@ public class Patron extends UserCard {
                 return 0;
         }
     }
-//
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void checkOut(int id, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
