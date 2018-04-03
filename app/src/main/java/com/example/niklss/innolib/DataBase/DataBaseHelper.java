@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import static android.content.ContentValues.TAG;
 
@@ -1015,4 +1016,38 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return docs;
 
     }
+
+    public int daysLeft(int user_id, int doc_id, int doc_type){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String date=null;
+        String date_time = null;
+        int daysLeft;
+        String mQuery = "SELECT user_id, book_id, time, type From time_checker";
+        Cursor mCur = db.rawQuery(mQuery, new String[]{});
+        mCur.moveToFirst();
+
+        while (!mCur.isAfterLast()) {
+            if (user_id == mCur.getInt(mCur.getColumnIndex("user_id")) && doc_id==mCur.getInt(mCur.getColumnIndex("book_id")) && doc_type == mCur.getInt(mCur.getColumnIndex("type")) ) {
+                SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+                date = mCur.getString(mCur.getColumnIndex("time"));
+
+
+
+                Date date1 = new Date(System.currentTimeMillis());
+
+                SimpleDateFormat formatter1 = new SimpleDateFormat("dd.MM.yyyy");
+                date_time = formatter1.format(date1);
+                daysLeft = findDifDays(date,date_time);
+
+            }
+            mCur.moveToNext();
+        }
+        daysLeft = findDifDays(date,date_time);
+
+        mCur.close();
+        return daysLeft;
+    }
+
+
+
 }

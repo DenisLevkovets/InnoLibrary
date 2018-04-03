@@ -203,7 +203,7 @@ public class Patron extends UserCard {
             Date time = cal.getTime();
 
             String t = time.getDay() + "." + time.getMonth() + "." + time.getYear();
-            db.updateTimeChecker(this.getuId(), book.getBookId(), t, book.getBookId());
+            db.updateTimeChecker(this.getuId(), book.getBookId(), t, book.getTypeOfMaterial());
         } else {
             System.out.println("Someone already waits for this book");
         }
