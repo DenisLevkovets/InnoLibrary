@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
+import com.example.niklss.innolib.Classes.AV;
+import com.example.niklss.innolib.Classes.Articles;
 import com.example.niklss.innolib.Classes.Books;
 import com.example.niklss.innolib.DataBase.DataBaseHelper;
 import com.example.niklss.innolib.Dialogs.ModifyArticle;
@@ -25,8 +27,8 @@ public class CatalogsLib extends Activity   {
     AlertDialog.Builder ad;
     DataBaseHelper db;
     ArrayList<Books>  book;
-    ArrayList<String[]> article;
-    ArrayList<String[]> AV;
+    ArrayList<Articles> article;
+    ArrayList<AV> av;
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -58,9 +60,9 @@ public class CatalogsLib extends Activity   {
             artricles.add(db.getArticleInfoShort(article.get(i)));
         }
 
-        AV = db.getListOfAV();
-        for (int i = 0; i < AV.size(); i++) {
-            AVs.add(db.getAVInfoShort(AV.get(i)));
+        av = db.getListOfAV();
+        for (int i = 0; i < av.size(); i++) {
+            AVs.add(db.getAVInfoShort(av.get(i)));
         }
 
 
@@ -80,10 +82,10 @@ public class CatalogsLib extends Activity   {
                         clickBook(book.get(i1).getBookId());
                         break;
                     case 1:
-                        clickArticle(Integer.parseInt(article.get(i1)[6]));
+                        clickArticle(article.get(i1).getArticleId());
                         break;
                     case 2:
-                        clickAv(Integer.parseInt(AV.get(i1)[2]));
+                        clickAv(av.get(i1).getAvId());
                 }
                 ad.show();
                 return false;

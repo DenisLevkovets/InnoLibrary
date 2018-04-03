@@ -44,14 +44,16 @@ public class ModifyUser extends DialogFragment {
     String uaddress;
     String unumber;
     int ustatus;
+    int uid;
 
     @SuppressLint("ValidFragment")
-    public ModifyUser(String name, String surname, String address, String number, int status){
+    public ModifyUser(String name, String surname, String address, String number, int status, int id){
         uname=name;
         usurname=surname;
         uaddress=address;
         unumber=number;
         ustatus=status;
+        uid=id;
     }
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -133,7 +135,7 @@ public class ModifyUser extends DialogFragment {
                 .setPositiveButton("Modify", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        db.updateUser(db.getUser().getuId(),name.getText().toString(),surname.getText().toString(),
+                        db.updateUser(uid,name.getText().toString(),surname.getText().toString(),
                                 address.getText().toString(),number.getText().toString(),status);
                         Log.i("TAAAG",name.getText().toString()+" "+surname.getText().toString()+" "+
                                 address.getText().toString()+" "+number.getText().toString()+" "+status);
