@@ -539,7 +539,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return false;
     }
 
-    public void updateTimeChecker(int user_id, int book_id, int time, int type) {
+    public void updateTimeChecker(int user_id, int book_id, String time, int type) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put("user_id", user_id);
