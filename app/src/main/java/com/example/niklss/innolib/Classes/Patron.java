@@ -194,7 +194,7 @@ public class Patron extends UserCard {
                 if (this.wasRenewedBook.contains(book.getBookId())) {
                     System.out.println("You cant renew this book again");
                 } else {
-                    book.setDaysLeft(14);
+                    book.setDaysLeft(14 + db.daysLeft(this.getuId(), book.getBookId(), book.getTypeOfMaterial()));
                     this.wasRenewedBook.add(book.getBookId());
                 }
             }
@@ -219,7 +219,7 @@ public class Patron extends UserCard {
                 if (this.wasRenewedArticle.contains(article.getArticleId())) {
                     System.out.println("You cant renew this book again");
                 } else {
-                    article.setDaysLeft(14);
+                    article.setDaysLeft(14 + db.daysLeft(this.getuId(), article.getArticleId(), article.getTypeOfMaterial()));
                     this.wasRenewedArticle.add(article.getArticleId());
                 }
             }
@@ -243,7 +243,7 @@ public class Patron extends UserCard {
                 if (this.wasRenewedAv.contains(av.getAvId())) {
                     System.out.println("You cant renew this book again");
                 } else {
-                    av.setDaysLeft(14);
+                    av.setDaysLeft(14 + + db.daysLeft(this.getuId(), av.getAvId(), av.getTypeOfMaterial()));
                     this.wasRenewedAv.add(av.getAvId());
                 }
             }
