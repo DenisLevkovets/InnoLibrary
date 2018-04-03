@@ -765,8 +765,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public ArrayList<String[]> getListOfAV() {
-        ArrayList<String[]> list = new ArrayList<>();
+    public ArrayList<AV> getListOfAV() {
+        ArrayList<AV> list = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
         String mQuery = "SELECT title, authors, id, numbers,keywords,price From AV";
         Cursor mCur = db.rawQuery(mQuery, new String[]{});
@@ -779,7 +779,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             av[3] = (mCur.getString(mCur.getColumnIndex("numbers")));
             av[4] = (mCur.getString(mCur.getColumnIndex("keywords")));
             av[5] = (mCur.getString(mCur.getColumnIndex("price")));
-            list.add(av);
+            list.add(new AV(av));
             mCur.moveToNext();
         }
         mCur.moveToFirst();
@@ -789,8 +789,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return list;
     }
 
-    public ArrayList<String[]> getListOfArticles() {
-        ArrayList<String[]> list = new ArrayList<>();
+    public ArrayList<Articles> getListOfArticles() {
+        ArrayList<Articles> list = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
         String mQuery = "SELECT title, authors, jtitle, issue, date, editor, numbers, id, reference,keywords,price From Articles";
         Cursor mCur = db.rawQuery(mQuery, new String[]{});
@@ -808,7 +808,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             av[8] = (mCur.getString(mCur.getColumnIndex("reference")));
             av[9] = (mCur.getString(mCur.getColumnIndex("keywords")));
             av[10] = (mCur.getString(mCur.getColumnIndex("price")));
-            list.add(av);
+            list.add(new Articles(av));
             mCur.moveToNext();
         }
         mCur.moveToFirst();
