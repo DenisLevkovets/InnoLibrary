@@ -817,6 +817,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         return list;
     }
+    //
 
     public boolean noOneInQueue(int id, int type) {
         SQLiteDatabase db = this.getWritableDatabase();
