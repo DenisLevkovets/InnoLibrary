@@ -581,7 +581,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 b.setOverDue(false);
                 b.setFine(0);
                 if (findDifDays(d1, d2) < 0) {
-                    b.setFine(findDifDays(d1, d2) * -100);
+                    if (b.getPrice() < findDifDays(d1, d2) * -100){
+                        b.setFine(b.getPrice());
+                    }
+                    else{
+                        b.setFine(findDifDays(d1, d2) * -100);
+                    }
                     b.setOverDue(true);
                 }
                 book.add(b);
@@ -607,7 +612,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 a.setOverDue(false);
                 a.setFine(0);
                 if (findDifDays(d1, d2) < 0) {
-                    a.setFine(findDifDays(d1, d2) * -100);
+                    if (a.getPrice() < findDifDays(d1, d2) * -100){
+                        a.setFine(a.getPrice());
+                    }
+                    else{
+                        a.setFine(findDifDays(d1, d2) * -100);
+                    }
                     a.setOverDue(true);
                 }
                 articles.add(a);
@@ -633,6 +643,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 a.setOverDue(false);
                 a.setFine(0);
                 if (findDifDays(d1, d2) < 0) {
+                    if (a.getPrice() < findDifDays(d1, d2) * -100){
+                        a.setFine(a.getPrice());
+                    }
+                    else{
+                        a.setFine(findDifDays(d1, d2) * -100);
+                    }
                     a.setFine(findDifDays(d1, d2) * -100);
                     a.setOverDue(true);
                 }
