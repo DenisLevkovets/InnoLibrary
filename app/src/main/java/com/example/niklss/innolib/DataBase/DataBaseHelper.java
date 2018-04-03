@@ -539,14 +539,29 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return false;
     }
 
-    public void updateTimeChecker(int user_id, int book_id, String time, int type) {
+    public void updateTimeChecker(int user_id, int book_id, String time, int type, int renewed) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put("user_id", user_id);
         cv.put("book_id", book_id);
         cv.put("time", time);
         cv.put("type", type);
+        cv.put("renewed", renewed);
         db.insert("time_checker", null, cv);
+    }
+
+    public boolean wasRenewed(int user_id, int book_id, int type){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String mQuery = "SELECT user_id, book_id, time, type, renewed From time_checker";
+        Cursor mCur = db.rawQuery(mQuery, new String[]{});
+        mCur.moveToFirst();
+        while (!mCur.isAfterLast()) {
+            if (user_id == mCur.getInt(mCur.getColumnIndex("user_id")) && book_id == mCur.getInt(mCur.getColumnIndex("book_id")) && type == mCur.getInt(mCur.getColumnIndex("type")) && 1 == mCur.getInt(mCur.getColumnIndex("renewed"))){
+                return true;
+            }
+            mCur.moveToNext();
+        }
+        return false;
     }
 
     private Integer findDifDays(String d1, String d2) {
