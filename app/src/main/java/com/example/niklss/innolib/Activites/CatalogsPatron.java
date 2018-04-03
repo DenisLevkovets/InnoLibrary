@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
+import com.example.niklss.innolib.Classes.AV;
+import com.example.niklss.innolib.Classes.Articles;
 import com.example.niklss.innolib.Classes.Books;
 import com.example.niklss.innolib.DataBase.DataBaseHelper;
 import com.example.niklss.innolib.R;
@@ -23,8 +25,8 @@ public class CatalogsPatron extends Activity   {
     AlertDialog.Builder ad;
     DataBaseHelper db;
     ArrayList<Books>  book;
-    ArrayList<String[]> article;
-    ArrayList<String[]> AV;
+    ArrayList<Articles> article;
+    ArrayList<AV> av;
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -56,9 +58,9 @@ public class CatalogsPatron extends Activity   {
             artricles.add(db.getArticleInfoShort(article.get(i)));
         }
 
-        AV = db.getListOfAV();
-        for (int i = 0; i < AV.size(); i++) {
-            AVs.add(db.getAVInfoShort(AV.get(i)));
+        av = db.getListOfAV();
+        for (int i = 0; i < av.size(); i++) {
+            AVs.add(db.getAVInfoShort(av.get(i)));
         }
 
 
@@ -79,12 +81,12 @@ public class CatalogsPatron extends Activity   {
                         ad.setMessage(db.getFullInformation(book.get(i1))).show();
                         break;
                     case 1:
-                        clickArticle(Integer.parseInt(article.get(i1)[6]));
+                        clickArticle(article.get(i1).getArticleId());
                         ad.setMessage(db.getArticleInfoFull(article.get(i1))).show();
                         break;
                     case 2:
-                        clickAv(Integer.parseInt(AV.get(i1)[2]));
-                        ad.setMessage(db.getAVInfoFull(AV.get(i1))).show();
+                        clickAv(av.get(i1).getAvId());
+                        ad.setMessage(db.getAVInfoFull(av.get(i1))).show();
                         break;
                 }
                 return false;
@@ -159,5 +161,8 @@ public class CatalogsPatron extends Activity   {
 
         ad.setCancelable(true);
     }
+
+
+
 
 }

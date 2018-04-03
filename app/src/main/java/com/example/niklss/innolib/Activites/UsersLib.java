@@ -49,7 +49,6 @@ public class UsersLib extends Activity {
         for (int i = 0; i < users.size(); i++) {
             arr[i]=users.get(i).getuName()+" "+users.get(i).getSecondName();
         }
-        arr[0]="asd";
 
         FloatingActionButton add= (FloatingActionButton) findViewById(R.id.add);
 
@@ -76,7 +75,7 @@ public class UsersLib extends Activity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Patron patron=users.get(index);
-                DialogFragment modify=new ModifyUser(patron.getuName(),patron.getSecondName(),patron.getuAddress(),patron.getuNumber(),patron.getUsersType());
+                DialogFragment modify=new ModifyUser(patron.getuName(),patron.getSecondName(),patron.getuAddress(),patron.getuNumber(),patron.getUsersType(),patron.getuId());
                 modify.show(getFragmentManager(),"modify");
             }
         });
