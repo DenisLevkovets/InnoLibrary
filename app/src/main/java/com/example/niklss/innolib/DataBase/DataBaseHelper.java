@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Locale;
 
 import static android.content.ContentValues.TAG;
 
@@ -917,21 +916,21 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public String getArticleInfoShort(String[] article) {
-        return article[0] + " " + article[1] + " " + article[2];
+    public String getArticleInfoShort(Articles article) {
+        return article.getJtitle() + " " + article.getAuthors() + " " + article.getTitle();
     }
 
-    public String getArticleInfoFull(String[] article) {
-        return "Journal: " + article[0] + "\nAuthors: " + article[1] + "\nTitle: " + article[2] + "\nIssue: " + article[3] + "\nDate: "
-                + article[4] + "\nEditor: " + article[5] + "\nNumber: " + article[6];
+    public String getArticleInfoFull(Articles article) {
+        return "Journal: " + article.getJtitle() + "\nAuthors: " + article.getAuthors() + "\nTitle: " + article.getTitle() + "\nIssue: "
+                + article.getIssue() + "\nDate: " + article.getDate() + "\nEditor: " + article.getEditor() + "\nNumber: " + article.getCountArticle();
     }
 
-    public String getAVInfoShort(String[] AV) {
-        return AV[0] + " " + AV[1];
+    public String getAVInfoShort(AV av) {
+        return av.getTitle() + " " + av.getAuthors();
     }
 
-    public String getAVInfoFull(String[] AV) {
-        return "Title: " + AV[0] + "\nAuthors: " + AV[1] + "\nNumber: " + AV[2];
+    public String getAVInfoFull(AV av) {
+        return "Title: " + av.getTitle() + "\nAuthors: " + av.getAuthors() + "\nNumber: " + av.getCountAv();
     }
 
     public String getUserInfoShort(Patron user) {
