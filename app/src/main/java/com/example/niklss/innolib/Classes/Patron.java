@@ -98,7 +98,7 @@ public class Patron extends UserCard {
 
                 } else {
                     System.out.println("You are in queue for this book");
-//                    db.standInQueue(this, book.getBookId(), book.getTypeOfMaterial());
+                    db.standInQueue(this, book.getBookId(), book.getTypeOfMaterial());
                 }
             } else {
                 System.out.println("You already have this book");
@@ -132,7 +132,7 @@ public class Patron extends UserCard {
                 db.updateTimeChecker(this.getuId(), av.getAvId(), t, av.getTypeOfMaterial());
             } else {
                 System.out.println("You are in queue for this AV material");
-//                db.standInQueue(this, av.getAvId(), av.getTypeOfMaterial());
+                db.standInQueue(this, av.getAvId(), av.getTypeOfMaterial());
             }
         } else {
             System.out.println("You already have this AV material");
@@ -162,7 +162,7 @@ public class Patron extends UserCard {
                 db.updateTimeChecker(this.getuId(), art.getArticleId(), t, art.getTypeOfMaterial());
             } else {
                 System.out.println("You are in queue for this article");
-//                db.standInQueue(this, art.getArticleId(), art.getTypeOfMaterial());
+                db.standInQueue(this, art.getArticleId(), art.getTypeOfMaterial());
             }
         } else {
             System.out.println("You already have this article");
@@ -204,7 +204,7 @@ public class Patron extends UserCard {
             Date time = cal.getTime();
 
             String t = time.getDay() + "." + time.getMonth() + "." + time.getYear();
-            db.updateTimeChecker(this.getuId(), book.getBookId(), t, book.getBookId());
+            db.updateTimeChecker(this.getuId(), book.getBookId(), t, book.getTypeOfMaterial());
         } else {
             System.out.println("Someone already waits for this book");
         }
