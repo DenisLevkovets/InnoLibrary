@@ -168,7 +168,7 @@ public class Patron extends UserCard {
             System.out.println("You already have this article");
         }
     }
-    //
+
 
     public ArrayList<Books> getAvailiableBooks(Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
