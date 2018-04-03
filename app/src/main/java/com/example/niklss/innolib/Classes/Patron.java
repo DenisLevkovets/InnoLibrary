@@ -201,9 +201,9 @@ public class Patron extends UserCard {
 
             Calendar cal = new GregorianCalendar();
             cal.add(Calendar.DAY_OF_MONTH, book.getDaysLeft());
-            Date time = cal.getTime();
 
-            String t = time.getDay() + "." + time.getMonth() + "." + time.getYear();
+            String[] date = cal.getTime().toString().split(" ");
+            String t = date[2] + "." + month(date[1]) + "." + date[5];
             db.updateTimeChecker(this.getuId(), book.getBookId(), t, book.getTypeOfMaterial());
         } else {
             System.out.println("Someone already waits for this book");
@@ -225,9 +225,9 @@ public class Patron extends UserCard {
             }
             Calendar cal = new GregorianCalendar();
             cal.add(Calendar.DAY_OF_MONTH, article.getDaysLeft());
-            Date time = cal.getTime();
 
-            String t = time.getDay() + "." + time.getMonth() + "." + time.getYear();
+            String[] date = cal.getTime().toString().split(" ");
+            String t = date[2] + "." + month(date[1]) + "." + date[5];
             db.updateTimeChecker(this.getuId(), article.getArticleId(), t, article.getTypeOfMaterial());
         } else {
             System.out.println("Someone already waits for this article");
@@ -250,9 +250,9 @@ public class Patron extends UserCard {
 
             Calendar cal = new GregorianCalendar();
             cal.add(Calendar.DAY_OF_MONTH, av.getDaysLeft());
-            Date time = cal.getTime();
 
-            String t = time.getDay() + "." + time.getMonth() + "." + time.getYear();
+            String[] date = cal.getTime().toString().split(" ");
+            String t = date[2] + "." + month(date[1]) + "." + date[5];
             db.updateTimeChecker(this.getuId(), av.getAvId(), t, av.getTypeOfMaterial());
         } else {
             System.out.println("Someone already waits for this AV material");
