@@ -214,7 +214,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         String s = "('" + title + "', '" + authors + "', " + numbers + ", '" + keywords + "', " + price + ")";
 
 
-        String addAV = "INSERT INTO AV (title,authors,numbers) Values " + s;
+        String addAV = "INSERT INTO AV (title,authors,numbers,keywords,price) Values " + s;
         db.beginTransaction();
         db.execSQL(addAV);
         db.setTransactionSuccessful();
@@ -674,8 +674,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         Cursor mCur = db.rawQuery(mQuery, new String[]{});
         mCur.moveToFirst();
         while (!mCur.isAfterLast()) {
-            Patron a = new Patron(this.getArrayUser(mCur.getInt(mCur.getColumnIndex("user_id"))));
-            if (!patron.contains(a)) {
+            boolean contains = false;
+            for (int i = 0; i < patron.size(); i++) {
+                if (patron.get(i).getuId() == mCur.getInt(mCur.getColumnIndex("user_id"))){
+                    contains = true;
+                }
+            }
+
+            if (!contains) {
+                Patron a = new Patron(this.getArrayUser(mCur.getInt(mCur.getColumnIndex("user_id"))));
                 patron.add(a);
             }
             mCur.moveToNext();
