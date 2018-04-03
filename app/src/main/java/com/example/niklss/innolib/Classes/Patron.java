@@ -107,7 +107,6 @@ public class Patron extends UserCard {
             System.out.println("Isn't your type");
         }
     }
-    //
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void checkOutAV(int id, Context context) throws IOException {
@@ -168,7 +167,6 @@ public class Patron extends UserCard {
             System.out.println("You already have this article");
         }
     }
-
 
     public ArrayList<Books> getAvailiableBooks(Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
