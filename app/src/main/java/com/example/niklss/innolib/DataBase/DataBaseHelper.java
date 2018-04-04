@@ -772,7 +772,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         mCur.close();
         return list;
     }
-
+//
     public void clearDataBase() {
         SQLiteDatabase db = this.getWritableDatabase();
         /*String deletebook = "DELETE FROM BOOKS;";
