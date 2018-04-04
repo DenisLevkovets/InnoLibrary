@@ -186,7 +186,4 @@ public class CatalogsPatron extends Activity   {
         ad.setCancelable(true);
     }
 
-
-
-
 }
