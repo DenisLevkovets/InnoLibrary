@@ -30,62 +30,19 @@ public class ExampleInstrumentedTest {
     @Test
     public void useAppContext() throws Exception {
         Context appContext = InstrumentationRegistry.getTargetContext();
-//
-//        Librarian l = new Librarian("Lib", "librarian", "Inno", 12, "89123453", 1);
         DataBaseHelper db = new DataBaseHelper(appContext);
         db.clearDataBase();
-        db.addB("Introduction to Algorithms", "Thomas H. Cormen, Charles E. Leiseron, Ronald L. Rivest and Clifford Stein", 3, 0, 255, 3, "2009", "MIT press", "ee", 0);
-        db.addB("Design Patterns: Elements of Reusable Object-Oriented Software", "Erich Gamma, Ralph Johnson, John Vlissides, Richard Helm", 2, 0, 212, 1, "2003", "Addison-Wesley Professional", "qwe", 1);
-        db.addB("The Mythical Man-month", "Brooks,Jr., Frederick P", 1, 1, 2324, 2, "1995", "Addison-Wesley Longman Publishing Co., Inc.", "kk", 0);
-        db.addAV("Null References: The Billion Dollar Mistake", "Tony Hoare", 1, "sfdg", 200);
-        db.addAV("Information Entropy", "Claude Shannon", 1, "sfdg", 200);
-        db.createUser("Sergey", "Afonso", "30001", "Via Margutta, 3", 1);
-        db.createUser("Navida", "Teixeria", "30002", "Via Sacra, 13", 0);
-//
-        Patron p1 = db.getListOfUsers().get(db.getListOfUsers().size() - 1);
-        Patron p2 = db.getListOfUsers().get(db.getListOfUsers().size() - 2);
-        Books b1 = new Books("Introduction to Algorithms", "Thomas H. Cormen, Charles E. Leiseron, Ronald L. Rivest and Clifford Stein", 3, 1, 0, 255, 3, "2009", "MIT press", "ee", 0);
-        Books b2 = new Books("Design Patterns: Elements of Reusable Object-Oriented Software", "Erich Gamma, Ralph Johnson, John Vlissides, Richard Helm", 2, 2, 0, 212, 1, "2003", "Addison-Wesley Professional", "qwe", 1);
-        Books b3 = new Books("The Mythical Man-month", "Brooks,Jr., Frederick P", 1, 3, 1, 2324, 2, "1995", "Addison-Wesley Longman Publishing Co., Inc.", "kk", 0);
-        p1.checkOut(db.getListOfBooks().get(0).getBookId(), appContext);
-        p1.checkOut(db.getListOfBooks().get(1).getBookId(), appContext);
-        p1.checkOut(db.getListOfBooks().get(2).getBookId(),appContext);
-        p2.checkOut(db.getListOfBooks().get(0).getBookId(),appContext);
-        p2.checkOut(db.getListOfBooks().get(1).getBookId(),appContext);
+        Patron p1 = db.getListOfUsers().get(0);
+        Books b1 = db.getListOfBooks().get(0);
+        Books b2 = db.getListOfBooks().get(1);
 
-//        ArrayList<Books> arr = p1.getListOfUsersBook(appContext);
-//        for (int i = 0; i < arr.size(); i++) {
-//            Log.e("Names", arr.get(i).getTitleBook());
-//        }
-//
-//        String str1=db.getStringUser(1);
-//        String str2 = db.getStringUser(2);
-//        Log.i("TAAAAAAAAAAAAAAAAAAAAG",str1);
-//        Log.i("TAAAAAAAAAAAAAAAAAAAAG", str2);
+        p1.checkOut(b1.getBookId(), appContext);
+        p1.checkOut(b2.getBookId(), appContext);
+        db.returnBook(p1.getuId(), b2.getBookId());
 
-//        db.createUser("Elvira","Espindola","30003","Via del Corso, 22",0);
-//        ArrayList<Books> b = db.getListOfBooks();
-//        int bi = 0;
-//        for (int i = 0; i < b.size(); i++) {
-//            bi += b.get(i).getCountOfBooks();
-//        }
-//
-//        ArrayList<String[]> av = db.getListOfAV();
-//        int avi = 0;
-//        for (int i = 0; i < av.size(); i++) {
-//            avi += Integer.parseInt(av.get(i)[3]);
-//        }
-//
-//        ArrayList<String[]> a = db.getListOfArticles();
-//        int ai = 0;
-//        for (int i = 0; i < a.size(); i++) {
-//            ai += Integer.parseInt(a.get(i)[6]);
-//        }
-//
-//        ArrayList<Patron> u = db.getListOfUsers();
-//
-//        assertThat(Integer.toString(bi + avi + ai), is("8"));
-//        assertThat(Integer.toString(u.size()), is("3"));
-        assertThat(p1.getListOfUsersBook(appContext).get(0).getFine(), is(0));
+        ArrayList<Books> b = p1.getListOfUsersBook(appContext);
+        assertThat(b.get(0).getFine(), is(0));
+        assertThat(b.get(0).getDaysLeft(), is(28));
+
     }
 }
