@@ -839,12 +839,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         return count;
     }
+
     public Integer getCountOfOverDueArticles(ArrayList<Articles> articles){
         int count = 0;
         for (int i = 0; i < articles.size(); i++) {
             if (articles.get(i).isOverDue()) count++;
         }
         return count;
+
     } public Integer getCountOfOverDueAV(ArrayList<AV> av){
         int count = 0;
         for (int i = 0; i < av.size(); i++) {
