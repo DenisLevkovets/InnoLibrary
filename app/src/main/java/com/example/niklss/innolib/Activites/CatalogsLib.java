@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
@@ -13,6 +14,7 @@ import com.example.niklss.innolib.Classes.AV;
 import com.example.niklss.innolib.Classes.Articles;
 import com.example.niklss.innolib.Classes.Books;
 import com.example.niklss.innolib.DataBase.DataBaseHelper;
+import com.example.niklss.innolib.Dialogs.AddBook;
 import com.example.niklss.innolib.Dialogs.ModifyArticle;
 import com.example.niklss.innolib.R;
 
@@ -25,6 +27,9 @@ import java.util.ArrayList;
 
 public class CatalogsLib extends Activity   {
     AlertDialog.Builder ad;
+    AlertDialog.Builder ask;
+    AlertDialog.Builder add;
+
     DataBaseHelper db;
     ArrayList<Books>  book;
     ArrayList<Articles> article;
@@ -42,6 +47,8 @@ public class CatalogsLib extends Activity   {
         }
 
 
+        FloatingActionButton fb=(FloatingActionButton) findViewById(R.id.add);
+        fb.setOnClickListener(clickFb);
 
         ExpandableListView listView = (ExpandableListView)findViewById(R.id.elv);
 
@@ -175,5 +182,38 @@ public class CatalogsLib extends Activity   {
         });
         ad.setCancelable(true);
     }
+
+    View.OnClickListener clickFb=(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            String data[]={"Book","Article","AVM"};
+           ask=new AlertDialog.Builder(CatalogsLib.this).setTitle("Which type?")
+                   .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                       @Override
+                       public void onClick(DialogInterface dialogInterface, int i) {
+
+                       }
+                   });
+
+           ask.setCancelable(true).setSingleChoiceItems(data,-1, (DialogInterface.OnClickListener) switchh).show();
+
+        }
+    });
+
+    DialogInterface.OnClickListener switchh=(new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialogInterface, int i) {
+            switch (i){
+                case 0:
+                    DialogFragment book=new AddBook();
+                    book.show(getFragmentManager(),"a");
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    break;
+            }
+        }
+    });
 
 }
