@@ -831,7 +831,27 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         return list;
     }
-    //
+
+    public Integer getCountOfOverDueBooks(ArrayList<Books> books){
+        int count = 0;
+        for (int i = 0; i < books.size(); i++) {
+            if (books.get(i).isOverDue()) count++;
+        }
+        return count;
+    }
+    public Integer getCountOfOverDueArticles(ArrayList<Articles> articles){
+        int count = 0;
+        for (int i = 0; i < articles.size(); i++) {
+            if (articles.get(i).isOverDue()) count++;
+        }
+        return count;
+    } public Integer getCountOfOverDueAV(ArrayList<AV> av){
+        int count = 0;
+        for (int i = 0; i < av.size(); i++) {
+            if (av.get(i).isOverDue()) count++;
+        }
+        return count;
+    }
 
     public boolean noOneInQueue(int id, int type) {
         SQLiteDatabase db = this.getWritableDatabase();
