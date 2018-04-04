@@ -10,6 +10,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.niklss.innolib.Classes.AV;
+import com.example.niklss.innolib.Classes.Articles;
+import com.example.niklss.innolib.Classes.Books;
 import com.example.niklss.innolib.Classes.Patron;
 import com.example.niklss.innolib.DataBase.DataBaseHelper;
 import com.example.niklss.innolib.R;
@@ -25,6 +28,9 @@ public class ReturnSystem extends Activity {
     AlertDialog.Builder ad;
     DataBaseHelper db;
     ArrayList<Patron> deptors;
+    ArrayList<Books> books=null;
+    ArrayList<Articles> articles=null;
+    ArrayList<AV> avm=null;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.returnsystem);
@@ -69,8 +75,64 @@ public class ReturnSystem extends Activity {
     ListView.OnItemClickListener click = (new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            ad.setMessage(db.getUserInfoFull(deptors.get(i)));
+
+
+            try {
+                books=deptors.get(i).getListOfUsersBook(ReturnSystem.this);
+                articles=deptors.get(i).getListOfUsersArticles(ReturnSystem.this);
+                avm=deptors.get(i).getListOfUsersAv(ReturnSystem.this);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            String res[]=new String[books.size()+articles.size()+avm.size()];
+            for (int j = 0; j < books.size(); j++) {
+                res[j]=db.getShortInformation(books.get(i));
+            }
+            for (int j = books.size(); j < books.size()+articles.size(); j++) {
+                res[j]=db.getArticleInfoShort(articles.get(i));
+            }
+            for (int j = books.size()+articles.size(); j <books.size()+articles.size()+ avm.size(); j++) {
+                res[j]=db.getAVInfoShort(avm.get(i));
+            }
+            ad.setSingleChoiceItems(res,-1,switchh);
             ad.show();
+        }
+    });
+
+    DialogInterface.OnClickListener switchh=(new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialogInterface, int i) {
+            AlertDialog.Builder adb=new AlertDialog.Builder(ReturnSystem.this).setTitle("Return");
+            if(i<books.size()){
+                adb.setMessage(db.getShortInformation(books.get(i)));
+            }
+            else if(i<books.size()+articles.size()){
+                adb.setMessage(db.getArticleInfoShort(articles.get(i)));
+            }
+            else{
+                adb.setMessage(db.getAVInfoShort(avm.get(i)));
+            }
+
+            adb.setPositiveButton("Return", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+//                    if(i<books.size()){
+//
+//                    }
+//                    else if(i<books.size()+articles.size()){
+//                        adb.setMessage(db.getArticleInfoShort(articles.get(i)));
+//                    }
+//                    else{
+//                        adb.setMessage(db.getAVInfoShort(avm.get(i)));
+//                    }
+                }
+            }).setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                }
+            });
         }
     });
 }

@@ -32,7 +32,7 @@ public class BooksListPatron extends Activity   {
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.catalogpatron);
+        setContentView(R.layout.booklistpatron);
 
 
         try {
@@ -46,39 +46,35 @@ public class BooksListPatron extends Activity   {
         ExpandableListView listView = (ExpandableListView)findViewById(R.id.elv);
 
         ArrayList<ArrayList<String>> groups = new ArrayList<ArrayList<String>>();  //now we will fill names by our own, but then we will use database methods
-        ArrayList<String> books = new ArrayList<String>();
-        ArrayList<String> artricles = new ArrayList<String>();
-        ArrayList<String> AVs = new ArrayList<String>();
+        ArrayList<String> checkouted = new ArrayList<String>();
+        ArrayList<String> inqueue = new ArrayList<String>();
+        ArrayList<String> fine = new ArrayList<String>();
 
-        ArrayList<String> booksfine = new ArrayList<String>();
-        ArrayList<String> artriclesfine = new ArrayList<String>();
-        ArrayList<String> AVsfine = new ArrayList<String>();
 
-        book= db.returnListOfUsersBook(4);
-
+        book= db.returnListOfUsersBook(db.getUser().getuId());
         for (int i = 0; i < book.size(); i++) {
-            if(book.get(i).isOverDue()==true) booksfine.add(db.getShortInformation(book.get(i)));
-            else books.add(db.getShortInformation(book.get(i)));
+            if(book.get(i).isOverDue()==true) fine.add(db.getShortInformation(book.get(i)));
+            else checkouted.add(db.getShortInformation(book.get(i)));
         }
 
-        article = db.getListOfArticles();
+        article = db.returnListOfUsersArticles(db.getUser().getuId());
         for (int i = 0; i < article.size(); i++) {
-            if(article.get(i).isOverDue()==true ) artriclesfine.add(db.getArticleInfoShort(article.get(i)));
-            else artricles.add(db.getArticleInfoShort(article.get(i)));
+            if(article.get(i).isOverDue()==true ) fine.add(db.getArticleInfoShort(article.get(i)));
+            else checkouted.add(db.getArticleInfoShort(article.get(i)));
         }
 
-        Av = db.getListOfAV();
+        Av = db.returnListOfUsersAv(db.getUser().getuId());
         for (int i = 0; i < Av.size(); i++) {
-            if(Av.get(i)==null) AVsfine.add(db.getAVInfoShort(Av.get(i)));
-            else AVs.add(db.getAVInfoShort(Av.get(i)));
+            if(Av.get(i)==null) fine.add(db.getAVInfoShort(Av.get(i)));
+            else checkouted.add(db.getAVInfoShort(Av.get(i)));
         }
 
 
-        groups.add(books);
-        groups.add(artricles);
-        groups.add(AVs);
+        groups.add(checkouted);
+        groups.add(inqueue);
+        groups.add(fine);
 
-        ExpListAdapter adapter = new ExpListAdapter(getApplicationContext(), groups);
+        ExpListAdapterBooks adapter = new ExpListAdapterBooks(getApplicationContext(), groups);
         listView.setAdapter(adapter);
 
         listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
@@ -108,7 +104,7 @@ public class BooksListPatron extends Activity   {
     public void clickBook(final int id){
         ad = new AlertDialog.Builder(BooksListPatron.this).setTitle("Book");
 
-        ad.setPositiveButton("Checkout", new DialogInterface.OnClickListener() {
+        ad.setPositiveButton("Renew", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -129,7 +125,7 @@ public class BooksListPatron extends Activity   {
     public void clickAv(final int id){
         ad = new AlertDialog.Builder(BooksListPatron.this).setTitle("AV");
 
-        ad.setPositiveButton("Checkout", new DialogInterface.OnClickListener() {
+        ad.setPositiveButton("Renew", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -154,7 +150,7 @@ public class BooksListPatron extends Activity   {
     public void clickArticle(final int id){
         ad = new AlertDialog.Builder(BooksListPatron.this).setTitle("Article");
 
-        ad.setPositiveButton("Checkout", new DialogInterface.OnClickListener() {
+        ad.setPositiveButton("Renew", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 

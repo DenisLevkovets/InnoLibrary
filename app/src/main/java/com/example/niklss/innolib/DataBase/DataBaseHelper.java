@@ -279,7 +279,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public void updateArticle(int id, String title, String author, String jtitle, String issue, String date, String editor, int reference, String keywords, int price) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String updateArticle = "Update Articles Set title = '" + title + "', authors = '" + author + "', jtitle = '" + jtitle + "', issue = '" + issue + "', date = '" + date + "', editor = '" + editor + ", reference = " + reference + ", keywords = '" + keywords + "', price = " + price + " where id=" + id;
+        String updateArticle = "Update Articles Set title = '" + title + "', authors = '" + author + "', jtitle = '" + jtitle + "', issue = '" + issue + "', date = '" + date + "', editor = '" + editor + "', reference = " + reference + ", keywords = '" + keywords + "', price = " + price + " where id=" + id;
         db.beginTransaction();
         db.execSQL(updateArticle);
         db.setTransactionSuccessful();
@@ -599,7 +599,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         mCur.moveToFirst();
         while (!mCur.isAfterLast()) {
             if (uId == mCur.getInt(mCur.getColumnIndex("user_id")) && mCur.getInt(mCur.getColumnIndex("type")) == 1) {
-                Articles a = new Articles(this.getArrayBook(mCur.getInt(mCur.getColumnIndex("id"))));
+                Articles a = new Articles(this.getArrayArticle(mCur.getInt(mCur.getColumnIndex("id"))));
                 String d1 = mCur.getString(mCur.getColumnIndex("time"));
                 Calendar c = new GregorianCalendar();
                 String d2 = c.get(Calendar.DAY_OF_MONTH) + "." + c.get(Calendar.MONTH) + "." + c.get(Calendar.YEAR);
