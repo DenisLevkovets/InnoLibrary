@@ -104,13 +104,13 @@ public class CatalogsPatron extends Activity   {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Patron patron=db.getUser();
-                try {
-                    String res=patron.checkOut(id,CatalogsPatron.this);
-                    Toast.makeText(CatalogsPatron.this,res,Toast.LENGTH_LONG).show();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+//                Patron patron=db.getUser();
+//                try {
+//                    String res=patron.checkOut(id,CatalogsPatron.this);
+//                    Toast.makeText(CatalogsPatron.this,res,Toast.LENGTH_LONG).show();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
             }
         });
 
@@ -132,13 +132,13 @@ public class CatalogsPatron extends Activity   {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Patron patron=db.getUser();
-                try {
-                    String res=patron.checkOutAV(id,CatalogsPatron.this);
-                    Toast.makeText(CatalogsPatron.this,res,Toast.LENGTH_LONG).show();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+//                Patron patron=db.getUser();
+//                try {
+//                    String res=patron.checkOutAV(id,CatalogsPatron.this);
+//                    Toast.makeText(CatalogsPatron.this,res,Toast.LENGTH_LONG).show();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
 
             }
         });
@@ -165,13 +165,13 @@ public class CatalogsPatron extends Activity   {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Patron patron=db.getUser();
-                try {
-                    String res=patron.checkOutArticle(id,CatalogsPatron.this);
-                    Toast.makeText(CatalogsPatron.this,res,Toast.LENGTH_LONG).show();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+//                Patron patron=db.getUser();
+//                try {
+//                    String res=patron.checkOutArticle(id,CatalogsPatron.this);
+//                    Toast.makeText(CatalogsPatron.this,res,Toast.LENGTH_LONG).show();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
             }
         });
 

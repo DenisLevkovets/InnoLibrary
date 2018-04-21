@@ -897,7 +897,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return list.size() == 0;
     }
 
-    public Patron getUser() {
+    public UserCard getUser() {
         SQLiteDatabase db = this.getWritableDatabase();
         String mQuery;
         mQuery = "SELECT user_id From UserId ";
