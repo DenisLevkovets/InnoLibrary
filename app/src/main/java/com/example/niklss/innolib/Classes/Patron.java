@@ -9,7 +9,6 @@ import com.example.niklss.innolib.DataBase.DataBaseHelper;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
@@ -95,16 +94,16 @@ public class Patron extends UserCard {
                     String[] date = cal.getTime().toString().split(" ");
                     String t = date[2] + "." + month(date[1]) + "." + date[5];
                     db.updateTimeChecker(this.getuId(), book.getBookId(), t, book.getTypeOfMaterial(), 0);
-
+//                    return "You checkout this book";
                 } else {
-                    System.out.println("You are in queue for this book");
                     db.standInQueue(this, book.getBookId(), book.getTypeOfMaterial());
+//                    return "You are in queue for this book";
                 }
             } else {
-                System.out.println("You already have this book");
+//                return "You already have this book";
             }
         } else {
-            System.out.println("Isn't your type");
+//            return "Isn't your type";
         }
     }
 
@@ -129,12 +128,13 @@ public class Patron extends UserCard {
                 String[] date = cal.getTime().toString().split(" ");
                 String t = date[2] + "." + month(date[1]) + "." + date[5];
                 db.updateTimeChecker(this.getuId(), av.getAvId(), t, av.getTypeOfMaterial(), 0);
+//                return "You checkout this AVM";
             } else {
-                System.out.println("You are in queue for this AV material");
                 db.standInQueue(this, av.getAvId(), av.getTypeOfMaterial());
+//                return "You are in queue for this AV material";
             }
         } else {
-            System.out.println("You already have this AV material");
+//            return "You already have this AV material";
         }
     }
 
@@ -159,12 +159,13 @@ public class Patron extends UserCard {
                 String[] date = cal.getTime().toString().split(" ");
                 String t = date[2] + "." + month(date[1]) + "." + date[5];
                 db.updateTimeChecker(this.getuId(), art.getArticleId(), t, art.getTypeOfMaterial(), 0);
+//                return "You checkout this article";
             } else {
-                System.out.println("You are in queue for this article");
                 db.standInQueue(this, art.getArticleId(), art.getTypeOfMaterial());
+//                return "You are in queue for this article";
             }
         } else {
-            System.out.println("You already have this article");
+//            return "You already have this article";
         }
     }
 

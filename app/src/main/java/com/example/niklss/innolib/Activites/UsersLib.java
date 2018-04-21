@@ -92,7 +92,7 @@ public class UsersLib extends Activity {
     ListView.OnItemClickListener click = (new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            ad.setMessage("What do you want"+String.valueOf(i));
+            ad.setMessage(db.getUserInfoFull(db.getListOfUsers().get(i)));
             index=i;
             ad.show();
         }

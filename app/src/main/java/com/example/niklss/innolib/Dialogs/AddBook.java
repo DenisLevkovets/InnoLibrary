@@ -60,13 +60,13 @@ public class AddBook extends DialogFragment {
         reference.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ref=1;
+                ref=(ref+1)%2;
             }
         });
         bestseller.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                bs=1;
+                bs=(bs+1)%2;
             }
         });
 

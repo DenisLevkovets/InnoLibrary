@@ -5,7 +5,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -15,14 +14,16 @@ import android.widget.Button;
 import com.example.niklss.innolib.DataBase.DataBaseHelper;
 import com.example.niklss.innolib.R;
 
+import java.io.IOException;
+
 /**
  * Created by user on 02.02.2018.
  */
 
 public class InnoLibPatron extends AppCompatActivity {
 
-    private DataBaseHelper mDBHelper;
-    private SQLiteDatabase mDb;
+    private DataBaseHelper db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +33,13 @@ public class InnoLibPatron extends AppCompatActivity {
         Button blist = (Button) findViewById(R.id.blist);
         blist.setOnClickListener(clBList);
         catalog.setOnClickListener(clCatalog);
-        notification();
+
+        try {
+            db=new DataBaseHelper(InnoLibPatron.this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+//        notification();
     }
 
 
@@ -72,7 +79,9 @@ public class InnoLibPatron extends AppCompatActivity {
                     //.setContentTitle(res.getString(R.string.notifytitle)) // Заголовок уведомления
                     .setContentTitle("Напоминание")
                     //.setContentText(res.getString(R.string.notifytext))
-                    .setContentText("Пора покормить кота")
+                    .setContentText("Number of fine books: "+(db.getCountOfOverDueBooks(db.returnListOfUsersBook(db.getUser().getuId()))
+                            +db.getCountOfOverDueArticles(db.returnListOfUsersArticles(db.getUser().getuId()
+                            +db.getCountOfOverDueAV(db.returnListOfUsersAv(db.getUser().getuId())))))+". Fine: ")
                     .setAutoCancel(true); // Текст уведомления
                     // необязательные настройки
 

@@ -20,38 +20,6 @@
         android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/jtitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Journal Title"
-        android:inputType="textPersonName" />
-
-    <EditText
-        android:id="@+id/issue"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Issue"
-        android:inputType="textPersonName" />
-
-    <EditText
-        android:id="@+id/date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Date"
-        android:inputType="textPersonName" />
-
-    <EditText
-        android:id="@+id/editor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Editor"
-        android:inputType="textPersonName" />
-
-    <EditText
         android:id="@+id/count"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -75,9 +43,4 @@
         android:hint="Price"
         android:inputType="textPersonName" />
 
-    <RadioButton
-        android:id="@+id/reference"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Reference" />
 </LinearLayout>

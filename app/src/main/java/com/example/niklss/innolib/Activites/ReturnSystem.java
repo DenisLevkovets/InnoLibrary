@@ -54,7 +54,7 @@ public class ReturnSystem extends Activity {
         list.setOnItemClickListener(click);
 
 
-        ad = new AlertDialog.Builder(ReturnSystem.this).setTitle("Title!");
+        ad = new AlertDialog.Builder(ReturnSystem.this).setTitle("Choose document");
         ad.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -117,22 +117,23 @@ public class ReturnSystem extends Activity {
             adb.setPositiveButton("Return", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-//                    if(i<books.size()){
-//
-//                    }
-//                    else if(i<books.size()+articles.size()){
-//                        adb.setMessage(db.getArticleInfoShort(articles.get(i)));
-//                    }
-//                    else{
-//                        adb.setMessage(db.getAVInfoShort(avm.get(i)));
-//                    }
+
+                    if(i<books.size()){
+                        db.returnBook(db.getUser().getuId(),books.get(i).getBookId());
+                    }
+                    else if(i<books.size()+articles.size()){
+                        db.returnArticle(db.getUser().getuId(),articles.get(i-books.size()).getArticleId());
+                    }
+                    else{
+                        db.returnAV(db.getUser().getuId(),avm.get(i-books.size()-articles.size()).getAvId());
+                    }
                 }
             }).setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
 
                 }
-            });
+            }).show();
         }
     });
 }

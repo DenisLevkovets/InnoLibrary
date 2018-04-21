@@ -14,8 +14,9 @@ import com.example.niklss.innolib.Classes.AV;
 import com.example.niklss.innolib.Classes.Articles;
 import com.example.niklss.innolib.Classes.Books;
 import com.example.niklss.innolib.DataBase.DataBaseHelper;
+import com.example.niklss.innolib.Dialogs.AddAVM;
+import com.example.niklss.innolib.Dialogs.AddArticle;
 import com.example.niklss.innolib.Dialogs.AddBook;
-import com.example.niklss.innolib.Dialogs.ModifyArticle;
 import com.example.niklss.innolib.R;
 
 import java.io.IOException;
@@ -101,6 +102,9 @@ public class CatalogsLib extends Activity   {
     }
 
 
+
+    /////////////////////////////////////////////////////////////////////////////////////////////
+
     public void clickBook(final int id){
         ad = new AlertDialog.Builder(CatalogsLib.this).setTitle("Book");
 
@@ -127,6 +131,10 @@ public class CatalogsLib extends Activity   {
         ad.setCancelable(true);
     }
 
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public void clickAv(final int id){
         ad = new AlertDialog.Builder(CatalogsLib.this).setTitle("Book");
 
@@ -155,7 +163,7 @@ public class CatalogsLib extends Activity   {
 
 
 
-
+ //////////////////////////////////////////////////////////////////////////////////////////////////
 
     public void clickArticle(final int id){
         ad = new AlertDialog.Builder(CatalogsLib.this).setTitle("Book");
@@ -163,7 +171,6 @@ public class CatalogsLib extends Activity   {
         ad.setPositiveButton("Modify", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                DialogFragment modify =new ModifyArticle(0);
             }
         });
 
@@ -182,6 +189,14 @@ public class CatalogsLib extends Activity   {
         });
         ad.setCancelable(true);
     }
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 
     View.OnClickListener clickFb=(new View.OnClickListener() {
         @Override
@@ -209,8 +224,12 @@ public class CatalogsLib extends Activity   {
                     book.show(getFragmentManager(),"a");
                     break;
                 case 1:
+                    DialogFragment article=new AddArticle();
+                    article.show(getFragmentManager(),"b");
                     break;
                 case 2:
+                    DialogFragment avm=new AddAVM();
+                    avm.show(getFragmentManager(),"c");
                     break;
             }
         }

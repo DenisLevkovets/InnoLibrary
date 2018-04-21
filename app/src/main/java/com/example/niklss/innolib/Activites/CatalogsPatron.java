@@ -106,8 +106,9 @@ public class CatalogsPatron extends Activity   {
             public void onClick(DialogInterface dialogInterface, int i) {
                 Patron patron=db.getUser();
                 try {
-                    String res=patron.checkOut(id,CatalogsPatron.this);
-                    Toast.makeText(CatalogsPatron.this,res,Toast.LENGTH_LONG).show();
+                    patron.checkOut(id,CatalogsPatron.this);
+//                    String res=patron.checkOut(id,CatalogsPatron.this);
+//                    Toast.makeText(CatalogsPatron.this,res,Toast.LENGTH_LONG).show();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -134,8 +135,9 @@ public class CatalogsPatron extends Activity   {
             public void onClick(DialogInterface dialogInterface, int i) {
                 Patron patron=db.getUser();
                 try {
-                    String res=patron.checkOutAV(id,CatalogsPatron.this);
-                    Toast.makeText(CatalogsPatron.this,res,Toast.LENGTH_LONG).show();
+                    patron.checkOutAV(id,CatalogsPatron.this);
+//                    String res=patron.checkOutAV(id,CatalogsPatron.this);
+//                    Toast.makeText(CatalogsPatron.this,res,Toast.LENGTH_LONG).show();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -167,8 +169,9 @@ public class CatalogsPatron extends Activity   {
             public void onClick(DialogInterface dialogInterface, int i) {
                 Patron patron=db.getUser();
                 try {
-                    String res=patron.checkOutArticle(id,CatalogsPatron.this);
-                    Toast.makeText(CatalogsPatron.this,res,Toast.LENGTH_LONG).show();
+                    patron.checkOutArticle(id,CatalogsPatron.this);
+//                    String res=patron.checkOutArticle(id,CatalogsPatron.this);
+//                    Toast.makeText(CatalogsPatron.this,res,Toast.LENGTH_LONG).show();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

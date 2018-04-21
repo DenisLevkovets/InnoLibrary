@@ -69,6 +69,19 @@ public class BooksListPatron extends Activity   {
             else checkouted.add(db.getAVInfoShort(Av.get(i)));
         }
 
+        ArrayList<Books> booksfine=db.waitingListOfBooks(db.getUser().getuId());
+        ArrayList<Articles> articlesfine=db.waitingListOfArticles(db.getUser().getuId());
+        ArrayList<AV> avfine=db.waitingListOfAV(db.getUser().getuId());
+        for (int i = 0; i < booksfine.size(); i++) {
+            fine.add(db.getShortInformation(booksfine.get(i)));
+        }
+        for (int i = 0; i < articlesfine.size(); i++) {
+            fine.add(db.getArticleInfoShort(articlesfine.get(i)));
+        }
+        for (int i = 0; i < avfine.size(); i++) {
+            fine.add(db.getAVInfoShort(avfine.get(i)));
+        }
+
 
         groups.add(checkouted);
         groups.add(inqueue);
@@ -83,15 +96,28 @@ public class BooksListPatron extends Activity   {
 //                Toast.makeText(getApplicationContext(),"okay",Toast.LENGTH_SHORT).show();
                 switch (i) {
                     case 0:
-                        clickBook(book.get(i1).getBookId());
-                        ad.setMessage(db.getFullInformation(book.get(i1))).show();
+                        if(i1<book.size()){
+
+                            clickCheckouted(book.get(i1),null,null,0);
+                            ad.setMessage(db.getFullInformation(book.get(i1))).show();
+                        }
+                        else if(i1<book.size()+article.size()){
+
+                            clickCheckouted(null,article.get(i1-book.size()),null,1);
+                            ad.setMessage(db.getArticleInfoFull(article.get(i1-book.size()))).show();
+                        }
+                        else{
+
+                            clickCheckouted(null,null,Av.get(i1-book.size()-article.size()),2);
+                            ad.setMessage(db.getAVInfoFull(Av.get(i1-book.size()-article.size()))).show();
+                        }
                         break;
                     case 1:
-                        clickArticle(article.get(i1).getArticleId());
+                        clickQueue(article.get(i1).getArticleId());
                         ad.setMessage(db.getArticleInfoFull(article.get(i1))).show();
                         break;
                     case 2:
-                        clickAv(Av.get(i1).getAvId());
+                        clickFine(Av.get(i1).getAvId());
                         ad.setMessage(db.getAVInfoFull(Av.get(i1))).show();
                         break;
                 }
@@ -101,13 +127,35 @@ public class BooksListPatron extends Activity   {
     }
 
 
-    public void clickBook(final int id){
-        ad = new AlertDialog.Builder(BooksListPatron.this).setTitle("Book");
+    public void clickCheckouted(Books book, Articles article, AV avm , int type) {
+        ad = new AlertDialog.Builder(BooksListPatron.this).setTitle("Checkouted");
 
         ad.setPositiveButton("Renew", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-
+                switch (type){
+                    case 0:
+                        try {
+                            db.getUser().renewBook(book,BooksListPatron.this);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case 1:
+                        try {
+                            db.getUser().renewArticle(article,BooksListPatron.this);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case 2:
+                        try {
+                            db.getUser().renewAv(avm,BooksListPatron.this);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                }
             }
         });
 
@@ -122,15 +170,8 @@ public class BooksListPatron extends Activity   {
         ad.setCancelable(true);
     }
 
-    public void clickAv(final int id){
-        ad = new AlertDialog.Builder(BooksListPatron.this).setTitle("AV");
-
-        ad.setPositiveButton("Renew", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-            }
-        });
+    public void clickQueue(final int id){
+        ad = new AlertDialog.Builder(BooksListPatron.this).setTitle("Queue");
 
         ad.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
@@ -147,15 +188,8 @@ public class BooksListPatron extends Activity   {
 
 
 
-    public void clickArticle(final int id){
-        ad = new AlertDialog.Builder(BooksListPatron.this).setTitle("Article");
-
-        ad.setPositiveButton("Renew", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-            }
-        });
+    public void clickFine(final int id){
+        ad = new AlertDialog.Builder(BooksListPatron.this).setTitle("Fine");
 
         ad.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
@@ -167,6 +201,8 @@ public class BooksListPatron extends Activity   {
 
         ad.setCancelable(true);
     }
+
+
 
 
 

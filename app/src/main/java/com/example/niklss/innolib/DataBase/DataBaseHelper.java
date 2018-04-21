@@ -277,9 +277,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void updateArticle(int id, String title, String author, String jtitle, String issue, String date, String editor,int numbers, int reference, String keywords, int price) {
+    public void updateArticle(int id, String title, String author, String jtitle, String issue, String date, String editor, int reference, String keywords, int price) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String updateArticle = "Update Articles Set title = '" + title + "', authors = '" + author + "', jtitle = '" + jtitle + "', issue = '" + issue + "', date = '" + date + "', editor = '" + editor+", numbers = "+ numbers + ", reference = " + reference + ", keywords = '" + keywords + "', price = " + price + " where id=" + id;
+        String updateArticle = "Update Articles Set title = '" + title + "', authors = '" + author + "', jtitle = '" + jtitle + "', issue = '" + issue + "', date = '" + date + "', editor = '" + editor + "', reference = " + reference + ", keywords = '" + keywords + "', price = " + price + " where id=" + id;
         db.beginTransaction();
         db.execSQL(updateArticle);
         db.setTransactionSuccessful();
@@ -595,12 +595,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 b.setOverDue(false);
                 b.setFine(0);
                 if (findDifDays(d1, d2) < 0) {
-                    if (b.getPrice() < findDifDays(d1, d2) * -100){
-                        b.setFine(b.getPrice());
-                    }
-                    else{
-                        b.setFine(findDifDays(d1, d2) * -100);
-                    }
+                    b.setFine(findDifDays(d1, d2) * -100);
                     b.setOverDue(true);
                 }
                 book.add(b);
@@ -626,12 +621,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 a.setOverDue(false);
                 a.setFine(0);
                 if (findDifDays(d1, d2) < 0) {
-                    if (a.getPrice() < findDifDays(d1, d2) * -100){
-                        a.setFine(a.getPrice());
-                    }
-                    else{
-                        a.setFine(findDifDays(d1, d2) * -100);
-                    }
+                    a.setFine(findDifDays(d1, d2) * -100);
                     a.setOverDue(true);
                 }
                 articles.add(a);
@@ -657,12 +647,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 a.setOverDue(false);
                 a.setFine(0);
                 if (findDifDays(d1, d2) < 0) {
-                    if (a.getPrice() < findDifDays(d1, d2) * -100){
-                        a.setFine(a.getPrice());
-                    }
-                    else{
-                        a.setFine(findDifDays(d1, d2) * -100);
-                    }
                     a.setFine(findDifDays(d1, d2) * -100);
                     a.setOverDue(true);
                 }
@@ -847,29 +831,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         return list;
     }
-
-    public Integer getCountOfOverDueBooks(ArrayList<Books> books){
-        int count = 0;
-        for (int i = 0; i < books.size(); i++) {
-            if (books.get(i).isOverDue()) count++;
-        }
-        return count;
-    }
-
-    public Integer getCountOfOverDueArticles(ArrayList<Articles> articles){
-        int count = 0;
-        for (int i = 0; i < articles.size(); i++) {
-            if (articles.get(i).isOverDue()) count++;
-        }
-        return count;
-
-    } public Integer getCountOfOverDueAV(ArrayList<AV> av){
-        int count = 0;
-        for (int i = 0; i < av.size(); i++) {
-            if (av.get(i).isOverDue()) count++;
-        }
-        return count;
-    }
+    //
 
     public boolean noOneInQueue(int id, int type) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -1252,6 +1214,30 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.setTransactionSuccessful();
         db.endTransaction();
         db.close();
+    }
+
+
+    public Integer getCountOfOverDueBooks(ArrayList<Books> books){
+        int count = 0;
+        for (int i = 0; i < books.size(); i++) {
+            if (books.get(i).isOverDue()) count++;
+        }
+        return count;
+    }
+
+    public Integer getCountOfOverDueArticles(ArrayList<Articles> articles){
+        int count = 0;
+        for (int i = 0; i < articles.size(); i++) {
+            if (articles.get(i).isOverDue()) count++;
+        }
+        return count;
+
+    } public Integer getCountOfOverDueAV(ArrayList<AV> av){
+        int count = 0;
+        for (int i = 0; i < av.size(); i++) {
+            if (av.get(i).isOverDue()) count++;
+        }
+        return count;
     }
 
 
