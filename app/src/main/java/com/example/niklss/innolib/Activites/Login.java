@@ -32,21 +32,21 @@ public class Login extends Activity {
         password = (EditText) findViewById(R.id.editText2);
         bt.setOnClickListener(click);
 
-        try {
-            db=new DataBaseHelper(getApplicationContext());
-            Patron patron = new Patron(db.getArrayUser(1));
-            System.out.println(patron.getListOfUsersAv(getApplicationContext()).get(0).getDaysLeft());
-            patron.renewAv(patron.getListOfUsersAv(getApplicationContext()).get(0),getApplicationContext());
-            System.out.println(patron.getListOfUsersAv(getApplicationContext()).get(0).getDaysLeft());
-
-
-
-
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            db=new DataBaseHelper(getApplicationContext());
+//            Patron patron = new Patron(db.getArrayUser(1));
+//            System.out.println(patron.getListOfUsersAv(getApplicationContext()).get(0).getDaysLeft());
+//            patron.renewAv(patron.getListOfUsersAv(getApplicationContext()).get(0),getApplicationContext());
+//            System.out.println(patron.getListOfUsersAv(getApplicationContext()).get(0).getDaysLeft());
+//
+//
+//
+//
+//
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
 
     }
