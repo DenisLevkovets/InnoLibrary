@@ -70,7 +70,8 @@ public class Patron extends UserCard {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void checkOut(int id, Context context) throws IOException {
+    public String checkOut(int id, Context context) throws IOException {
+        String output;
         DataBaseHelper db = new DataBaseHelper(context);
         Books book = new Books(db.getArrayBook(id));
 
@@ -95,21 +96,24 @@ public class Patron extends UserCard {
                     String[] date = cal.getTime().toString().split(" ");
                     String t = date[2] + "." + month(date[1]) + "." + date[5];
                     db.updateTimeChecker(this.getuId(), book.getBookId(), t, book.getTypeOfMaterial(), 0);
+                    output = "You can take the book";
 
                 } else {
-                    System.out.println("You are in queue for this book");
+                    output = "You are in queue for this book";
                     db.standInQueue(this, book.getBookId(), book.getTypeOfMaterial());
                 }
             } else {
-                System.out.println("You already have this book");
+                output = "You already have this book";
             }
         } else {
-            System.out.println("Isn't your type");
+            output = "Isn't your type";
         }
+        return output;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void checkOutAV(int id, Context context) throws IOException {
+    public String checkOutAV(int id, Context context) throws IOException {
+        String output;
         DataBaseHelper db = new DataBaseHelper(context);
         AV av = new AV(db.getAVMaterial(id));
 
@@ -129,17 +133,20 @@ public class Patron extends UserCard {
                 String[] date = cal.getTime().toString().split(" ");
                 String t = date[2] + "." + month(date[1]) + "." + date[5];
                 db.updateTimeChecker(this.getuId(), av.getAvId(), t, av.getTypeOfMaterial(), 0);
+                output = "You can take the AV";
             } else {
-                System.out.println("You are in queue for this AV material");
+                output = "You are in queue for this AV material";
                 db.standInQueue(this, av.getAvId(), av.getTypeOfMaterial());
             }
         } else {
-            System.out.println("You already have this AV material");
+            output = "You already have this AV material";
         }
+        return output;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void checkOutArticle(int id, Context context) throws IOException {
+    public String checkOutArticle(int id, Context context) throws IOException {
+        String output;
         DataBaseHelper db = new DataBaseHelper(context);
         Articles art = new Articles(db.getArticleMaterial(id));
 
@@ -159,13 +166,15 @@ public class Patron extends UserCard {
                 String[] date = cal.getTime().toString().split(" ");
                 String t = date[2] + "." + month(date[1]) + "." + date[5];
                 db.updateTimeChecker(this.getuId(), art.getArticleId(), t, art.getTypeOfMaterial(), 0);
+                output = "You can take the Article";
             } else {
-                System.out.println("You are in queue for this article");
+                output = "You are in queue for this article";
                 db.standInQueue(this, art.getArticleId(), art.getTypeOfMaterial());
             }
         } else {
-            System.out.println("You already have this article");
+            output = "You already have this article";
         }
+        return output;
     }
 
     public ArrayList<Books> getAvailiableBooks(Context context) throws IOException {

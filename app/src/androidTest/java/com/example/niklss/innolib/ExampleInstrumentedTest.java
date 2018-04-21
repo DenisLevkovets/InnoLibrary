@@ -5,6 +5,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
+import com.example.niklss.innolib.Classes.AV;
 import com.example.niklss.innolib.Classes.Books;
 import com.example.niklss.innolib.Classes.Librarian;
 import com.example.niklss.innolib.Classes.Patron;
@@ -28,21 +29,19 @@ import static org.hamcrest.core.Is.is;
 @RunWith(AndroidJUnit4.class)
 public class ExampleInstrumentedTest {
     @Test
-    public void useAppContext() throws Exception {
+    public void Test1() throws Exception {
         Context appContext = InstrumentationRegistry.getTargetContext();
         DataBaseHelper db = new DataBaseHelper(appContext);
-        db.clearDataBase();
         Patron p1 = db.getListOfUsers().get(0);
         Books b1 = db.getListOfBooks().get(0);
         Books b2 = db.getListOfBooks().get(1);
 
         p1.checkOut(b1.getBookId(), appContext);
         p1.checkOut(b2.getBookId(), appContext);
-        db.returnBook(p1.getuId(), b2.getBookId());
 
         ArrayList<Books> b = p1.getListOfUsersBook(appContext);
         assertThat(b.get(0).getFine(), is(0));
-        assertThat(b.get(0).getDaysLeft(), is(28));
-
+        assertThat(b.get(0).getDaysLeft(), is(59));
     }
+
 }
