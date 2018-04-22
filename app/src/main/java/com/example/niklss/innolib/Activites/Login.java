@@ -2,22 +2,16 @@ package com.example.niklss.innolib.Activites;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.niklss.innolib.Classes.AV;
 import com.example.niklss.innolib.Classes.Patron;
 import com.example.niklss.innolib.DataBase.DataBaseHelper;
 import com.example.niklss.innolib.R;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Created by user on 04.02.2018.
@@ -28,7 +22,6 @@ public class Login extends Activity {
     EditText password;
     DataBaseHelper db=null;
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,22 +31,13 @@ public class Login extends Activity {
         password = (EditText) findViewById(R.id.editText2);
         bt.setOnClickListener(click);
 
-
         try {
             db=new DataBaseHelper(getApplicationContext());
             Patron patron = new Patron(db.getArrayUser(1));
-
-            System.out.println(patron.getListOfUsersAv(getApplicationContext()).get(0).getTitle());
             System.out.println(patron.getListOfUsersAv(getApplicationContext()).get(0).getDaysLeft());
             patron.renewAv(patron.getListOfUsersAv(getApplicationContext()).get(0),getApplicationContext());
-            System.out.println(patron.getListOfUsersAv(getApplicationContext()).get(0).getTitle());
             System.out.println(patron.getListOfUsersAv(getApplicationContext()).get(0).getDaysLeft());
-
-
-
-
-
-
+            System.out.println(db.inp());
         } catch (IOException e) {
             e.printStackTrace();
         }

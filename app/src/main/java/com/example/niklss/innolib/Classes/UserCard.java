@@ -66,4 +66,11 @@ public class UserCard {
     public String getSecondName() {
         return secondName;
     }
+
+    public ArrayList<Books> searchBook(){
+        ArrayList<Books> books = new ArrayList<>();
+
+
+        return books;
+    }
 }
