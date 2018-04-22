@@ -346,7 +346,35 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         mCur.moveToFirst();
         ArrayList<String> user = new ArrayList<>();
         while (!mCur.isAfterLast()) {
-            if (!mCur.getString(mCur.getColumnIndex("status")).equals("5")) {
+            if (mCur.getInt(mCur.getColumnIndex("status")) <= 4) {
+                user.add(mCur.getString(mCur.getColumnIndex("First_name")));
+                user.add(mCur.getString(mCur.getColumnIndex("Last_name")));
+                user.add(mCur.getString(mCur.getColumnIndex("address")));
+                user.add(mCur.getString(mCur.getColumnIndex("user_id")));
+                user.add(mCur.getString(mCur.getColumnIndex("phone")));
+                user.add(mCur.getString(mCur.getColumnIndex("status")));
+                Patron a = new Patron(user);
+                user.clear();
+                list.add(a);
+            }
+            mCur.moveToNext();
+        }
+        mCur.moveToFirst();
+        db.close();
+        mCur.close();
+
+        return list;
+    }
+
+    public ArrayList<Patron> getListOfLibrarians() throws FileNotFoundException {
+        ArrayList<Patron> list = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        String mQuery = "SELECT First_name,Last_name, address,  user_id, phone, status From Users";
+        Cursor mCur = db.rawQuery(mQuery, new String[]{});
+        mCur.moveToFirst();
+        ArrayList<String> user = new ArrayList<>();
+        while (!mCur.isAfterLast()) {
+            if (4 < mCur.getInt(mCur.getColumnIndex("status")) && mCur.getInt(mCur.getColumnIndex("status")) < 8) {
                 user.add(mCur.getString(mCur.getColumnIndex("First_name")));
                 user.add(mCur.getString(mCur.getColumnIndex("Last_name")));
                 user.add(mCur.getString(mCur.getColumnIndex("address")));
