@@ -70,11 +70,11 @@ public class Patron extends UserCard {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void checkOut(int id, Context context) throws IOException {
+    public String checkOut(int id, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
         Books book = new Books(db.getArrayBook(id));
 
-        if (getUsersType() >= book.getReference()) {
+        if (getUsersType() >= book.getReference()) {//reference никто не может брать
             if (!hasCopy(context, book.getBookId(), 0)) {
                 if (book.getCountOfBooks() > 0) {
                     book.setCountOfBooks(book.getCountOfBooks() - 1);
@@ -106,10 +106,11 @@ public class Patron extends UserCard {
         } else {
             System.out.println("Isn't your type");
         }
+        return "AAAA";
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void checkOutAV(int id, Context context) throws IOException {
+    public String checkOutAV(int id, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
         AV av = new AV(db.getAVMaterial(id));
 
@@ -136,10 +137,11 @@ public class Patron extends UserCard {
         } else {
             System.out.println("You already have this AV material");
         }
+        return "AAAA";
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void checkOutArticle(int id, Context context) throws IOException {
+    public String checkOutArticle(int id, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
         Articles art = new Articles(db.getArticleMaterial(id));
 
@@ -166,6 +168,7 @@ public class Patron extends UserCard {
         } else {
             System.out.println("You already have this article");
         }
+        return "AAAA";
     }
 
     public ArrayList<Books> getAvailiableBooks(Context context) throws IOException {
@@ -200,7 +203,7 @@ public class Patron extends UserCard {
                 String t = date[2] + "." + month(date[1]) + "." + date[5];
                 db.updateTimeChecker(this.getuId(), book.getBookId(), t, book.getTypeOfMaterial(), 1);
             } else {
-                if (!db.wasRenewed(this.getuId(), book.getBookId(), book.getTypeOfMaterial())) {
+                if (db.wasRenewed(this.getuId(), book.getBookId(), book.getTypeOfMaterial())) {
                     System.out.println("You cant renew this book again");
                 } else {
                     book.setDaysLeft(14 + db.daysLeft(this.getuId(), book.getBookId(), book.getTypeOfMaterial()));
@@ -232,7 +235,7 @@ public class Patron extends UserCard {
                 String t = date[2] + "." + month(date[1]) + "." + date[5];
                 db.updateTimeChecker(this.getuId(), article.getArticleId(), t, article.getTypeOfMaterial(), 1);
             } else {
-                if (!db.wasRenewed(this.getuId(), article.getArticleId(), article.getTypeOfMaterial())) {
+                if (db.wasRenewed(this.getuId(), article.getArticleId(), article.getTypeOfMaterial())) {
                     System.out.println("You cant renew this book again");
                 } else {
                     article.setDaysLeft(14 + db.daysLeft(this.getuId(), article.getArticleId(), article.getTypeOfMaterial()));
@@ -263,10 +266,11 @@ public class Patron extends UserCard {
                 String t = date[2] + "." + month(date[1]) + "." + date[5];
                 db.updateTimeChecker(this.getuId(), av.getAvId(), t, av.getTypeOfMaterial(), 1);
             } else {
-                if (!db.wasRenewed(this.getuId(), av.getAvId(), av.getTypeOfMaterial())) {
+                if (db.wasRenewed(this.getuId(), av.getAvId(), av.getTypeOfMaterial())) {
                     System.out.println("You cant renew this book again");
                 } else {
-                    av.setDaysLeft(14 + + db.daysLeft(this.getuId(), av.getAvId(), av.getTypeOfMaterial()));
+                    System.out.println("DDDDDD");
+                    av.setDaysLeft(14 + db.daysLeft(this.getuId(), av.getAvId(), av.getTypeOfMaterial()));
                     this.wasRenewedAv.add(av.getAvId());
                     Calendar cal = new GregorianCalendar();
                     cal.add(Calendar.DAY_OF_MONTH, av.getDaysLeft());
