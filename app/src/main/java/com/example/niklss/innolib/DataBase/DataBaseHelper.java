@@ -281,9 +281,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void updateArticle(int id, String title, String author, String jtitle, String issue, String date, String editor, int numbers, int reference, String keywords, int price) {
+    public void updateArticle(int id, String title, String author, String jtitle, String issue, String date, String editor,int numbers, int reference, String keywords, int price) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String updateArticle = "Update Articles Set title = '" + title + "', authors = '" + author + "', jtitle = '" + jtitle + "', issue = '" + issue + "', date = '" + date + "', editor = '" + editor + ", numbers = " + numbers + ", reference = " + reference + ", keywords = '" + keywords + "', price = " + price + " where id=" + id;
+        String updateArticle = "Update Articles Set title = '" + title + "', authors = '" + author + "', jtitle = '" + jtitle + "', issue = '" + issue + "', date = '" + date + "', editor = '" + editor+", numbers = "+ numbers + ", reference = " + reference + ", keywords = '" + keywords + "', price = " + price + " where id=" + id;
         db.beginTransaction();
         db.execSQL(updateArticle);
         db.setTransactionSuccessful();
@@ -517,6 +517,34 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return db.update("Books", cv, "book_id = ?", new String[]{Integer.toString(book.getBookId())});
     }
 
+
+    public int updateArticleData(Articles article) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("title", article.getTitle());
+        cv.put("authors", article.getAuthors());
+        cv.put("jtitle", article.getJtitle());
+        cv.put("issue", article.getIssue());
+        cv.put("date", article.getDate());
+        cv.put("editor", article.getEditor());
+        cv.put("numbers", article.getCountArticle());
+        cv.put("reference", article.getReference());
+        cv.put("keywords", article.getKeywords());
+        cv.put("price", article.getPrice());
+        return db.update("Articles", cv, "id = ?", new String[]{Integer.toString(article.getArticleId())});
+    }
+
+    public int updateAvData(AV av) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("title", av.getTitle());
+        cv.put("authors", av.getAuthors());
+        cv.put("numbers", av.getCountAv());
+        cv.put("keywords", av.getKeywords());
+        cv.put("price", av.getPrice());
+        return db.update("AV", cv, "id = ?", new String[]{Integer.toString(av.getAvId())});
+    }
+
     public int updateUserData(UserCard user) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -554,13 +582,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.insert("time_checker", null, cv);
     }
 
-    public boolean wasRenewed(int user_id, int book_id, int type) {
+    public boolean wasRenewed(int user_id, int book_id, int type){
         SQLiteDatabase db = this.getWritableDatabase();
         String mQuery = "SELECT user_id, book_id, time, type, renewed From time_checker";
         Cursor mCur = db.rawQuery(mQuery, new String[]{});
         mCur.moveToFirst();
         while (!mCur.isAfterLast()) {
-            if (user_id == mCur.getInt(mCur.getColumnIndex("user_id")) && book_id == mCur.getInt(mCur.getColumnIndex("book_id")) && type == mCur.getInt(mCur.getColumnIndex("type")) && 1 == mCur.getInt(mCur.getColumnIndex("renewed"))) {
+            if (user_id == mCur.getInt(mCur.getColumnIndex("user_id")) && book_id == mCur.getInt(mCur.getColumnIndex("book_id")) && type == mCur.getInt(mCur.getColumnIndex("type")) && 1 == mCur.getInt(mCur.getColumnIndex("renewed"))){
                 return true;
             }
             mCur.moveToNext();
@@ -568,7 +596,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return false;
     }
 
-    private Integer findDifDays(String d1, String d2) {
+    private int findDifDays(String d1, String d2) {
         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
         Date date1 = null;
         Date date2 = null;
@@ -713,7 +741,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         while (!mCur.isAfterLast()) {
             boolean contains = false;
             for (int i = 0; i < patron.size(); i++) {
-                if (patron.get(i).getuId() == mCur.getInt(mCur.getColumnIndex("user_id"))) {
+                if (patron.get(i).getuId() == mCur.getInt(mCur.getColumnIndex("user_id"))){
                     contains = true;
                 }
             }
@@ -778,7 +806,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         mCur.close();
         return list;
     }
-
+//
     public void clearDataBase() {
         SQLiteDatabase db = this.getWritableDatabase();
         /*String deletebook = "DELETE FROM BOOKS;";
@@ -787,14 +815,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         /*String deleteArticles = "DELETE FROM ARTICLES;";*/
         String deleteTimeChecker = "DELETE FROM time_checker;";
         String deleteQueue = "DELETE FROM Queue;";
-//        String deleteLogin = "DELETE FROM Login;";
-//        String deleteUserID = "DELETE FROM UserId;";
-//        String deleteOutstanding = "DELETE FROM outstanding;";
+        String deleteLogin = "DELETE FROM Login;";
+        String deleteUserID = "DELETE FROM UserId;";
+        String deleteOutstanding = "DELETE FROM outstanding;";
 
         db.beginTransaction();
-//        db.execSQL(deleteLogin);
-//        db.execSQL(deleteUserID);
-//        db.execSQL(deleteOutstanding);
+        db.execSQL(deleteLogin);
+        db.execSQL(deleteUserID);
+        db.execSQL(deleteOutstanding);
         db.execSQL(deleteTimeChecker);
         db.execSQL(deleteQueue);
         db.setTransactionSuccessful();
@@ -855,7 +883,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return list;
     }
 
-    public Integer getCountOfOverDueBooks(ArrayList<Books> books) {
+    public Integer getCountOfOverDueBooks(ArrayList<Books> books){
         int count = 0;
         for (int i = 0; i < books.size(); i++) {
             if (books.get(i).isOverDue()) count++;
@@ -863,16 +891,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return count;
     }
 
-    public Integer getCountOfOverDueArticles(ArrayList<Articles> articles) {
+    public Integer getCountOfOverDueArticles(ArrayList<Articles> articles){
         int count = 0;
         for (int i = 0; i < articles.size(); i++) {
             if (articles.get(i).isOverDue()) count++;
         }
         return count;
 
-    }
-
-    public Integer getCountOfOverDueAV(ArrayList<AV> av) {
+    } public Integer getCountOfOverDueAV(ArrayList<AV> av){
         int count = 0;
         for (int i = 0; i < av.size(); i++) {
             if (av.get(i).isOverDue()) count++;
@@ -1094,6 +1120,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 date = mCur.getString(mCur.getColumnIndex("time"));
 
 
+
                 Date date1 = new Date(System.currentTimeMillis());
 
                 SimpleDateFormat formatter1 = new SimpleDateFormat("dd.MM.yyyy");
@@ -1226,43 +1253,71 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return av;
     }
 
-    public void returnBook(int user_id, int book_id) {
+    public void returnBook(int user_id,int book_id){
         SQLiteDatabase db = this.getWritableDatabase();
         db.beginTransaction();
-        db.execSQL("DELETE FROM time_checker WHERE book_id = " + book_id + " and type = " + 0 + " and user_id = " + user_id + ";");
-        Books b = new Books(getArrayBook(book_id));
-        String updateBooks = "Update Books Set title = '" + b.getTitleBook() + "', author = '" + b.getAuthorsOfBook() + "', available_copies = " + (b.getCountOfBooks() + 1) + ", type = " + b.getReference() + ", price = " + b.getPrice() + ", edition = " + b.getEdition() + ", date = '" + b.getDateOfCreationOfBook() + "', published_by = '" + b.getPublished_by() + "', keywords = '" + b.getKeywords() + "', is_bestseller = " + b.getIsBestSeller() + " where id=" + book_id;
+        db.execSQL("DELETE FROM time_checker WHERE book_id = "+book_id+" and type = "+0+" and user_id = "+user_id+";");
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
+        Books b =new Books(getArrayBook(book_id));
+        returnBookerr(b,book_id);
+    }
+
+    public void returnBookerr(Books b,int book_id){
+        SQLiteDatabase db =this.getWritableDatabase();
+        db.beginTransaction();
+        String updateBooks = "Update Books Set title = '" + b.getTitleBook() + "', author = '" + b.getAuthorsOfBook() + "', available_copies = " + (b.getCountOfBooks()+1)+ ", type = " + b.getReference() + ", price = " + b.getPrice() + ", edition = " + b.getEdition() + ", date = '" + b.getDateOfCreationOfBook() + "', published_by = '" + b.getPublished_by() + "', keywords = '" + b.getKeywords() + "', is_bestseller = " + b.getIsBestSeller() + " where id=" + book_id;
         db.execSQL(updateBooks);
         db.setTransactionSuccessful();
         db.endTransaction();
         db.close();
     }
 
-    public void returnArticle(int user_id, int article_id) {
+    public void returnArticle(int user_id,int article_id){
         SQLiteDatabase db = this.getWritableDatabase();
         db.beginTransaction();
-        db.execSQL("DELETE FROM time_checker WHERE book_id = " + article_id + ", type = " + 1 + ", user_id = " + user_id + ";");
-        Articles a = new Articles(getArrayArticle(article_id));
-        String updateArticle = "Update Articles Set title = '" + a.getTitle() + "', authors = '" + a.getAuthors() + "', jtitle = '" + a.getJtitle() + "', issue = '" + a.getIssue() + "', date = '" + a.getDate() + "', editor = '" + a.getEditor() + ", numbers = " + (a.getCountArticle() + 1) + ", reference = " + a.getReference() + ", keywords = '" + a.getKeywords() + "', price = " + a.getPrice() + " where id=" + article_id;
+        db.execSQL("DELETE FROM time_checker WHERE book_id = "+article_id+" and type = "+1+" and user_id = "+user_id+";");
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
+        Articles a =new Articles(getArrayArticle(article_id));
+        returnArticleerr(a,article_id);
+    }
+
+    public void returnArticleerr(Articles a,int article_id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.beginTransaction();
+        String updateArticle = "Update Articles Set title = '" + a.getTitle() + "', authors = '" + a.getAuthors() + "', jtitle = '" + a.getJtitle() + "', issue = '" + a.getIssue() + "', date = '" + a.getDate() + "', editor = '" + a.getEditor()+", numbers = "+ (a.getCountArticle()+1) + ", reference = " + a.getReference() + ", keywords = '" + a.getKeywords() + "', price = " + a.getPrice() + " where id=" + article_id;
         db.execSQL(updateArticle);
         db.setTransactionSuccessful();
         db.endTransaction();
         db.close();
     }
 
-    public void returnAV(int user_id, int av_id) {
+    public void returnAV(int user_id,int av_id){
         SQLiteDatabase db = this.getWritableDatabase();
         db.beginTransaction();
-        db.execSQL("DELETE FROM time_checker WHERE book_id = " + av_id + ", type = " + 2 + ", user_id = " + user_id + ";");
-        AV a = new AV(getArrayAV(av_id));
-        String updateAV = "Update AV Set title = '" + a.getTitle() + "', authors = '" + a.getAuthors() + "', numbers = " + (a.getCountAv() + 1) + ", keywords = '" + a.getKeywords() + "', price = " + a.getPrice() + " where id=" + av_id;
+        db.execSQL("DELETE FROM time_checker WHERE book_id = "+av_id+" and type = "+2+" and user_id = "+user_id+";");
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
+        AV a =new AV(getArrayAV(av_id));
+        returnAVerr(a,av_id);
+    }
+
+    public void returnAVerr(AV a, int av_id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.beginTransaction();
+        String updateAV = "Update AV Set title = '" + a.getTitle() + "', authors = '" + a.getAuthors() + "', numbers = " + (a.getCountAv()+1) + ", keywords = '" + a.getKeywords() + "', price = " + a.getPrice() + " where id=" + av_id;
         db.execSQL(updateAV);
         db.setTransactionSuccessful();
         db.endTransaction();
         db.close();
+
     }
 
-    public ArrayList<String> showQueue() throws FileNotFoundException {
+    public ArrayList<String> showQueue(){
         SQLiteDatabase db = this.getWritableDatabase();
         ArrayList<String> people = new ArrayList<>();
         String mQuery = "SELECT user_id, user_type, document_id, document_type From Queue";
@@ -1272,14 +1327,20 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         while (!mCur.isAfterLast()) {
 
             Patron b = new Patron(getArrayUser(mCur.getInt(mCur.getColumnIndex("user_id"))));
-            people.add(b.getuName());
+
+            people.add(b.getuName()+" "+mCur.getInt(mCur.getColumnIndex("document_id"))+" "+mCur.getInt(mCur.getColumnIndex("document_type")));
+
+
             mCur.moveToNext();
         }
+
         mCur.close();
+
         return people;
+
     }
 
-    public ArrayList<Patron> usersForBook(int id, int type) throws FileNotFoundException {
+    public ArrayList<Patron> usersForBook(int id, int type){
         SQLiteDatabase db = this.getWritableDatabase();
         ArrayList<Patron> people = new ArrayList<>();
         String mQuery = "SELECT user_id, user_type, document_id, document_type From Queue";
@@ -1313,7 +1374,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         in.close();
         return output;
     }
-
 
 
 
