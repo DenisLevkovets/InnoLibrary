@@ -1317,7 +1317,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public ArrayList<String> showQueue(){
+    public ArrayList<String> showQueue() throws FileNotFoundException {
         SQLiteDatabase db = this.getWritableDatabase();
         ArrayList<String> people = new ArrayList<>();
         String mQuery = "SELECT user_id, user_type, document_id, document_type From Queue";
@@ -1340,7 +1340,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public ArrayList<Patron> usersForBook(int id, int type){
+    public ArrayList<Patron> usersForBook(int id, int type) throws FileNotFoundException {
         SQLiteDatabase db = this.getWritableDatabase();
         ArrayList<Patron> people = new ArrayList<>();
         String mQuery = "SELECT user_id, user_type, document_id, document_type From Queue";

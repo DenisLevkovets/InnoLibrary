@@ -29,23 +29,23 @@ public class Librarian1 extends UserCard {
         db.out(time + " " + this.getuName() + " " + this.getSecondName() + " " + this.getuId() + " modifiedBook " + book.getBookId());
     }
 
-//    public void modifyArticle(Articles article, Context context) throws IOException {
-//        DataBaseHelper db = new DataBaseHelper(context);
-//        Calendar cal = new GregorianCalendar();
-//        db.updateArticleData(article);
-//        String[] buf = cal.getTime().toString().split(" ");
-//        String time = buf[2] + "." + month(buf[1]) + "." + buf[5];
-//        db.out(time + " " + this.getuName() + " " + this.getSecondName() + " " + this.getuId() + " modifiedArticle " + article.getArticleId());
-//    }
-//
-//    public void modifyAv(AV av, Context context) throws IOException {
-//        DataBaseHelper db = new DataBaseHelper(context);
-//        Calendar cal = new GregorianCalendar();
-//        db.updateAvData(av);
-//        String[] buf = cal.getTime().toString().split(" ");
-//        String time = buf[2] + "." + month(buf[1]) + "." + buf[5];
-//        db.out(time + " " + this.getuName() + " " + this.getSecondName() + " " + this.getuId() + " modifiedAV " + av.getAvId());
-//    }
+    public void modifyArticle(Articles article, Context context) throws IOException {
+        DataBaseHelper db = new DataBaseHelper(context);
+        Calendar cal = new GregorianCalendar();
+        db.updateArticleData(article);
+        String[] buf = cal.getTime().toString().split(" ");
+        String time = buf[2] + "." + month(buf[1]) + "." + buf[5];
+        db.out(time + " " + this.getuName() + " " + this.getSecondName() + " " + this.getuId() + " modifiedArticle " + article.getArticleId());
+    }
+
+    public void modifyAv(AV av, Context context) throws IOException {
+        DataBaseHelper db = new DataBaseHelper(context);
+        Calendar cal = new GregorianCalendar();
+        db.updateAvData(av);
+        String[] buf = cal.getTime().toString().split(" ");
+        String time = buf[2] + "." + month(buf[1]) + "." + buf[5];
+        db.out(time + " " + this.getuName() + " " + this.getSecondName() + " " + this.getuId() + " modifiedAV " + av.getAvId());
+    }
 
     public void modifyPatron(Patron user, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
