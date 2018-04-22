@@ -346,7 +346,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         mCur.moveToFirst();
         ArrayList<String> user = new ArrayList<>();
         while (!mCur.isAfterLast()) {
-            if (!mCur.getString(mCur.getColumnIndex("status")).equals("5")) {
+            if (mCur.getInt(mCur.getColumnIndex("status")) <= 4) {
                 user.add(mCur.getString(mCur.getColumnIndex("First_name")));
                 user.add(mCur.getString(mCur.getColumnIndex("Last_name")));
                 user.add(mCur.getString(mCur.getColumnIndex("address")));

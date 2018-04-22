@@ -1,6 +1,14 @@
 package com.example.niklss.innolib.Classes;
 
+import android.content.Context;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+
+import com.example.niklss.innolib.DataBase.DataBaseHelper;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Created by user on 02.02.2018.
@@ -67,10 +75,179 @@ public class UserCard {
         return secondName;
     }
 
-    public ArrayList<Books> searchBook(){
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public ArrayList<Books> searchBook(String title, String author, int reference, String price, String edition, String dateOfCreation, String publishedBy, String keywords, int isBestSeller, Context context) throws IOException {
+        DataBaseHelper db = new DataBaseHelper(context);
         ArrayList<Books> books = new ArrayList<>();
 
+        ArrayList<Books> input = db.getListOfBooks();
+        for (int i = 0; i < input.size(); i++) {
+            boolean inThere = false;
+            if (title != null && !title.equals("")){
+                if (!title.toLowerCase().equals(input.get(i).getTitleBook().toLowerCase())){
+                    continue;
+                }
+            }
+            if (author != null && !author.equals("")){
+                if (!author.toLowerCase().equals(input.get(i).getAuthorsOfBook().toLowerCase())){
+                    continue;
+                }
+            }
+            if (reference != input.get(i).getReference()){
+                continue;
+            }
+            if (price != null && !price.equals("")){
+                if (!price.equals(Integer.toString(input.get(i).getPrice()))){
+                    continue;
+                }
+            }
+            if (edition != null && !edition.equals("")){
+                if (!edition.equals(Integer.toString(input.get(i).getEdition()))){
+                    continue;
+                }
+            }
+            if (dateOfCreation != null && !dateOfCreation.equals("")){
+                if (!dateOfCreation.toLowerCase().equals(input.get(i).getDateOfCreationOfBook().toLowerCase())){
+                    continue;
+                }
+            }
+            if (publishedBy != null && !publishedBy.equals("")){
+                if (!publishedBy.toLowerCase().equals(input.get(i).getPublished_by().toLowerCase())){
+                    continue;
+                }
+            }
+            if (keywords != null && !keywords.equals("")){
+                String[] keysOfBook = input.get(i).getKeywords().toLowerCase().split(" ");
+                String[] myKeys = keywords.toLowerCase().split(" ");
+                for (int j = 0; j < myKeys.length; j++) {
+                    for (int k = 0; k < keysOfBook.length; k++) {
+                        if (Objects.equals(myKeys[j], keysOfBook[k])){
+                            inThere = true;
+                        }
+                    }
+                }
+                if (!inThere){
+                    continue;
+                }
+            }
+            if (isBestSeller != input.get(i).getIsBestSeller()){
+                continue;
+            }
+
+            books.add(input.get(i));
+        }
 
         return books;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public ArrayList<Articles> searchArticle(String title, String author, String jtitle, String issue, String date, String editor, int reference, String keywords, String price, Context context) throws IOException {
+        DataBaseHelper db = new DataBaseHelper(context);
+        ArrayList<Articles> articles = new ArrayList<>();
+
+        ArrayList<Articles> input = db.getListOfArticles();
+        for (int i = 0; i < input.size(); i++) {
+            boolean inThere = false;
+            if (title != null && !title.equals("")){
+                if (!title.toLowerCase().equals(input.get(i).getTitle().toLowerCase())){
+                    continue;
+                }
+            }
+            if (author != null && !author.equals("")){
+                if (!author.toLowerCase().equals(input.get(i).getAuthors().toLowerCase())){
+                    continue;
+                }
+            }
+            if (reference != input.get(i).getReference()){
+                continue;
+            }
+            if (price != null && !price.equals("")){
+                if (!price.equals(Integer.toString(input.get(i).getPrice()))){
+                    continue;
+                }
+            }
+            if (editor != null && !editor.equals("")){
+                if (!editor.equals(input.get(i).getEditor())){
+                    continue;
+                }
+            }
+            if (date != null && !date.equals("")){
+                if (!date.toLowerCase().equals(input.get(i).getDate().toLowerCase())){
+                    continue;
+                }
+            }
+            if (jtitle != null && !jtitle.equals("")){
+                if (!jtitle.toLowerCase().equals(input.get(i).getJtitle().toLowerCase())){
+                    continue;
+                }
+            }
+            if (keywords != null && !keywords.equals("")){
+                String[] keysOfBook = input.get(i).getKeywords().toLowerCase().split(" ");
+                String[] myKeys = keywords.toLowerCase().split(" ");
+                for (int j = 0; j < myKeys.length; j++) {
+                    for (int k = 0; k < keysOfBook.length; k++) {
+                        if (Objects.equals(myKeys[j], keysOfBook[k])){
+                            inThere = true;
+                        }
+                    }
+                }
+                if (!inThere){
+                    continue;
+                }
+            }
+            if (issue != null && !issue.equals("")){
+                if (!issue.toLowerCase().equals(input.get(i).getIssue().toLowerCase())){
+                    continue;
+                }
+            }
+
+            articles.add(input.get(i));
+        }
+
+        return articles;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public ArrayList<AV> searchArticle(String title, String author, String keywords, String price, Context context) throws IOException {
+        DataBaseHelper db = new DataBaseHelper(context);
+        ArrayList<AV> av = new ArrayList<>();
+
+        ArrayList<AV> input = db.getListOfAV();
+        for (int i = 0; i < input.size(); i++) {
+            boolean inThere = false;
+            if (title != null && !title.equals("")){
+                if (!title.toLowerCase().equals(input.get(i).getTitle().toLowerCase())){
+                    continue;
+                }
+            }
+            if (author != null && !author.equals("")){
+                if (!author.toLowerCase().equals(input.get(i).getAuthors().toLowerCase())){
+                    continue;
+                }
+            }
+            if (price != null && !price.equals("")){
+                if (!price.equals(Integer.toString(input.get(i).getPrice()))){
+                    continue;
+                }
+            }
+            if (keywords != null && !keywords.equals("")){
+                String[] keysOfBook = input.get(i).getKeywords().toLowerCase().split(" ");
+                String[] myKeys = keywords.toLowerCase().split(" ");
+                for (int j = 0; j < myKeys.length; j++) {
+                    for (int k = 0; k < keysOfBook.length; k++) {
+                        if (Objects.equals(myKeys[j], keysOfBook[k])){
+                            inThere = true;
+                        }
+                    }
+                }
+                if (!inThere){
+                    continue;
+                }
+            }
+
+            av.add(input.get(i));
+        }
+
+        return av;
     }
 }
