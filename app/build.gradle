@@ -30,4 +30,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     testCompile 'junit:junit:4.12'
     implementation 'com.android.support:design:27.0.2'
+    implementation files('src/main/java/com/example/niklss/innolib/UsedLibraries/lucene-core-7.3.0.jar')
 }

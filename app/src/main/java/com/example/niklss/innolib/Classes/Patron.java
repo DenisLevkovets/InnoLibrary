@@ -6,7 +6,10 @@ import android.support.annotation.RequiresApi;
 
 import com.example.niklss.innolib.DataBase.DataBaseHelper;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -21,16 +24,17 @@ public class Patron extends UserCard {
     private ArrayList<Integer> wasRenewedBook = new ArrayList<>();
     private ArrayList<Integer> wasRenewedArticle = new ArrayList<>();
     private ArrayList<Integer> wasRenewedAv = new ArrayList<>();
+    private PrintWriter out = new PrintWriter(new File("Log"));
 
-    public Patron(ArrayList<String> a) {
+    public Patron(ArrayList<String> a) throws FileNotFoundException {
         super(a.get(0), a.get(1), a.get(2), Integer.parseInt(a.get(3)), a.get(4), Integer.parseInt(a.get(5)));
     }
 
-    public Patron(String name, String secondName, String address, String num, int isStatus, int id) {
+    public Patron(String name, String secondName, String address, String num, int isStatus, int id) throws FileNotFoundException {
         super(name, secondName, address, id, num, isStatus);
     }
 
-    public Patron(String[] a) {
+    public Patron(String[] a) throws FileNotFoundException {
         super(a);
     }
 
@@ -108,6 +112,8 @@ public class Patron extends UserCard {
         } else {
             output = "Isn't your type";
         }
+        out.println(Calendar.DATE + " " + this.getuName() + " " + this.getSecondName() + " " + this.getuId() + "chechoutBook " + id);
+        out.close();
         return output;
     }
 
@@ -141,6 +147,8 @@ public class Patron extends UserCard {
         } else {
             output = "You already have this AV material";
         }
+        out.println(Calendar.DATE + " " + this.getuName() + " " + this.getSecondName() + " " + this.getuId() + "chechoutAV " + id);
+        out.close();
         return output;
     }
 
@@ -174,6 +182,8 @@ public class Patron extends UserCard {
         } else {
             output = "You already have this article";
         }
+        out.println(Calendar.DATE + " " + this.getuName() + " " + this.getSecondName() + " " + this.getuId() + "chechoutArticle " + id);
+        out.close();
         return output;
     }
 
@@ -209,7 +219,7 @@ public class Patron extends UserCard {
                 String t = date[2] + "." + month(date[1]) + "." + date[5];
                 db.updateTimeChecker(this.getuId(), book.getBookId(), t, book.getTypeOfMaterial(), 1);
             } else {
-                if (!db.wasRenewed(this.getuId(), book.getBookId(), book.getTypeOfMaterial())) {
+                if (db.wasRenewed(this.getuId(), book.getBookId(), book.getTypeOfMaterial())) {
                     System.out.println("You cant renew this book again");
                 } else {
                     book.setDaysLeft(14 + db.daysLeft(this.getuId(), book.getBookId(), book.getTypeOfMaterial()));
@@ -227,6 +237,8 @@ public class Patron extends UserCard {
         } else {
             System.out.println("Someone already waits for this book");
         }
+        out.println(Calendar.DATE + " " + this.getuName() + " " + this.getSecondName() + " " + this.getuId() + "renewBook " + book.getBookId());
+        out.close();
     }
 
     public void renewArticle(Articles article, Context context) throws IOException {
@@ -241,7 +253,7 @@ public class Patron extends UserCard {
                 String t = date[2] + "." + month(date[1]) + "." + date[5];
                 db.updateTimeChecker(this.getuId(), article.getArticleId(), t, article.getTypeOfMaterial(), 1);
             } else {
-                if (!db.wasRenewed(this.getuId(), article.getArticleId(), article.getTypeOfMaterial())) {
+                if (db.wasRenewed(this.getuId(), article.getArticleId(), article.getTypeOfMaterial())) {
                     System.out.println("You cant renew this book again");
                 } else {
                     article.setDaysLeft(14 + db.daysLeft(this.getuId(), article.getArticleId(), article.getTypeOfMaterial()));
@@ -258,6 +270,8 @@ public class Patron extends UserCard {
         } else {
             System.out.println("Someone already waits for this article");
         }
+        out.println(Calendar.DATE + " " + this.getuName() + " " + this.getSecondName() + " " + this.getuId() + "renewArticle " + article.getArticleId());
+        out.close();
     }
 
     public void renewAv(AV av, Context context) throws IOException {
@@ -272,7 +286,7 @@ public class Patron extends UserCard {
                 String t = date[2] + "." + month(date[1]) + "." + date[5];
                 db.updateTimeChecker(this.getuId(), av.getAvId(), t, av.getTypeOfMaterial(), 1);
             } else {
-                if (!db.wasRenewed(this.getuId(), av.getAvId(), av.getTypeOfMaterial())) {
+                if (db.wasRenewed(this.getuId(), av.getAvId(), av.getTypeOfMaterial())) {
                     System.out.println("You cant renew this book again");
                 } else {
                     av.setDaysLeft(14 + + db.daysLeft(this.getuId(), av.getAvId(), av.getTypeOfMaterial()));
@@ -288,6 +302,8 @@ public class Patron extends UserCard {
         } else {
             System.out.println("Someone already waits for this AV material");
         }
+        out.println(Calendar.DATE + " " + this.getuName() + " " + this.getSecondName() + " " + this.getuId() + "renewAV " + av.getAvId());
+        out.close();
     }
 
     public ArrayList<Books> getListOfUsersBook(Context context) throws IOException {
