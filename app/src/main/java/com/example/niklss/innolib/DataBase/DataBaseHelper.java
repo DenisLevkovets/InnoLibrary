@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Random;
 import java.util.Scanner;
 
 import static android.content.ContentValues.TAG;
@@ -138,7 +139,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     // вы можете возвращать курсоры через "return myDataBase.query(....)", это облегчит их использование
     // в создании адаптеров для ваших view
 
-    public void createUser(String name, String secondName, String pNumber, String address, int status) {
+    public String createUser(String name, String secondName, String pNumber, String address, int status) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
@@ -148,6 +149,26 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         cv.put("address", address);
         cv.put("status", status);
         db.insert("Users", null, cv);
+
+        ContentValues cv1 = new ContentValues();
+        cv1.put("login",name+secondName);
+        Random random = new Random();
+        String password= Character.toString((char)(random.nextInt(58)+65));
+        for (int i = 0; i < 7; i++) {
+            password=password+Character.toString((char)(random.nextInt(58)+65));
+        }
+
+        cv1.put("password",password);
+        int id;
+        String mQuery = "SELECT First_name,Last_name, address,  user_id, phone, status From Users";
+        Cursor mCur = db.rawQuery(mQuery, new String[]{});
+        mCur.moveToLast();
+        id = mCur.getInt(mCur.getColumnIndex("user_id"));
+        cv1.put("id",id);
+        db.insert("Login",null,cv1);
+
+        return password;
+
     }
 
     public String getStringUser(int id) {
