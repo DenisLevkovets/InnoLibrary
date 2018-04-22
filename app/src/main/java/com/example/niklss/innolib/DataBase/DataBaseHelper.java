@@ -19,15 +19,19 @@ import com.example.niklss.innolib.Classes.Patron;
 import com.example.niklss.innolib.Classes.UserCard;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Scanner;
 
 import static android.content.ContentValues.TAG;
 
@@ -334,7 +338,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return user;
     }
 
-    public ArrayList<Patron> getListOfUsers() {
+    public ArrayList<Patron> getListOfUsers() throws FileNotFoundException {
         ArrayList<Patron> list = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
         String mQuery = "SELECT First_name,Last_name, address,  user_id, phone, status From Users";
@@ -576,7 +580,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         long difference = date1.getTime() - date2.getTime();
         long days = difference / (24 * 60 * 60 * 1000);
-        System.out.println(days);
         return (int) days;
     }
 
@@ -701,7 +704,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return a;
     }
 
-    public ArrayList<Patron> debtorUsers() {
+    public ArrayList<Patron> debtorUsers() throws FileNotFoundException {
         ArrayList<Patron> patron = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
         String mQuery = "SELECT user_id, book_id, time, type From time_checker";
@@ -897,7 +900,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return list.size() == 0;
     }
 
-    public UserCard getUser() {
+    public UserCard getUser() throws FileNotFoundException {
         SQLiteDatabase db = this.getWritableDatabase();
         String mQuery;
         mQuery = "SELECT user_id From UserId ";
@@ -1259,7 +1262,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public ArrayList<String> showQueue(){
+    public ArrayList<String> showQueue() throws FileNotFoundException {
         SQLiteDatabase db = this.getWritableDatabase();
         ArrayList<String> people = new ArrayList<>();
         String mQuery = "SELECT user_id, user_type, document_id, document_type From Queue";
@@ -1276,7 +1279,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return people;
     }
 
-    public ArrayList<Patron> usersForBook(int id, int type){
+    public ArrayList<Patron> usersForBook(int id, int type) throws FileNotFoundException {
         SQLiteDatabase db = this.getWritableDatabase();
         ArrayList<Patron> people = new ArrayList<>();
         String mQuery = "SELECT user_id, user_type, document_id, document_type From Queue";
@@ -1291,6 +1294,24 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         mCur.close();
         return people;
+    }
+
+    public void out(String output) throws IOException {
+        SQLiteDatabase db = this.getWritableDatabase();
+        FileWriter out = new FileWriter(new File(mContext.getFilesDir().getPath() + "Log"), true);
+        out.write(output + "\n");
+        out.close();
+    }
+
+    public String inp() throws FileNotFoundException {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Scanner in = new Scanner(new File(mContext.getFilesDir().getPath() + "Log"));
+        String output = "";
+        while (in.hasNextLine()){
+            output += in.nextLine() + "\n";
+        }
+        in.close();
+        return output;
     }
 
 

@@ -18,6 +18,7 @@ import com.example.niklss.innolib.Dialogs.AddUser;
 import com.example.niklss.innolib.Dialogs.ModifyUser;
 import com.example.niklss.innolib.R;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -42,7 +43,11 @@ public class UsersLib extends Activity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        users= db.getListOfUsers();
+        try {
+            users= db.getListOfUsers();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
         String[] arr=new String[users.size()];
 

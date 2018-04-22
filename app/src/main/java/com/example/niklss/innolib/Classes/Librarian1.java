@@ -5,17 +5,13 @@ import android.content.Context;
 
 import com.example.niklss.innolib.DataBase.DataBaseHelper;
 
-import org.apache.lucene.search.AutomatonQuery;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 public class Librarian1 extends UserCard {
-    private PrintWriter out = new PrintWriter(new File("Log"));
-
     public Librarian1(String name, String secondName, String adress, int id, String num, int status) throws FileNotFoundException {
         super(name, secondName, adress, id, num, status);
     }
@@ -26,35 +22,74 @@ public class Librarian1 extends UserCard {
 
     public void modifyBook(Books book, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
+        Calendar cal = new GregorianCalendar();
         db.updateBookData(book);
-        out.println(Calendar.DATE + " " + this.getuName() + " " + this.getSecondName() + " " + this.getuId() + "modifiedBook " + book.getBookId());
-        out.close();
+        String[] buf = cal.getTime().toString().split(" ");
+        String time = buf[2] + "." + month(buf[1]) + "." + buf[5];
+        db.out(time + " " + this.getuName() + " " + this.getSecondName() + " " + this.getuId() + " modifiedBook " + book.getBookId());
     }
 
 //    public void modifyArticle(Articles article, Context context) throws IOException {
 //        DataBaseHelper db = new DataBaseHelper(context);
+//        Calendar cal = new GregorianCalendar();
 //        db.updateArticleData(article);
-//        out.println(Calendar.DATE + " " + this.getuName() + " " + this.getSecondName() + " " + this.getuId() + "modifiedArticle " + article.getArticleId());
-//        out.close();
+//        String[] buf = cal.getTime().toString().split(" ");
+//        String time = buf[2] + "." + month(buf[1]) + "." + buf[5];
+//        db.out(time + " " + this.getuName() + " " + this.getSecondName() + " " + this.getuId() + " modifiedArticle " + article.getArticleId());
 //    }
 //
 //    public void modifyAv(AV av, Context context) throws IOException {
 //        DataBaseHelper db = new DataBaseHelper(context);
+//        Calendar cal = new GregorianCalendar();
 //        db.updateAvData(av);
-//        out.println(Calendar.DATE + " " + this.getuName() + " " + this.getSecondName() + " " + this.getuId() + "modifiedAV " + av.getAvId());
-//        out.close();
+//        String[] buf = cal.getTime().toString().split(" ");
+//        String time = buf[2] + "." + month(buf[1]) + "." + buf[5];
+//        db.out(time + " " + this.getuName() + " " + this.getSecondName() + " " + this.getuId() + " modifiedAV " + av.getAvId());
 //    }
 
     public void modifyPatron(Patron user, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
+        Calendar cal = new GregorianCalendar();
         if (user.getUsersType() < 5) {
             db.updateUserData(user);
-            out.println(Calendar.DATE + " " + this.getuName() + " " + this.getSecondName() + " " + this.getuId() + "modifiedPatron " + user.getuId());
-            out.close();
+            String[] buf = cal.getTime().toString().split(" ");
+            String time = buf[2] + "." + month(buf[1]) + "." + buf[5];
+            db.out(time + " " + this.getuName() + " " + this.getSecondName() + " " + this.getuId() + " modifiedPatron " + user.getuId());
         }
     }
 
 //    public void search(String input){
 //        AutomatonQuery query = new AutomatonQuery();
 //    }
+
+    int month(String mm) {
+        switch (mm) {
+            case "Jan":
+                return 1;
+            case "Feb":
+                return 2;
+            case "Mar":
+                return 3;
+            case "Apr":
+                return 4;
+            case "May":
+                return 5;
+            case "Jun":
+                return 6;
+            case "Jul":
+                return 7;
+            case "Aug":
+                return 8;
+            case "Sep":
+                return 9;
+            case "Oct":
+                return 10;
+            case "Nov":
+                return 11;
+            case "Dec":
+                return 12;
+            default:
+                return 0;
+        }
+    }
 }

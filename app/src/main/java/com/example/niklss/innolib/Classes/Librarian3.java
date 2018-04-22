@@ -4,18 +4,16 @@ import android.content.Context;
 
 import com.example.niklss.innolib.DataBase.DataBaseHelper;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 /**
  * Created by Niklss on 21.04.2018.
  */
 
 public class Librarian3 extends Librarian2 {
-    private PrintWriter out = new PrintWriter(new File("Log"));
     public Librarian3(String name, String secondName, String adress, int id, String num, int status) throws FileNotFoundException {
         super(name, secondName, adress, id, num, status);
     }
@@ -26,31 +24,39 @@ public class Librarian3 extends Librarian2 {
 
     public void deleteBook(int id, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
+        Calendar cal = new GregorianCalendar();
         db.deleteBook(id);
-        out.println(Calendar.DATE + " " + this.getuName() + " " + this.getSecondName() + " " + this.getuId() + "deletedBook " + id);
-        out.close();
+        String[] buf = cal.getTime().toString().split(" ");
+        String time = buf[2] + "." + month(buf[1]) + "." + buf[5];
+        db.out(time + " " + this.getuName() + " " + this.getSecondName() + " " + this.getuId() + " deletedBook " + id);
     }
 
     public void deleteArticle(int id, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
+        Calendar cal = new GregorianCalendar();
         db.deleteArticle(id);
-        out.println(Calendar.DATE + " " + this.getuName() + " " + this.getSecondName() + " " + this.getuId() + "deletedArticle " + id);
-        out.close();
+        String[] buf = cal.getTime().toString().split(" ");
+        String time = buf[2] + "." + month(buf[1]) + "." + buf[5];
+        db.out(time + " " + this.getuName() + " " + this.getSecondName() + " " + this.getuId() + " deletedArticle " + id);
     }
 
     public void deleteAv(int id, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
+        Calendar cal = new GregorianCalendar();
         db.deleteAV(id);
-        out.println(Calendar.DATE + " " + this.getuName() + " " + this.getSecondName() + " " + this.getuId() + "deletedAV " + id);
-        out.close();
+        String[] buf = cal.getTime().toString().split(" ");
+        String time = buf[2] + "." + month(buf[1]) + "." + buf[5];
+        db.out(time + " " + this.getuName() + " " + this.getSecondName() + " " + this.getuId() + " deletedAV " + id);
     }
 
     public void deletePatron(int id, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
+        Calendar cal = new GregorianCalendar();
         if (Integer.parseInt(db.getArrayUser(id)[3]) < 5) {
             db.deletePatron(id);
-            out.println(Calendar.DATE + " " + this.getuName() + " " + this.getSecondName() + " " + this.getuId() + "deletedPatron " + id);
-            out.close();
+            String[] buf = cal.getTime().toString().split(" ");
+            String time = buf[2] + "." + month(buf[1]) + "." + buf[5];
+            db.out(time + " " + this.getuName() + " " + this.getSecondName() + " " + this.getuId() + " deletedPatron " + id);
         }
     }
 }
