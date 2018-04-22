@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.niklss.innolib.Classes.AV;
+import com.example.niklss.innolib.Classes.Patron;
 import com.example.niklss.innolib.DataBase.DataBaseHelper;
 import com.example.niklss.innolib.R;
 
@@ -30,11 +32,21 @@ public class Login extends Activity {
         password = (EditText) findViewById(R.id.editText2);
         bt.setOnClickListener(click);
 
-        try {
-            db=new DataBaseHelper(getApplicationContext());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            db=new DataBaseHelper(getApplicationContext());
+//            Patron patron = new Patron(db.getArrayUser(1));
+//            System.out.println(patron.getListOfUsersAv(getApplicationContext()).get(0).getDaysLeft());
+//            patron.renewAv(patron.getListOfUsersAv(getApplicationContext()).get(0),getApplicationContext());
+//            System.out.println(patron.getListOfUsersAv(getApplicationContext()).get(0).getDaysLeft());
+//
+//
+//
+//
+//
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
 
     }
