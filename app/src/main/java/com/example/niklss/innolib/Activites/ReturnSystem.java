@@ -17,6 +17,7 @@ import com.example.niklss.innolib.Classes.Patron;
 import com.example.niklss.innolib.DataBase.DataBaseHelper;
 import com.example.niklss.innolib.R;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -41,7 +42,11 @@ public class ReturnSystem extends Activity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        deptors =db.debtorUsers();
+        try {
+            deptors =db.debtorUsers();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
         String[] arr=new String[deptors.size()];
         for (int i = 0; i < deptors.size(); i++) {

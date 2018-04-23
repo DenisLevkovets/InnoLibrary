@@ -6,6 +6,7 @@ import android.support.annotation.RequiresApi;
 
 import com.example.niklss.innolib.DataBase.DataBaseHelper;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -17,19 +18,15 @@ import java.util.GregorianCalendar;
  */
 
 public class Patron extends UserCard {
-    private ArrayList<Integer> wasRenewedBook = new ArrayList<>();
-    private ArrayList<Integer> wasRenewedArticle = new ArrayList<>();
-    private ArrayList<Integer> wasRenewedAv = new ArrayList<>();
-
-    public Patron(ArrayList<String> a) {
+    public Patron(ArrayList<String> a) throws FileNotFoundException {
         super(a.get(0), a.get(1), a.get(2), Integer.parseInt(a.get(3)), a.get(4), Integer.parseInt(a.get(5)));
     }
 
-    public Patron(String name, String secondName, String address, String num, int isStatus, int id) {
+    public Patron(String name, String secondName, String address, String num, int isStatus, int id) throws FileNotFoundException {
         super(name, secondName, address, id, num, isStatus);
     }
 
-    public Patron(String[] a) {
+    public Patron(String[] a) throws FileNotFoundException {
         super(a);
     }
 
@@ -37,7 +34,7 @@ public class Patron extends UserCard {
 
     }
 
-    private int month(String mm){
+    private int month(String mm) {
         switch (mm) {
             case "Jan":
                 return 1;
@@ -69,9 +66,11 @@ public class Patron extends UserCard {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void checkOut(int id, Context context) throws IOException {
+    public String checkOut(int id, Context context) throws IOException {
+        String output;
         DataBaseHelper db = new DataBaseHelper(context);
         Books book = new Books(db.getArrayBook(id));
+        Calendar cal = new GregorianCalendar();
 
         if (getUsersType() >= book.getReference()) {
             if (!hasCopy(context, book.getBookId(), 0)) {
@@ -88,29 +87,36 @@ public class Patron extends UserCard {
                     }
                     db.updateBookData(book);
 
-                    Calendar cal = new GregorianCalendar();
                     cal.add(Calendar.DAY_OF_MONTH, book.getDaysLeft());
 
                     String[] date = cal.getTime().toString().split(" ");
                     String t = date[2] + "." + month(date[1]) + "." + date[5];
                     db.updateTimeChecker(this.getuId(), book.getBookId(), t, book.getTypeOfMaterial(), 0);
-//                    return "You checkout this book";
+                    output = "You can take the book";
+
                 } else {
+                    output = "You are in queue for this book";
                     db.standInQueue(this, book.getBookId(), book.getTypeOfMaterial());
-//                    return "You are in queue for this book";
                 }
             } else {
-//                return "You already have this book";
+                output = "You already have this book";
             }
         } else {
-//            return "Isn't your type";
+            output = "Isn't your type";
         }
+        cal = new GregorianCalendar();
+        String[] buf = cal.getTime().toString().split(" ");
+        String time = buf[2] + "." + month(buf[1]) + "." + buf[5];
+        db.out(time + " " + this.getuName() + " " + this.getSecondName() + " " + this.getuId() + " chechoutBook " + id);
+        return output;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void checkOutAV(int id, Context context) throws IOException {
+    public String checkOutAV(int id, Context context) throws IOException {
+        String output;
         DataBaseHelper db = new DataBaseHelper(context);
         AV av = new AV(db.getAVMaterial(id));
+        Calendar cal = new GregorianCalendar();
 
         if (!hasCopy(context, av.getAvId(), av.getTypeOfMaterial())) {
             if (av.getCountAv() > 0) {
@@ -122,26 +128,32 @@ public class Patron extends UserCard {
                 }
                 db.updateAV(av.getAvId(), av.getTitle(), av.getAuthors(), av.getCountAv(), av.getKeywords(), av.getPrice());
 
-                Calendar cal = new GregorianCalendar();
                 cal.add(Calendar.DAY_OF_MONTH, av.getDaysLeft());
 
                 String[] date = cal.getTime().toString().split(" ");
                 String t = date[2] + "." + month(date[1]) + "." + date[5];
                 db.updateTimeChecker(this.getuId(), av.getAvId(), t, av.getTypeOfMaterial(), 0);
-//                return "You checkout this AVM";
+                output = "You can take the AV";
             } else {
+                output = "You are in queue for this AV material";
                 db.standInQueue(this, av.getAvId(), av.getTypeOfMaterial());
-//                return "You are in queue for this AV material";
             }
         } else {
-//            return "You already have this AV material";
+            output = "You already have this AV material";
         }
+        cal = new GregorianCalendar();
+        String[] buf = cal.getTime().toString().split(" ");
+        String time = buf[2] + "." + month(buf[1]) + "." + buf[5];
+        db.out(time + " " + this.getuName() + " " + this.getSecondName() + " " + this.getuId() + " chechoutAV " + id);
+        return output;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void checkOutArticle(int id, Context context) throws IOException {
+    public String checkOutArticle(int id, Context context) throws IOException {
+        String output;
         DataBaseHelper db = new DataBaseHelper(context);
         Articles art = new Articles(db.getArticleMaterial(id));
+        Calendar cal = new GregorianCalendar();
 
         if (!hasCopy(context, art.getArticleId(), art.getTypeOfMaterial())) {
             if (art.getCountArticle() > 0) {
@@ -153,20 +165,24 @@ public class Patron extends UserCard {
                 }
                 db.updateAV(art.getArticleId(), art.getTitle(), art.getAuthors(), art.getCountArticle(), art.getKeywords(), art.getPrice());
 
-                Calendar cal = new GregorianCalendar();
                 cal.add(Calendar.DAY_OF_MONTH, art.getDaysLeft());
 
                 String[] date = cal.getTime().toString().split(" ");
                 String t = date[2] + "." + month(date[1]) + "." + date[5];
                 db.updateTimeChecker(this.getuId(), art.getArticleId(), t, art.getTypeOfMaterial(), 0);
-//                return "You checkout this article";
+                output = "You can take the Article";
             } else {
+                output = "You are in queue for this article";
                 db.standInQueue(this, art.getArticleId(), art.getTypeOfMaterial());
-//                return "You are in queue for this article";
             }
         } else {
-//            return "You already have this article";
+            output = "You already have this article";
         }
+        cal = new GregorianCalendar();
+        String[] buf = cal.getTime().toString().split(" ");
+        String time = buf[2] + "." + month(buf[1]) + "." + buf[5];
+        db.out(time + " " + this.getuName() + " " + this.getSecondName() + " " + this.getuId() + " chechoutArticle " + id);
+        return output;
     }
 
     public ArrayList<Books> getAvailiableBooks(Context context) throws IOException {
@@ -174,12 +190,12 @@ public class Patron extends UserCard {
         return db.getListOfBooks();
     }
 
-    public ArrayList<AV> getAvailiableAV(Context context) throws IOException{
+    public ArrayList<AV> getAvailiableAV(Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
         return db.getListOfAV();
     }
 
-    public ArrayList<Articles> getAvailiableAricles(Context context) throws IOException{
+    public ArrayList<Articles> getAvailiableAricles(Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
         return db.getListOfArticles();
     }
@@ -191,22 +207,20 @@ public class Patron extends UserCard {
 
     public void renewBook(Books book, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
+        Calendar cal = new GregorianCalendar();
         if (db.noOneInQueue(book.getBookId(), book.getTypeOfMaterial())) {
             if (this.getUsersType() == 3) {
                 book.setDaysLeft(7);
-                Calendar cal = new GregorianCalendar();
                 cal.add(Calendar.DAY_OF_MONTH, book.getDaysLeft());
 
                 String[] date = cal.getTime().toString().split(" ");
                 String t = date[2] + "." + month(date[1]) + "." + date[5];
                 db.updateTimeChecker(this.getuId(), book.getBookId(), t, book.getTypeOfMaterial(), 1);
             } else {
-                if (!db.wasRenewed(this.getuId(), book.getBookId(), book.getTypeOfMaterial())) {
+                if (db.wasRenewed(this.getuId(), book.getBookId(), book.getTypeOfMaterial())) {
                     System.out.println("You cant renew this book again");
                 } else {
                     book.setDaysLeft(14 + db.daysLeft(this.getuId(), book.getBookId(), book.getTypeOfMaterial()));
-                    this.wasRenewedBook.add(book.getBookId());
-                    Calendar cal = new GregorianCalendar();
                     cal.add(Calendar.DAY_OF_MONTH, book.getDaysLeft());
 
                     String[] date = cal.getTime().toString().split(" ");
@@ -219,28 +233,29 @@ public class Patron extends UserCard {
         } else {
             System.out.println("Someone already waits for this book");
         }
+        cal = new GregorianCalendar();
+        String[] buf = cal.getTime().toString().split(" ");
+        String time = buf[2] + "." + month(buf[1]) + "." + buf[5];
+        db.out(time + " " + this.getuName() + " " + this.getSecondName() + " " + this.getuId() + " renewBook " + book.getBookId());
     }
 
     public void renewArticle(Articles article, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
+        Calendar cal = new GregorianCalendar();
         if (db.noOneInQueue(article.getArticleId(), article.getTypeOfMaterial())) {
             if (this.getUsersType() == 3) {
                 article.setDaysLeft(7);
-                Calendar cal = new GregorianCalendar();
                 cal.add(Calendar.DAY_OF_MONTH, article.getDaysLeft());
 
                 String[] date = cal.getTime().toString().split(" ");
                 String t = date[2] + "." + month(date[1]) + "." + date[5];
                 db.updateTimeChecker(this.getuId(), article.getArticleId(), t, article.getTypeOfMaterial(), 1);
             } else {
-                if (!db.wasRenewed(this.getuId(), article.getArticleId(), article.getTypeOfMaterial())) {
+                if (db.wasRenewed(this.getuId(), article.getArticleId(), article.getTypeOfMaterial())) {
                     System.out.println("You cant renew this book again");
                 } else {
                     article.setDaysLeft(14 + db.daysLeft(this.getuId(), article.getArticleId(), article.getTypeOfMaterial()));
-                    this.wasRenewedArticle.add(article.getArticleId());
-                    Calendar cal = new GregorianCalendar();
                     cal.add(Calendar.DAY_OF_MONTH, article.getDaysLeft());
-
                     String[] date = cal.getTime().toString().split(" ");
                     String t = date[2] + "." + month(date[1]) + "." + date[5];
                     db.updateTimeChecker(this.getuId(), article.getArticleId(), t, article.getTypeOfMaterial(), 1);
@@ -250,26 +265,29 @@ public class Patron extends UserCard {
         } else {
             System.out.println("Someone already waits for this article");
         }
+        cal = new GregorianCalendar();
+        String[] buf = cal.getTime().toString().split(" ");
+        String time = buf[2] + "." + month(buf[1]) + "." + buf[5];
+        db.out(time + " " + this.getuName() + " " + this.getSecondName() + " " + this.getuId() + " renewArticle " + article.getArticleId());
     }
 
     public void renewAv(AV av, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
+        Calendar cal = new GregorianCalendar();
         if (db.noOneInQueue(av.getAvId(), av.getTypeOfMaterial())) {
             if (this.getUsersType() == 3) {
                 av.setDaysLeft(7);
-                Calendar cal = new GregorianCalendar();
                 cal.add(Calendar.DAY_OF_MONTH, av.getDaysLeft());
 
                 String[] date = cal.getTime().toString().split(" ");
                 String t = date[2] + "." + month(date[1]) + "." + date[5];
                 db.updateTimeChecker(this.getuId(), av.getAvId(), t, av.getTypeOfMaterial(), 1);
             } else {
-                if (!db.wasRenewed(this.getuId(), av.getAvId(), av.getTypeOfMaterial())) {
+                if (db.wasRenewed(this.getuId(), av.getAvId(), av.getTypeOfMaterial())) {
                     System.out.println("You cant renew this book again");
                 } else {
-                    av.setDaysLeft(14 + + db.daysLeft(this.getuId(), av.getAvId(), av.getTypeOfMaterial()));
-                    this.wasRenewedAv.add(av.getAvId());
-                    Calendar cal = new GregorianCalendar();
+                    av.setDaysLeft(14 + db.daysLeft(this.getuId(), av.getAvId(), av.getTypeOfMaterial()));
+                    System.out.println(av.getDaysLeft());
                     cal.add(Calendar.DAY_OF_MONTH, av.getDaysLeft());
 
                     String[] date = cal.getTime().toString().split(" ");
@@ -280,6 +298,10 @@ public class Patron extends UserCard {
         } else {
             System.out.println("Someone already waits for this AV material");
         }
+        cal = new GregorianCalendar();
+        String[] buf = cal.getTime().toString().split(" ");
+        String time = buf[2] + "." + month(buf[1]) + "." + buf[5];
+        db.out(time + " " + this.getuName() + " " + this.getSecondName() + " " + this.getuId() + " renewAV " + av.getAvId());
     }
 
     public ArrayList<Books> getListOfUsersBook(Context context) throws IOException {

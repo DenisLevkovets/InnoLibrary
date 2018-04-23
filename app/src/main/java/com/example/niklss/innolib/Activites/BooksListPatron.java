@@ -14,6 +14,7 @@ import com.example.niklss.innolib.Classes.Books;
 import com.example.niklss.innolib.DataBase.DataBaseHelper;
 import com.example.niklss.innolib.R;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -51,19 +52,31 @@ public class BooksListPatron extends Activity   {
         ArrayList<String> fine = new ArrayList<String>();
 
 
-        book= db.returnListOfUsersBook(db.getUser().getuId());
+        try {
+            book= db.returnListOfUsersBook(db.getUser().getuId());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         for (int i = 0; i < book.size(); i++) {
             if(book.get(i).isOverDue()==true) fine.add(db.getShortInformation(book.get(i)));
             else checkouted.add(db.getShortInformation(book.get(i)));
         }
 
-        article = db.returnListOfUsersArticles(db.getUser().getuId());
+        try {
+            article = db.returnListOfUsersArticles(db.getUser().getuId());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         for (int i = 0; i < article.size(); i++) {
             if(article.get(i).isOverDue()==true ) fine.add(db.getArticleInfoShort(article.get(i)));
             else checkouted.add(db.getArticleInfoShort(article.get(i)));
         }
 
-        Av = db.returnListOfUsersAv(db.getUser().getuId());
+        try {
+            Av = db.returnListOfUsersAv(db.getUser().getuId());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         for (int i = 0; i < Av.size(); i++) {
             if(Av.get(i)==null) fine.add(db.getAVInfoShort(Av.get(i)));
             else checkouted.add(db.getAVInfoShort(Av.get(i)));
