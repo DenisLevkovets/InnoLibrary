@@ -140,6 +140,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     // в создании адаптеров для ваших view
 
     public String createUser(String name, String secondName, String pNumber, String address, int status) {
+        if (status > 7){
+            return "Cant create an admin";
+        }
+
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
@@ -859,10 +863,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     //
     public void clearDataBase() {
         SQLiteDatabase db = this.getWritableDatabase();
-        /*String deletebook = "DELETE FROM BOOKS;";
+        String deletebook = "DELETE FROM BOOKS;";
         String deleteuser = "DELETE FROM USERS;";
-        String deleteAV = "DELETE FROM AV;";*/
-        /*String deleteArticles = "DELETE FROM ARTICLES;";*/
+        String deleteAV = "DELETE FROM AV;";
+        String deleteArticles = "DELETE FROM ARTICLES;";
         String deleteTimeChecker = "DELETE FROM time_checker;";
         String deleteQueue = "DELETE FROM Queue;";
         String deleteLogin = "DELETE FROM Login;";
@@ -870,6 +874,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         String deleteOutstanding = "DELETE FROM outstanding;";
 
         db.beginTransaction();
+        db.execSQL(deleteArticles);
+        db.execSQL(deletebook);
+        db.execSQL(deleteuser);
+        db.execSQL(deleteAV);
         db.execSQL(deleteLogin);
         db.execSQL(deleteUserID);
         db.execSQL(deleteOutstanding);
