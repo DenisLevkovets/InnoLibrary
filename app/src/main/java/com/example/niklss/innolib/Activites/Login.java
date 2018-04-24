@@ -7,6 +7,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.niklss.innolib.Classes.AV;
+import com.example.niklss.innolib.Classes.Admin;
+import com.example.niklss.innolib.Classes.Articles;
+import com.example.niklss.innolib.Classes.Books;
+import com.example.niklss.innolib.Classes.Librarian3;
 import com.example.niklss.innolib.Classes.Articles;
 import com.example.niklss.innolib.Classes.Books;
 import com.example.niklss.innolib.Classes.Patron;
@@ -34,37 +39,7 @@ public class Login extends Activity {
         password = (EditText) findViewById(R.id.editText2);
         bt.setOnClickListener(click);
 
-        try {
-            db=new DataBaseHelper(getApplicationContext());
-            ArrayList<Books> av = db.returnListOfUsersBook(1);
-            for (int i = 0; i <av.size() ; i++) {
-                System.out.println(av.get(i).getTitleBook());
-                System.out.println("????????????????");
-            }
-            db.returnBook(1,1);
-            av = db.returnListOfUsersBook(1);
-            for (int i = 0; i <av.size() ; i++) {
-                System.out.println(av.get(i).getTitleBook());
-            }
 
-            ArrayList<Articles> ar = db.returnListOfUsersArticles(1);
-            for (int i = 0; i <ar.size() ; i++) {
-                System.out.println(ar.get(i).getTitle());
-                System.out.println("????????????????");
-            }
-            db.returnArticle(1,1);
-            ar = db.returnListOfUsersArticles(1);
-            for (int i = 0; i <ar.size() ; i++) {
-                System.out.println(ar.get(i).getTitle());
-            }
-
-
-
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
 
     }
