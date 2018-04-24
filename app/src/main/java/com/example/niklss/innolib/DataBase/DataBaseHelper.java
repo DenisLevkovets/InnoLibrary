@@ -1314,6 +1314,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         Books b = new Books(getArrayBook(book_id));
         returnBookerr(b, book_id);
     }
+    //
 
     public void returnBookerr(Books b, int book_id) {
         SQLiteDatabase db = this.getWritableDatabase();
