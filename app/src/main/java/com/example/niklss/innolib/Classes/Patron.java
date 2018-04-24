@@ -287,11 +287,13 @@ public class Patron extends UserCard {
                     System.out.println("You cant renew this book again");
                 } else {
                     av.setDaysLeft(14 + db.daysLeft(this.getuId(), av.getAvId(), av.getTypeOfMaterial()));
-                    System.out.println(av.getDaysLeft());
+                    System.out.println(av.getDaysLeft()+" - это ав дэйс лэйфт после+14");
                     cal.add(Calendar.DAY_OF_MONTH, av.getDaysLeft());
+                    System.out.println(cal.getTime()+"кол гэт тайм");
 
                     String[] date = cal.getTime().toString().split(" ");
                     String t = date[2] + "." + month(date[1]) + "." + date[5];
+                    System.out.println(t+"это строка t");
                     db.updateTimeChecker(this.getuId(), av.getAvId(), t, av.getTypeOfMaterial(), 1);
                 }
             }

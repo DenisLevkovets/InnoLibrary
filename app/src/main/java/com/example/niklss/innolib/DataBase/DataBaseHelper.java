@@ -1318,7 +1318,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void returnBookerr(Books b, int book_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.beginTransaction();
-        String updateBooks = "Update Books Set title = '" + b.getTitleBook() + "', author = '" + b.getAuthorsOfBook() + "', available_copies = " + (b.getCountOfBooks() + 1) + ", type = " + b.getReference() + ", price = " + b.getPrice() + ", edition = " + b.getEdition() + ", date = '" + b.getDateOfCreationOfBook() + "', published_by = '" + b.getPublished_by() + "', keywords = '" + b.getKeywords() + "', is_bestseller = " + b.getIsBestSeller() + " where id=" + book_id;
+        String updateBooks = "Update Books Set title = '" + b.getTitleBook() + "', author = '" + b.getAuthorsOfBook() + "', available_copies = " + (b.getCountOfBooks() + 1) + ", type = " + b.getReference() + ", price = " + b.getPrice() + ", edition = " + b.getEdition() + ", date = '" + b.getDateOfCreationOfBook() + "', published_by = '" + b.getPublished_by() + "', keywords = '" + b.getKeywords() + "', is_bestseller = " + b.getIsBestSeller() + " where book_id=" + book_id;
         db.execSQL(updateBooks);
         db.setTransactionSuccessful();
         db.endTransaction();
@@ -1339,7 +1339,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void returnArticleerr(Articles a, int article_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.beginTransaction();
-        String updateArticle = "Update Articles Set title = '" + a.getTitle() + "', authors = '" + a.getAuthors() + "', jtitle = '" + a.getJtitle() + "', issue = '" + a.getIssue() + "', date = '" + a.getDate() + "', editor = '" + a.getEditor() + ", numbers = " + (a.getCountArticle() + 1) + ", reference = " + a.getReference() + ", keywords = '" + a.getKeywords() + "', price = " + a.getPrice() + " where id=" + article_id;
+        String updateArticle = "Update Articles Set title = '" + a.getTitle() + "', authors = '" + a.getAuthors() + "', jtitle = '" + a.getJtitle() + "', issue = '" + a.getIssue() + "', date = '" + a.getDate() + "', editor = '" + a.getEditor() + "', numbers = " + (a.getCountArticle() + 1) + ", reference = " + a.getReference() + ", keywords = '" + a.getKeywords() + "', price = " + a.getPrice() + " where id=" + article_id;
         db.execSQL(updateArticle);
         db.setTransactionSuccessful();
         db.endTransaction();
