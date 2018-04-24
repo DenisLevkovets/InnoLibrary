@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Random;
 import java.util.Scanner;
 
 import static android.content.ContentValues.TAG;
@@ -138,7 +139,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     // вы можете возвращать курсоры через "return myDataBase.query(....)", это облегчит их использование
     // в создании адаптеров для ваших view
 
-    public void createUser(String name, String secondName, String pNumber, String address, int status) {
+    public String createUser(String name, String secondName, String pNumber, String address, int status) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
@@ -148,6 +149,26 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         cv.put("address", address);
         cv.put("status", status);
         db.insert("Users", null, cv);
+
+        ContentValues cv1 = new ContentValues();
+        cv1.put("login",name+secondName);
+        Random random = new Random();
+        String password= Character.toString((char)(random.nextInt(58)+65));
+        for (int i = 0; i < 7; i++) {
+            password=password+Character.toString((char)(random.nextInt(58)+65));
+        }
+
+        cv1.put("password",password);
+        int id;
+        String mQuery = "SELECT First_name,Last_name, address,  user_id, phone, status From Users";
+        Cursor mCur = db.rawQuery(mQuery, new String[]{});
+        mCur.moveToLast();
+        id = mCur.getInt(mCur.getColumnIndex("user_id"));
+        cv1.put("id",id);
+        db.insert("Login",null,cv1);
+
+        return password;
+
     }
 
     public String getStringUser(int id) {
@@ -1297,7 +1318,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void returnBookerr(Books b, int book_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.beginTransaction();
-        String updateBooks = "Update Books Set title = '" + b.getTitleBook() + "', author = '" + b.getAuthorsOfBook() + "', available_copies = " + (b.getCountOfBooks() + 1) + ", type = " + b.getReference() + ", price = " + b.getPrice() + ", edition = " + b.getEdition() + ", date = '" + b.getDateOfCreationOfBook() + "', published_by = '" + b.getPublished_by() + "', keywords = '" + b.getKeywords() + "', is_bestseller = " + b.getIsBestSeller() + " where id=" + book_id;
+        String updateBooks = "Update Books Set title = '" + b.getTitleBook() + "', author = '" + b.getAuthorsOfBook() + "', available_copies = " + (b.getCountOfBooks() + 1) + ", type = " + b.getReference() + ", price = " + b.getPrice() + ", edition = " + b.getEdition() + ", date = '" + b.getDateOfCreationOfBook() + "', published_by = '" + b.getPublished_by() + "', keywords = '" + b.getKeywords() + "', is_bestseller = " + b.getIsBestSeller() + " where book_id=" + book_id;
         db.execSQL(updateBooks);
         db.setTransactionSuccessful();
         db.endTransaction();
@@ -1318,7 +1339,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void returnArticleerr(Articles a, int article_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.beginTransaction();
-        String updateArticle = "Update Articles Set title = '" + a.getTitle() + "', authors = '" + a.getAuthors() + "', jtitle = '" + a.getJtitle() + "', issue = '" + a.getIssue() + "', date = '" + a.getDate() + "', editor = '" + a.getEditor() + ", numbers = " + (a.getCountArticle() + 1) + ", reference = " + a.getReference() + ", keywords = '" + a.getKeywords() + "', price = " + a.getPrice() + " where id=" + article_id;
+        String updateArticle = "Update Articles Set title = '" + a.getTitle() + "', authors = '" + a.getAuthors() + "', jtitle = '" + a.getJtitle() + "', issue = '" + a.getIssue() + "', date = '" + a.getDate() + "', editor = '" + a.getEditor() + "', numbers = " + (a.getCountArticle() + 1) + ", reference = " + a.getReference() + ", keywords = '" + a.getKeywords() + "', price = " + a.getPrice() + " where id=" + article_id;
         db.execSQL(updateArticle);
         db.setTransactionSuccessful();
         db.endTransaction();
