@@ -38,4 +38,200 @@ public class ExampleInstrumentedTest {
         assertThat(b.get(0).getDaysLeft(), is(59));
     }
 
+    @Test
+    public void Test2() throws Exception {
+        Context appContext = InstrumentationRegistry.getTargetContext();
+        DataBaseHelper db = new DataBaseHelper(appContext);
+        Patron p1 = db.getListOfUsers().get(0);
+        Books b1 = db.getListOfBooks().get(0);
+        Books b2 = db.getListOfBooks().get(1);
+
+        p1.checkOut(b1.getBookId(), appContext);
+        p1.checkOut(b2.getBookId(), appContext);
+
+        ArrayList<Books> b = p1.getListOfUsersBook(appContext);
+        assertThat(b.get(0).getFine(), is(0));
+        assertThat(b.get(0).getDaysLeft(), is(59));
+    }
+    @Test
+    public void Test3() throws Exception {
+        Context appContext = InstrumentationRegistry.getTargetContext();
+        DataBaseHelper db = new DataBaseHelper(appContext);
+        Patron p1 = db.getListOfUsers().get(0);
+        Books b1 = db.getListOfBooks().get(0);
+        Books b2 = db.getListOfBooks().get(1);
+
+        p1.checkOut(b1.getBookId(), appContext);
+        p1.checkOut(b2.getBookId(), appContext);
+
+        ArrayList<Books> b = p1.getListOfUsersBook(appContext);
+        assertThat(b.get(0).getFine(), is(0));
+        assertThat(b.get(0).getDaysLeft(), is(59));
+    }
+    @Test
+    public void Test4() throws Exception {
+        Context appContext = InstrumentationRegistry.getTargetContext();
+        DataBaseHelper db = new DataBaseHelper(appContext);
+        Patron p1 = db.getListOfUsers().get(0);
+        Books b1 = db.getListOfBooks().get(0);
+        Books b2 = db.getListOfBooks().get(1);
+
+        p1.checkOut(b1.getBookId(), appContext);
+        p1.checkOut(b2.getBookId(), appContext);
+
+        ArrayList<Books> b = p1.getListOfUsersBook(appContext);
+        assertThat(b.get(0).getFine(), is(0));
+        assertThat(b.get(0).getDaysLeft(), is(59));
+    }
+    @Test
+    public void Test5() throws Exception {
+        Context appContext = InstrumentationRegistry.getTargetContext();
+        DataBaseHelper db = new DataBaseHelper(appContext);
+        Patron p1 = db.getListOfUsers().get(0);
+        Books b1 = db.getListOfBooks().get(0);
+        Books b2 = db.getListOfBooks().get(1);
+
+        p1.checkOut(b1.getBookId(), appContext);
+        p1.checkOut(b2.getBookId(), appContext);
+
+        ArrayList<Books> b = p1.getListOfUsersBook(appContext);
+        assertThat(b.get(0).getFine(), is(0));
+        assertThat(b.get(0).getDaysLeft(), is(59));
+    }
+    @Test
+    public void Test6() throws Exception {
+        Context appContext = InstrumentationRegistry.getTargetContext();
+        DataBaseHelper db = new DataBaseHelper(appContext);
+        Patron p1 = db.getListOfUsers().get(0);
+        Books b1 = db.getListOfBooks().get(0);
+        Books b2 = db.getListOfBooks().get(1);
+
+        p1.checkOut(b1.getBookId(), appContext);
+        p1.checkOut(b2.getBookId(), appContext);
+
+        ArrayList<Books> b = p1.getListOfUsersBook(appContext);
+        assertThat(b.get(0).getFine(), is(0));
+        assertThat(b.get(0).getDaysLeft(), is(59));
+    }
+    @Test
+    public void Test7() throws Exception {
+        Context appContext = InstrumentationRegistry.getTargetContext();
+        DataBaseHelper db = new DataBaseHelper(appContext);
+        Patron p1 = db.getListOfUsers().get(0);
+        Books b1 = db.getListOfBooks().get(0);
+        Books b2 = db.getListOfBooks().get(1);
+
+        p1.checkOut(b1.getBookId(), appContext);
+        p1.checkOut(b2.getBookId(), appContext);
+
+        ArrayList<Books> b = p1.getListOfUsersBook(appContext);
+        assertThat(b.get(0).getFine(), is(0));
+        assertThat(b.get(0).getDaysLeft(), is(59));
+    }
+    @Test
+    public void Test8() throws Exception {
+        Context appContext = InstrumentationRegistry.getTargetContext();
+        DataBaseHelper db = new DataBaseHelper(appContext);
+        Patron p1 = db.getListOfUsers().get(0);
+        Books b1 = db.getListOfBooks().get(0);
+        Books b2 = db.getListOfBooks().get(1);
+
+        p1.checkOut(b1.getBookId(), appContext);
+        p1.checkOut(b2.getBookId(), appContext);
+
+        ArrayList<Books> b = p1.getListOfUsersBook(appContext);
+        assertThat(b.get(0).getFine(), is(0));
+        assertThat(b.get(0).getDaysLeft(), is(59));
+    }
+    @Test
+    public void Test9() throws Exception {
+        Context appContext = InstrumentationRegistry.getTargetContext();
+        DataBaseHelper db = new DataBaseHelper(appContext);
+        Patron p1 = db.getListOfUsers().get(0);
+        Books b1 = db.getListOfBooks().get(0);
+        Books b2 = db.getListOfBooks().get(1);
+
+        p1.checkOut(b1.getBookId(), appContext);
+        p1.checkOut(b2.getBookId(), appContext);
+
+        ArrayList<Books> b = p1.getListOfUsersBook(appContext);
+        assertThat(b.get(0).getFine(), is(0));
+        assertThat(b.get(0).getDaysLeft(), is(59));
+    }
+    @Test
+    public void Test10() throws Exception {
+        Context appContext = InstrumentationRegistry.getTargetContext();
+        DataBaseHelper db = new DataBaseHelper(appContext);
+        Patron p1 = db.getListOfUsers().get(0);
+        Books b1 = db.getListOfBooks().get(0);
+        Books b2 = db.getListOfBooks().get(1);
+
+        p1.checkOut(b1.getBookId(), appContext);
+        p1.checkOut(b2.getBookId(), appContext);
+
+        ArrayList<Books> b = p1.getListOfUsersBook(appContext);
+        assertThat(b.get(0).getFine(), is(0));
+        assertThat(b.get(0).getDaysLeft(), is(59));
+    }
+    @Test
+    public void Test11() throws Exception {
+        Context appContext = InstrumentationRegistry.getTargetContext();
+        DataBaseHelper db = new DataBaseHelper(appContext);
+        Patron p1 = db.getListOfUsers().get(0);
+        Books b1 = db.getListOfBooks().get(0);
+        Books b2 = db.getListOfBooks().get(1);
+
+        p1.checkOut(b1.getBookId(), appContext);
+        p1.checkOut(b2.getBookId(), appContext);
+
+        ArrayList<Books> b = p1.getListOfUsersBook(appContext);
+        assertThat(b.get(0).getFine(), is(0));
+        assertThat(b.get(0).getDaysLeft(), is(59));
+    }
+    @Test
+    public void Test12() throws Exception {
+        Context appContext = InstrumentationRegistry.getTargetContext();
+        DataBaseHelper db = new DataBaseHelper(appContext);
+        Patron p1 = db.getListOfUsers().get(0);
+        Books b1 = db.getListOfBooks().get(0);
+        Books b2 = db.getListOfBooks().get(1);
+
+        p1.checkOut(b1.getBookId(), appContext);
+        p1.checkOut(b2.getBookId(), appContext);
+
+        ArrayList<Books> b = p1.getListOfUsersBook(appContext);
+        assertThat(b.get(0).getFine(), is(0));
+        assertThat(b.get(0).getDaysLeft(), is(59));
+    }
+    @Test
+    public void Test13() throws Exception {
+        Context appContext = InstrumentationRegistry.getTargetContext();
+        DataBaseHelper db = new DataBaseHelper(appContext);
+        Patron p1 = db.getListOfUsers().get(0);
+        Books b1 = db.getListOfBooks().get(0);
+        Books b2 = db.getListOfBooks().get(1);
+
+        p1.checkOut(b1.getBookId(), appContext);
+        p1.checkOut(b2.getBookId(), appContext);
+
+        ArrayList<Books> b = p1.getListOfUsersBook(appContext);
+        assertThat(b.get(0).getFine(), is(0));
+        assertThat(b.get(0).getDaysLeft(), is(59));
+    }
+    @Test
+    public void Test14() throws Exception {
+        Context appContext = InstrumentationRegistry.getTargetContext();
+        DataBaseHelper db = new DataBaseHelper(appContext);
+        Patron p1 = db.getListOfUsers().get(0);
+        Books b1 = db.getListOfBooks().get(0);
+        Books b2 = db.getListOfBooks().get(1);
+
+        p1.checkOut(b1.getBookId(), appContext);
+        p1.checkOut(b2.getBookId(), appContext);
+
+        ArrayList<Books> b = p1.getListOfUsersBook(appContext);
+        assertThat(b.get(0).getFine(), is(0));
+        assertThat(b.get(0).getDaysLeft(), is(59));
+    }
+
 }
