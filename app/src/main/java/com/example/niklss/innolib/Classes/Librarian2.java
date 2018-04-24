@@ -39,7 +39,7 @@ public class Librarian2 extends Librarian1 {
         String time = buf[2] + "." + month(buf[1]) + "." + buf[5];
         db.out(time + " " + this.getuName() + " " + this.getSecondName() + " " + this.getuId() + " addedArticle " + db.getListOfArticles().get(db.getListOfArticles().size() - 1).getArticleId());
     }
-
+//
     public void addAv(String[] info, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
         Calendar cal = new GregorianCalendar();
