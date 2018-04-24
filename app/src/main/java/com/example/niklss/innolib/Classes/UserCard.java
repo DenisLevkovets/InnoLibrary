@@ -84,12 +84,12 @@ public class UserCard {
         for (int i = 0; i < input.size(); i++) {
             boolean inThere = false;
             if (title != null && !title.equals("")){
-                if (!title.toLowerCase().equals(input.get(i).getTitleBook().toLowerCase())){
+                if (!title.toLowerCase().contains(input.get(i).getTitleBook().toLowerCase())){
                     continue;
                 }
             }
             if (author != null && !author.equals("")){
-                if (!author.toLowerCase().equals(input.get(i).getAuthorsOfBook().toLowerCase())){
+                if (!author.toLowerCase().contains(input.get(i).getAuthorsOfBook().toLowerCase())){
                     continue;
                 }
             }
@@ -97,22 +97,22 @@ public class UserCard {
                 continue;
             }
             if (price != null && !price.equals("")){
-                if (!price.equals(Integer.toString(input.get(i).getPrice()))){
+                if (!price.contains(Integer.toString(input.get(i).getPrice()))){
                     continue;
                 }
             }
             if (edition != null && !edition.equals("")){
-                if (!edition.equals(Integer.toString(input.get(i).getEdition()))){
+                if (!edition.contains(Integer.toString(input.get(i).getEdition()))){
                     continue;
                 }
             }
             if (dateOfCreation != null && !dateOfCreation.equals("")){
-                if (!dateOfCreation.toLowerCase().equals(input.get(i).getDateOfCreationOfBook().toLowerCase())){
+                if (!dateOfCreation.toLowerCase().contains(input.get(i).getDateOfCreationOfBook().toLowerCase())){
                     continue;
                 }
             }
             if (publishedBy != null && !publishedBy.equals("")){
-                if (!publishedBy.toLowerCase().equals(input.get(i).getPublished_by().toLowerCase())){
+                if (!publishedBy.toLowerCase().contains(input.get(i).getPublished_by().toLowerCase())){
                     continue;
                 }
             }
@@ -121,7 +121,7 @@ public class UserCard {
                 String[] myKeys = keywords.toLowerCase().split(" ");
                 for (int j = 0; j < myKeys.length; j++) {
                     for (int k = 0; k < keysOfBook.length; k++) {
-                        if (Objects.equals(myKeys[j], keysOfBook[k])){
+                        if ((myKeys[j].contains(keysOfBook[k]))){
                             inThere = true;
                         }
                     }
@@ -149,12 +149,12 @@ public class UserCard {
         for (int i = 0; i < input.size(); i++) {
             boolean inThere = false;
             if (title != null && !title.equals("")){
-                if (!title.toLowerCase().equals(input.get(i).getTitle().toLowerCase())){
+                if (!title.toLowerCase().contains(input.get(i).getTitle().toLowerCase())){
                     continue;
                 }
             }
             if (author != null && !author.equals("")){
-                if (!author.toLowerCase().equals(input.get(i).getAuthors().toLowerCase())){
+                if (!author.toLowerCase().contains(input.get(i).getAuthors().toLowerCase())){
                     continue;
                 }
             }
@@ -162,22 +162,22 @@ public class UserCard {
                 continue;
             }
             if (price != null && !price.equals("")){
-                if (!price.equals(Integer.toString(input.get(i).getPrice()))){
+                if (!price.contains(Integer.toString(input.get(i).getPrice()))){
                     continue;
                 }
             }
             if (editor != null && !editor.equals("")){
-                if (!editor.equals(input.get(i).getEditor())){
+                if (!editor.contains(input.get(i).getEditor())){
                     continue;
                 }
             }
             if (date != null && !date.equals("")){
-                if (!date.toLowerCase().equals(input.get(i).getDate().toLowerCase())){
+                if (!date.toLowerCase().contains(input.get(i).getDate().toLowerCase())){
                     continue;
                 }
             }
             if (jtitle != null && !jtitle.equals("")){
-                if (!jtitle.toLowerCase().equals(input.get(i).getJtitle().toLowerCase())){
+                if (!jtitle.toLowerCase().contains(input.get(i).getJtitle().toLowerCase())){
                     continue;
                 }
             }
@@ -186,7 +186,7 @@ public class UserCard {
                 String[] myKeys = keywords.toLowerCase().split(" ");
                 for (int j = 0; j < myKeys.length; j++) {
                     for (int k = 0; k < keysOfBook.length; k++) {
-                        if (Objects.equals(myKeys[j], keysOfBook[k])){
+                        if (myKeys[j].contains(keysOfBook[k])){
                             inThere = true;
                         }
                     }
@@ -196,7 +196,7 @@ public class UserCard {
                 }
             }
             if (issue != null && !issue.equals("")){
-                if (!issue.toLowerCase().equals(input.get(i).getIssue().toLowerCase())){
+                if (!issue.toLowerCase().contains(input.get(i).getIssue().toLowerCase())){
                     continue;
                 }
             }
@@ -216,17 +216,17 @@ public class UserCard {
         for (int i = 0; i < input.size(); i++) {
             boolean inThere = false;
             if (title != null && !title.equals("")){
-                if (!title.toLowerCase().equals(input.get(i).getTitle().toLowerCase())){
+                if (!title.toLowerCase().contains(input.get(i).getTitle().toLowerCase())){
                     continue;
                 }
             }
             if (author != null && !author.equals("")){
-                if (!author.toLowerCase().equals(input.get(i).getAuthors().toLowerCase())){
+                if (!author.toLowerCase().contains(input.get(i).getAuthors().toLowerCase())){
                     continue;
                 }
             }
             if (price != null && !price.equals("")){
-                if (!price.equals(Integer.toString(input.get(i).getPrice()))){
+                if (!price.contains(Integer.toString(input.get(i).getPrice()))){
                     continue;
                 }
             }
@@ -235,7 +235,7 @@ public class UserCard {
                 String[] myKeys = keywords.toLowerCase().split(" ");
                 for (int j = 0; j < myKeys.length; j++) {
                     for (int k = 0; k < keysOfBook.length; k++) {
-                        if (Objects.equals(myKeys[j], keysOfBook[k])){
+                        if (myKeys[j].contains(keysOfBook[k])){
                             inThere = true;
                         }
                     }

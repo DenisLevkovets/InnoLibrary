@@ -3,19 +3,13 @@ package com.example.niklss.innolib;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
-
-import com.example.niklss.innolib.Classes.AV;
 import com.example.niklss.innolib.Classes.Books;
-import com.example.niklss.innolib.Classes.Librarian;
 import com.example.niklss.innolib.Classes.Patron;
 import com.example.niklss.innolib.DataBase.DataBaseHelper;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.io.File;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import static org.hamcrest.MatcherAssert.assertThat;

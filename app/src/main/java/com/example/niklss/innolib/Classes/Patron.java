@@ -30,10 +30,6 @@ public class Patron extends UserCard {
         super(a);
     }
 
-    private void searchDoc(String anyName) {
-
-    }
-
     private int month(String mm) {
         switch (mm) {
             case "Jan":
@@ -286,8 +282,9 @@ public class Patron extends UserCard {
                 if (db.wasRenewed(this.getuId(), av.getAvId(), av.getTypeOfMaterial())) {
                     System.out.println("You cant renew this book again");
                 } else {
+                    System.out.println(av.getDaysLeft() + " before adding ");
                     av.setDaysLeft(14 + db.daysLeft(this.getuId(), av.getAvId(), av.getTypeOfMaterial()));
-                    System.out.println(av.getDaysLeft());
+                    System.out.println(av.getDaysLeft() + " after adding ");
                     cal.add(Calendar.DAY_OF_MONTH, av.getDaysLeft());
 
                     String[] date = cal.getTime().toString().split(" ");
