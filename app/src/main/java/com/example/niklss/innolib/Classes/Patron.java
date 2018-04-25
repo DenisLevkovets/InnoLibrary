@@ -87,7 +87,7 @@ public class Patron extends UserCard {
 
                     String[] date = cal.getTime().toString().split(" ");
                     String t = date[2] + "." + month(date[1]) + "." + date[5];
-                    db.updateTimeChecker(this.getuId(), book.getBookId(), t, book.getTypeOfMaterial(), 0);
+                    db.addTimeChecker(this.getuId(), book.getBookId(), t, book.getTypeOfMaterial(), 0);
                     output = "You can take the book";
 
                 } else {
@@ -128,7 +128,7 @@ public class Patron extends UserCard {
 
                 String[] date = cal.getTime().toString().split(" ");
                 String t = date[2] + "." + month(date[1]) + "." + date[5];
-                db.updateTimeChecker(this.getuId(), av.getAvId(), t, av.getTypeOfMaterial(), 0);
+                db.addTimeChecker(this.getuId(), av.getAvId(), t, av.getTypeOfMaterial(), 0);
                 output = "You can take the AV";
             } else {
                 output = "You are in queue for this AV material";
@@ -165,7 +165,7 @@ public class Patron extends UserCard {
 
                 String[] date = cal.getTime().toString().split(" ");
                 String t = date[2] + "." + month(date[1]) + "." + date[5];
-                db.updateTimeChecker(this.getuId(), art.getArticleId(), t, art.getTypeOfMaterial(), 0);
+                db.addTimeChecker(this.getuId(), art.getArticleId(), t, art.getTypeOfMaterial(), 0);
                 output = "You can take the Article";
             } else {
                 output = "You are in queue for this article";

@@ -41,6 +41,24 @@ public class Login extends Activity {
         name = (EditText) findViewById(R.id.editText);
         password = (EditText) findViewById(R.id.editText2);
         bt.setOnClickListener(click);
+        try {
+            DataBaseHelper db = new DataBaseHelper(getApplicationContext());
+            Patron p = new Patron(db.getArrayUser(1));
+            p.checkOut(2,getApplicationContext());
+            ArrayList<Books> b = new ArrayList<>();
+            b=db.returnListOfUsersBook(1);
+            for (int i = 0; i <b.size() ; i++) {
+                System.out.println(b.get(i).getTitleBook());
+            }
+            System.out.println("?////");
+            p.checkOut(1,getApplicationContext());
+            b=db.returnListOfUsersBook(1);
+            for (int i = 0; i <b.size() ; i++) {
+                System.out.println(b.get(i).getTitleBook());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 

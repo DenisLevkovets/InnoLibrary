@@ -1468,4 +1468,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         in.close();
         return output;
     }
+
+    public void addTimeChecker(int user_id, int book_id, String time, int type, int renewed) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("user_id", user_id);
+        cv.put("book_id", book_id);
+        cv.put("time", time);
+        cv.put("type", type);
+        cv.put("renewed", renewed);
+        db.insert("time_checker", null, cv);
+    }
 }
