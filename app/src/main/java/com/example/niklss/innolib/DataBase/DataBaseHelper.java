@@ -859,15 +859,16 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     //
     public void clearDataBase() {
         SQLiteDatabase db = this.getWritableDatabase();
-        /*String deletebook = "DELETE FROM BOOKS;";
-        String deleteuser = "DELETE FROM USERS;";
-        String deleteAV = "DELETE FROM AV;";*/
-        /*String deleteArticles = "DELETE FROM ARTICLES;";*/
+        String deletebook = "DELETE FROM Books;";
+        String deleteuser = "DELETE FROM Users;";
+        String deleteAV = "DELETE FROM AV;";
+        String deleteArticles = "DELETE FROM Articles;";
         String deleteTimeChecker = "DELETE FROM time_checker;";
         String deleteQueue = "DELETE FROM Queue;";
         String deleteLogin = "DELETE FROM Login;";
         String deleteUserID = "DELETE FROM UserId;";
         String deleteOutstanding = "DELETE FROM outstanding;";
+
 
         db.beginTransaction();
         db.execSQL(deleteLogin);
@@ -875,6 +876,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.execSQL(deleteOutstanding);
         db.execSQL(deleteTimeChecker);
         db.execSQL(deleteQueue);
+        db.execSQL(deleteArticles);
+        db.execSQL(deletebook);
+        db.execSQL(deleteuser);
+        db.execSQL(deleteAV);
         db.setTransactionSuccessful();
         db.endTransaction();
         db.close();
