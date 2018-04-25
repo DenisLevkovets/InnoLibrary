@@ -37,7 +37,7 @@ public class Admin extends UserCard {
 
         String[] buf = cal.getTime().toString().split(" ");
         String time = buf[2] + "." + month(buf[1]) + "." + buf[5];
-        db.out(time + " " + this.getuName() + " " + this.getSecondName() + " " + this.getuId() + " addedLibrarian " + db.getListOfUsers().get(db.getListOfUsers().size() - 1).getuId());
+        db.out(time + " Admin" + " addedLibrarian " + db.getListOfLibrarians().get(db.getListOfLibrarians().size() - 1).getuId());
     }
 
     public void deleteLibrarian(int id, Context context) throws IOException {
@@ -46,7 +46,7 @@ public class Admin extends UserCard {
         db.deletePatron(id);
         String[] buf = cal.getTime().toString().split(" ");
         String time = buf[2] + "." + month(buf[1]) + "." + buf[5];
-        db.out(time + " " + this.getuName() + " " + this.getSecondName() + " " + this.getuId() + " deletedLibrarian " + db.getListOfUsers().get(db.getListOfUsers().size() - 1).getuId());
+        db.out(time + " Admin" + " deletedLibrarian " + db.getListOfLibrarians().get(db.getListOfLibrarians().size() - 1).getuId());
     }
 
     public void modifyLibrarian(UserCard user, Context context) throws IOException{
@@ -55,7 +55,12 @@ public class Admin extends UserCard {
         db.updateUserData(user);
         String[] buf = cal.getTime().toString().split(" ");
         String time = buf[2] + "." + month(buf[1]) + "." + buf[5];
-        db.out(time + " " + this.getuName() + " " + this.getSecondName() + " " + this.getuId() + " modifiedLibrarian " + db.getListOfUsers().get(db.getListOfUsers().size() - 1).getuId());
+        db.out(time + " Admin" + " modifiedLibrarian " + db.getListOfLibrarians().get(db.getListOfLibrarians().size() - 1).getuId());
+    }
+
+    public String checkLog(Context context) throws IOException {
+        DataBaseHelper db = new DataBaseHelper(context);
+        return db.inp();
     }
 
     private int month(String mm) {

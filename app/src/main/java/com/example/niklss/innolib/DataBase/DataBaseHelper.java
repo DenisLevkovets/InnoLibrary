@@ -140,6 +140,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     // в создании адаптеров для ваших view
 
     public String createUser(String name, String secondName, String pNumber, String address, int status) {
+        if (status > 7){
+            return "Cant create an admin";
+        }
+
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
@@ -387,8 +391,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return list;
     }
 
-    public ArrayList<Patron> getListOfLibrarians() throws FileNotFoundException {
-        ArrayList<Patron> list = new ArrayList<>();
+    public ArrayList<UserCard> getListOfLibrarians() throws FileNotFoundException {
+        ArrayList<UserCard> list = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
         String mQuery = "SELECT First_name,Last_name, address,  user_id, phone, status From Users";
         Cursor mCur = db.rawQuery(mQuery, new String[]{});
@@ -402,7 +406,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 user.add(mCur.getString(mCur.getColumnIndex("user_id")));
                 user.add(mCur.getString(mCur.getColumnIndex("phone")));
                 user.add(mCur.getString(mCur.getColumnIndex("status")));
-                Patron a = new Patron(user);
+                UserCard a = new UserCard(user);
                 user.clear();
                 list.add(a);
             }
@@ -622,13 +626,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public void updateTimeChecker(int user_id, int book_id, String time, int type, int renewed) {
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put("user_id", user_id);
-        cv.put("book_id", book_id);
-        cv.put("time", time);
-        cv.put("type", type);
-        cv.put("renewed", renewed);
-        db.insert("time_checker", null, cv);
+        db.beginTransaction();
+        String updateAV = "Update time_checker Set user_id = " + user_id + ", book_id = " + book_id + ", time = '" + time + "', type = " + type + ", renewed = " + renewed + " where user_id=" + user_id +" and book_id= "+book_id+" and type="+type;
+        db.execSQL(updateAV);
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
     }
 
     public boolean wasRenewed(int user_id, int book_id, int type) {
@@ -723,6 +726,36 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         mCur.close();
         return articles;
     }
+    private int month(String mm) {
+        switch (mm) {
+            case "Jan":
+                return 1;
+            case "Feb":
+                return 2;
+            case "Mar":
+                return 3;
+            case "Apr":
+                return 4;
+            case "May":
+                return 5;
+            case "Jun":
+                return 6;
+            case "Jul":
+                return 7;
+            case "Aug":
+                return 8;
+            case "Sep":
+                return 9;
+            case "Oct":
+                return 10;
+            case "Nov":
+                return 11;
+            case "Dec":
+                return 12;
+            default:
+                return 0;
+        }
+    }
 
     public ArrayList<AV> returnListOfUsersAv(int uId) {
         ArrayList<AV> av = new ArrayList<>();
@@ -735,7 +768,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 AV a = new AV(this.getArrayAV(mCur.getInt(mCur.getColumnIndex("book_id"))));
                 String d1 = mCur.getString(mCur.getColumnIndex("time"));
                 Calendar c = new GregorianCalendar();
-                String d2 = c.get(Calendar.DAY_OF_MONTH) + "." + c.get(Calendar.MONTH) + "." + c.get(Calendar.YEAR);
+                String[] date = c.getTime().toString().split(" ");
+                String d2 = date[2] + "." + month(date[1]) + "." + date[5];
                 a.setOverDue(false);
                 a.setFine(0);
                 a.setDaysLeft(findDifDays(d1, d2));
@@ -857,12 +891,16 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     //
-    public void clearDataBase() {
+    public void clearDataBase() throws FileNotFoundException {
         SQLiteDatabase db = this.getWritableDatabase();
-        /*String deletebook = "DELETE FROM BOOKS;";
+        PrintWriter out = new PrintWriter(new File((mContext.getFilesDir().getPath() + "Log")));
+        out.print("");
+        out.close();
+
+        String deletebook = "DELETE FROM BOOKS;";
         String deleteuser = "DELETE FROM USERS;";
-        String deleteAV = "DELETE FROM AV;";*/
-        /*String deleteArticles = "DELETE FROM ARTICLES;";*/
+        String deleteAV = "DELETE FROM AV;";
+        String deleteArticles = "DELETE FROM ARTICLES;";
         String deleteTimeChecker = "DELETE FROM time_checker;";
         String deleteQueue = "DELETE FROM Queue;";
         String deleteLogin = "DELETE FROM Login;";
@@ -870,6 +908,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         String deleteOutstanding = "DELETE FROM outstanding;";
 
         db.beginTransaction();
+        db.execSQL(deleteArticles);
+        db.execSQL(deletebook);
+        db.execSQL(deleteuser);
+        db.execSQL(deleteAV);
         db.execSQL(deleteLogin);
         db.execSQL(deleteUserID);
         db.execSQL(deleteOutstanding);
@@ -1314,11 +1356,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         Books b = new Books(getArrayBook(book_id));
         returnBookerr(b, book_id);
     }
+    //
 
     public void returnBookerr(Books b, int book_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.beginTransaction();
-        String updateBooks = "Update Books Set title = '" + b.getTitleBook() + "', author = '" + b.getAuthorsOfBook() + "', available_copies = " + (b.getCountOfBooks() + 1) + ", type = " + b.getReference() + ", price = " + b.getPrice() + ", edition = " + b.getEdition() + ", date = '" + b.getDateOfCreationOfBook() + "', published_by = '" + b.getPublished_by() + "', keywords = '" + b.getKeywords() + "', is_bestseller = " + b.getIsBestSeller() + " where id=" + book_id;
+        String updateBooks = "Update Books Set title = '" + b.getTitleBook() + "', author = '" + b.getAuthorsOfBook() + "', available_copies = " + (b.getCountOfBooks() + 1) + ", type = " + b.getReference() + ", price = " + b.getPrice() + ", edition = " + b.getEdition() + ", date = '" + b.getDateOfCreationOfBook() + "', published_by = '" + b.getPublished_by() + "', keywords = '" + b.getKeywords() + "', is_bestseller = " + b.getIsBestSeller() + " where book_id=" + book_id;
         db.execSQL(updateBooks);
         db.setTransactionSuccessful();
         db.endTransaction();
@@ -1339,7 +1382,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void returnArticleerr(Articles a, int article_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.beginTransaction();
-        String updateArticle = "Update Articles Set title = '" + a.getTitle() + "', authors = '" + a.getAuthors() + "', jtitle = '" + a.getJtitle() + "', issue = '" + a.getIssue() + "', date = '" + a.getDate() + "', editor = '" + a.getEditor() + ", numbers = " + (a.getCountArticle() + 1) + ", reference = " + a.getReference() + ", keywords = '" + a.getKeywords() + "', price = " + a.getPrice() + " where id=" + article_id;
+        String updateArticle = "Update Articles Set title = '" + a.getTitle() + "', authors = '" + a.getAuthors() + "', jtitle = '" + a.getJtitle() + "', issue = '" + a.getIssue() + "', date = '" + a.getDate() + "', editor = '" + a.getEditor() + "', numbers = " + (a.getCountArticle() + 1) + ", reference = " + a.getReference() + ", keywords = '" + a.getKeywords() + "', price = " + a.getPrice() + " where id=" + article_id;
         db.execSQL(updateArticle);
         db.setTransactionSuccessful();
         db.endTransaction();
