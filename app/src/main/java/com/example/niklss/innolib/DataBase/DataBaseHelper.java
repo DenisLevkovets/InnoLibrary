@@ -49,7 +49,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
 
     public DataBaseHelper(Context context) throws IOException {
-        super(context, DB_NAME, null, 1);
+        super(context, DB_NAME, null, 10);
         this.mContext = context;
         if (android.os.Build.VERSION.SDK_INT >= 17) {
             DB_PATH = context.getApplicationInfo().dataDir + "/databases/";
@@ -298,7 +298,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public void updateBook(int id, String title, String author, int available_copies, int type, int price, int edition, String date, String published_by, String keywords, int is_bestseller) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String updateBooks = "Update Books Set title = '" + title + "', author = '" + author + "', available_copies = " + available_copies + ", type = " + type + ", price = " + price + ", edition = " + edition + ", date = '" + date + "', published_by = '" + published_by + "', keywords = '" + keywords + "', is_bestseller = " + is_bestseller + " where id=" + id;
+        String updateBooks = "Update Books Set title = '" + title + "', author = '" + author + "', available_copies = " + available_copies + ", type = " + type + ", price = " + price + ", edition = " + edition + ", date = '" + date + "', published_by = '" + published_by + "', keywords = '" + keywords + "', is_bestseller = " + is_bestseller + " where book_id=" + id;
         db.beginTransaction();
         db.execSQL(updateBooks);
         db.setTransactionSuccessful();
@@ -308,7 +308,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public void updateArticle(int id, String title, String author, String jtitle, String issue, String date, String editor, int numbers, int reference, String keywords, int price) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String updateArticle = "Update Articles Set title = '" + title + "', authors = '" + author + "', jtitle = '" + jtitle + "', issue = '" + issue + "', date = '" + date + "', editor = '" + editor + ", numbers = " + numbers + ", reference = " + reference + ", keywords = '" + keywords + "', price = " + price + " where id=" + id;
+        String updateArticle = "Update Articles Set title = '" + title + "', authors = '" + author + "', jtitle = '" + jtitle + "', issue = '" + issue + "', date = '" + date + "', editor = '" + editor + "', numbers = " + numbers + ", reference = " + reference + ", keywords = '" + keywords + "', price = " + price + " where id=" + id;
         db.beginTransaction();
         db.execSQL(updateArticle);
         db.setTransactionSuccessful();
@@ -391,8 +391,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return list;
     }
 
-    public ArrayList<UserCard> getListOfLibrarians() throws FileNotFoundException {
-        ArrayList<UserCard> list = new ArrayList<>();
+    public ArrayList<Patron> getListOfLibrarians() throws FileNotFoundException {
+        ArrayList<Patron> list = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
         String mQuery = "SELECT First_name,Last_name, address,  user_id, phone, status From Users";
         Cursor mCur = db.rawQuery(mQuery, new String[]{});
@@ -406,7 +406,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 user.add(mCur.getString(mCur.getColumnIndex("user_id")));
                 user.add(mCur.getString(mCur.getColumnIndex("phone")));
                 user.add(mCur.getString(mCur.getColumnIndex("status")));
-                UserCard a = new UserCard(user);
+                Patron a = new Patron(user);
                 user.clear();
                 list.add(a);
             }
@@ -1020,7 +1020,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return list.size() == 0;
     }
 
-    public UserCard getUser() throws FileNotFoundException {
+    public Patron getUser() throws FileNotFoundException {
         SQLiteDatabase db = this.getWritableDatabase();
         String mQuery;
         mQuery = "SELECT user_id From UserId ";
@@ -1041,8 +1041,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.insert("UserId", null, cv);
     }
 
-    public boolean Login(String login, String password) {
+    public int Login(String login, String password) throws FileNotFoundException {
         SQLiteDatabase db = this.getWritableDatabase();
+        Log.i("hi","hiiiiiiiiiiiiii");
         String mQuery;
         mQuery = "SELECT login, password, id  From Login";
         Cursor mCur = db.rawQuery(mQuery, new String[]{});
@@ -1050,13 +1051,17 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         while (!mCur.isAfterLast()) {
             if (mCur.getString(mCur.getColumnIndex("login")).equals(login) && mCur.getString(mCur.getColumnIndex("password")).equals(password)) {
                 setUser(mCur.getInt(mCur.getColumnIndex("id")));
-                return true;
+                Log.i("okay","okayyyyyyyyyyyyyyyyyyyyyy");
+                return getUser().getUsersType();
+//                Log.i("notokay","notokayyyyyyyyyyyyyyyyyyyyyy");
             }
+            mCur.moveToNext();
         }
         mCur.close();
-        return false;
+        return -1;
     }
     //
+
 
     @TargetApi(Build.VERSION_CODES.N)
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -1356,7 +1361,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         Books b = new Books(getArrayBook(book_id));
         returnBookerr(b, book_id);
     }
-    //
 
     public void returnBookerr(Books b, int book_id) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -1467,5 +1471,16 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         in.close();
         return output;
+    }
+
+    public void addTimeChecker(int user_id, int book_id, String time, int type, int renewed) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("user_id", user_id);
+        cv.put("book_id", book_id);
+        cv.put("time", time);
+        cv.put("type", type);
+        cv.put("renewed", renewed);
+        db.insert("time_checker", null, cv);
     }
 }

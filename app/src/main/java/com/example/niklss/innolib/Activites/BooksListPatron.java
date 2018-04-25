@@ -30,8 +30,7 @@ public class BooksListPatron extends Activity   {
     ArrayList<AV> Av;
 
 
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.booklistpatron);
 
@@ -82,9 +81,17 @@ public class BooksListPatron extends Activity   {
             else checkouted.add(db.getAVInfoShort(Av.get(i)));
         }
 
-        ArrayList<Books> booksfine=db.waitingListOfBooks(db.getUser().getuId());
-        ArrayList<Articles> articlesfine=db.waitingListOfArticles(db.getUser().getuId());
-        ArrayList<AV> avfine=db.waitingListOfAV(db.getUser().getuId());
+        ArrayList<Books> booksfine= null;
+        ArrayList<Articles> articlesfine=null;
+        ArrayList<AV> avfine=null;
+        try {
+            booksfine = db.waitingListOfBooks(db.getUser().getuId());
+            articlesfine=db.waitingListOfArticles(db.getUser().getuId());
+            avfine=db.waitingListOfAV(db.getUser().getuId());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
         for (int i = 0; i < booksfine.size(); i++) {
             fine.add(db.getShortInformation(booksfine.get(i)));
         }

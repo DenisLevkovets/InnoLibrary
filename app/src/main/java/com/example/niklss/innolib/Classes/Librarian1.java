@@ -20,10 +20,6 @@ public class Librarian1 extends UserCard {
         super(a);
     }
 
-    public Librarian1(UserCard a) throws FileNotFoundException {
-        super(a.getuName(), a.getSecondName(), a.getuAddress(), a.getuId(), a.getuNumber(), a.getUsersType());
-    }
-
     public void modifyBook(Books book, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
         Calendar cal = new GregorianCalendar();

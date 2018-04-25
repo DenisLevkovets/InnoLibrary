@@ -10,19 +10,26 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.RadioButton;
 
+import com.example.niklss.innolib.Classes.Articles;
 import com.example.niklss.innolib.DataBase.DataBaseHelper;
 import com.example.niklss.innolib.R;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by user on 04.04.2018.
  */
-
+@SuppressLint("ValidFragment")
 public class AddArticle extends DialogFragment {
+    ArrayList<Articles> articles;
+    ArrayAdapter<String> adapter;
     DataBaseHelper db;
     EditText title;
     EditText authors;
@@ -35,6 +42,14 @@ public class AddArticle extends DialogFragment {
     EditText price;
     RadioButton reference;
     int ref=0;
+    String buttonText;
+    int action;
+
+
+    public AddArticle(String button, int action){
+        buttonText=button;
+        this.action=action;
+    }
     @SuppressLint("ValidFragment")
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -74,12 +89,36 @@ public class AddArticle extends DialogFragment {
         // Pass null as the parent view because its going in the dialog layout
         builder
                 // Add action buttons
-                .setPositiveButton("Create", new DialogInterface.OnClickListener() {
+                .setPositiveButton(buttonText, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        db.addArt(title.getText().toString(),authors.getText().toString(),jtitle.getText().toString(),issue.getText().toString(),
-                                date.getText().toString(),editor.getText().toString(),Integer.parseInt(count.getText().toString()),
-                                ref,keywords.getText().toString(),Integer.parseInt(price.getText().toString()));
+                        if(action==0) {
+                            db.addArt(title.getText().toString(), authors.getText().toString(), jtitle.getText().toString(), issue.getText().toString(),
+                                    date.getText().toString(), editor.getText().toString(), Integer.parseInt(count.getText().toString()),
+                                    ref, keywords.getText().toString(), Integer.parseInt(price.getText().toString()));
+                        }else if(action==1){
+                            try {
+                                articles=db.getUser().searchArticle(title.getText().toString(), authors.getText().toString(), jtitle.getText().toString(), issue.getText().toString(),
+                                        date.getText().toString(), editor.getText().toString(),
+                                        ref, keywords.getText().toString(), price.getText().toString(),getContext());
+
+
+                                String[] arr;
+                                if (articles != null) {
+                                    arr = new String[articles.size()];
+                                    for (int i = 0; i < articles.size(); i++) {
+                                        arr[i] = db.getArticleInfoShort(articles.get(i));
+                                    }
+                                    adapter = new ArrayAdapter<String>(getContext(),
+                                            android.R.layout.simple_list_item_1, arr);
+                                    ((ListView)getActivity().findViewById(R.id.list)).setAdapter(adapter);
+                                }
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

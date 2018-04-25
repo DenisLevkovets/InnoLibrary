@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -95,10 +94,12 @@ public class AddUser extends DialogFragment {
                 .setPositiveButton("Create", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        db.createUser(name.getText().toString(),surname.getText().toString(),
-                                address.getText().toString(),number.getText().toString(),status);
-                        Log.i("TAAAG",name.getText().toString()+" "+surname.getText().toString()+" "+
-                                address.getText().toString()+" "+number.getText().toString()+" "+status);
+                        AlertDialog.Builder cr=new AlertDialog.Builder(getContext()).setTitle("New user").setMessage("Login: "+name.getText().toString()+""+surname.getText().toString()+"\n"+
+                                "Password: "+ db.createUser(name.getText().toString(),surname.getText().toString(),
+                                number.getText().toString(),address.getText().toString(),status));
+                        cr.show();
+
+
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

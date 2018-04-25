@@ -11,6 +11,7 @@ import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.niklss.innolib.DataBase.DataBaseHelper;
 import com.example.niklss.innolib.R;
@@ -23,7 +24,7 @@ import java.io.IOException;
 
 @SuppressLint("ValidFragment")
 public class ModifyAV extends DialogFragment {
-    int id;
+    int idd;
     DataBaseHelper db;
     EditText title;
     EditText authors;
@@ -37,13 +38,13 @@ public class ModifyAV extends DialogFragment {
     int icount;
     int iprice;
 
-    ModifyAV(String atitle, String aauthors, int acount, String akeywords, int aprice, int aid){
+    public ModifyAV(String atitle, String aauthors, int acount, String akeywords, int aprice, int aid){
         stitle=atitle;
         sauthors=aauthors;
         icount=acount;
         skeywords=akeywords;
         iprice=aprice;
-        id=aid;
+        idd=aid;
     }
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -80,11 +81,12 @@ public class ModifyAV extends DialogFragment {
         // Pass null as the parent view because its going in the dialog layout
         builder
                 // Add action buttons
-                .setPositiveButton("Create", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Modify", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        db.updateAV(id,title.getText().toString(),authors.getText().toString(),Integer.parseInt(count.getText().toString()),
+                        db.updateAV(idd,title.getText().toString(),authors.getText().toString(),Integer.parseInt(count.getText().toString()),
                                 keywords.getText().toString(),Integer.parseInt(price.getText().toString()));
+                        Toast.makeText(getContext(),"Modified",Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

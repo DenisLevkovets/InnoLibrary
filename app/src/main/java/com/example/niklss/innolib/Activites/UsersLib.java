@@ -28,9 +28,9 @@ import java.util.ArrayList;
 
 public class UsersLib extends Activity {
     AlertDialog.Builder ad;
-    AlertDialog.Builder add;
     DataBaseHelper db;
     int index;
+    Patron patron;
     ArrayList<Patron> users;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,8 +43,11 @@ public class UsersLib extends Activity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
         try {
             users= db.getListOfUsers();
+            patron=db.getUser();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -56,6 +59,8 @@ public class UsersLib extends Activity {
         }
 
         FloatingActionButton add= (FloatingActionButton) findViewById(R.id.add);
+        if(patron.getUsersType()==5) add.hide();
+
 
         add.setOnClickListener(clAdd);
 
@@ -67,23 +72,27 @@ public class UsersLib extends Activity {
         list.setOnItemClickListener(click);
 
 
-        ad = new AlertDialog.Builder(UsersLib.this).setTitle("Title!");
+        ad = new AlertDialog.Builder(UsersLib.this).setTitle("Action with User");
 
-        ad.setPositiveButton("Delete",  new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(UsersLib.this,"It was deleted"+index,Toast.LENGTH_SHORT).show();
-                db.deletePatron(users.get(index).getuId());
+        if(patron.getUsersType()>=5) {
+            ad.setNegativeButton("Modify", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Patron patron = users.get(index);
+                    DialogFragment modify = new ModifyUser(patron.getuName(), patron.getSecondName(), patron.getuAddress(), patron.getuNumber(), patron.getUsersType(), patron.getuId());
+                    modify.show(getFragmentManager(), "modify");
+                }
+            });
+            if(patron.getUsersType()==7) {
+                ad.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(UsersLib.this, "It was deleted" + index, Toast.LENGTH_SHORT).show();
+                        db.deletePatron(users.get(index).getuId());
+                    }
+                });
             }
-        });
-        ad.setNegativeButton("Modify", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                Patron patron=users.get(index);
-                DialogFragment modify=new ModifyUser(patron.getuName(),patron.getSecondName(),patron.getuAddress(),patron.getuNumber(),patron.getUsersType(),patron.getuId());
-                modify.show(getFragmentManager(),"modify");
-            }
-        });
+        }
         ad.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -97,7 +106,11 @@ public class UsersLib extends Activity {
     ListView.OnItemClickListener click = (new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            ad.setMessage(db.getUserInfoFull(db.getListOfUsers().get(i)));
+            try {
+                ad.setMessage(db.getUserInfoFull(db.getListOfUsers().get(i)));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
             index=i;
             ad.show();
         }

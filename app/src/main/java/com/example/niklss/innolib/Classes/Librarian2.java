@@ -22,10 +22,6 @@ public class Librarian2 extends Librarian1 {
         super(a);
     }
 
-    public Librarian2(UserCard a) throws FileNotFoundException {
-        super(a.getuName(), a.getSecondName(), a.getuAddress(), a.getuId(), a.getuNumber(), a.getUsersType());
-    }
-
     public void addBook(String[] info, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
         Calendar cal = new GregorianCalendar();
@@ -43,7 +39,7 @@ public class Librarian2 extends Librarian1 {
         String time = buf[2] + "." + month(buf[1]) + "." + buf[5];
         db.out(time + " " + this.getuName() + " " + this.getSecondName() + " " + this.getuId() + " addedArticle " + db.getListOfArticles().get(db.getListOfArticles().size() - 1).getArticleId());
     }
-//
+
     public void addAv(String[] info, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
         Calendar cal = new GregorianCalendar();
@@ -62,14 +58,5 @@ public class Librarian2 extends Librarian1 {
             String time = buf[2] + "." + month(buf[1]) + "." + buf[5];
             db.out(time + " " + this.getuName() + " " + this.getSecondName() + " " + this.getuId() + " addedPatron " + db.getListOfUsers().get(db.getListOfUsers().size() - 1).getuId());
         }
-    }
-
-    public void placeAnOutStandingRequest(int docId, int typeOfDoc, Context context) throws IOException{
-        DataBaseHelper db = new DataBaseHelper(context);
-        db.outstanding_request(docId, typeOfDoc);
-        Calendar cal = new GregorianCalendar();
-        String[] buf = cal.getTime().toString().split(" ");
-        String time = buf[2] + "." + month(buf[1]) + "." + buf[5];
-        db.out(time + " " + this.getuName() + " " + this.getSecondName() + " " + this.getuId() + " placedAnOutStandingRequest " + docId + " " + typeOfDoc);
     }
 }

@@ -36,4 +36,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Enter" />
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="0dp"
+        android:gravity="center"
+        android:textColor="@android:color/holo_red_dark" />
+
 </LinearLayout>

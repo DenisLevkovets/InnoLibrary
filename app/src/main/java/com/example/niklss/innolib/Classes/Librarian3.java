@@ -22,10 +22,6 @@ public class Librarian3 extends Librarian2 {
         super(a);
     }
 
-    public Librarian3(UserCard a) throws FileNotFoundException {
-        super(a.getuName(), a.getSecondName(), a.getuAddress(), a.getuId(), a.getuNumber(), a.getUsersType());
-    }
-
     public void deleteBook(int id, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
         Calendar cal = new GregorianCalendar();

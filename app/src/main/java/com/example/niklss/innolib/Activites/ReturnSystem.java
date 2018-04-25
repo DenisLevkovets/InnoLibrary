@@ -29,9 +29,9 @@ public class ReturnSystem extends Activity {
     AlertDialog.Builder ad;
     DataBaseHelper db;
     ArrayList<Patron> deptors;
-    ArrayList<Books> books=null;
-    ArrayList<Articles> articles=null;
-    ArrayList<AV> avm=null;
+    ArrayList<Books> books;
+    ArrayList<Articles> articles;
+    ArrayList<AV> avm;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.returnsystem);
@@ -73,7 +73,7 @@ public class ReturnSystem extends Activity {
                 Toast.makeText(ReturnSystem.this,"You didnt choose",Toast.LENGTH_SHORT).show();
             }
         });
-        ad.setCancelable(true);
+
 
     }
 
@@ -92,15 +92,16 @@ public class ReturnSystem extends Activity {
 
             String res[]=new String[books.size()+articles.size()+avm.size()];
             for (int j = 0; j < books.size(); j++) {
-                res[j]=db.getShortInformation(books.get(i));
+                res[j]=db.getShortInformation(books.get(j));
             }
             for (int j = books.size(); j < books.size()+articles.size(); j++) {
-                res[j]=db.getArticleInfoShort(articles.get(i));
+                res[j]=db.getArticleInfoShort(articles.get(j-books.size()));
             }
             for (int j = books.size()+articles.size(); j <books.size()+articles.size()+ avm.size(); j++) {
-                res[j]=db.getAVInfoShort(avm.get(i));
+                res[j]=db.getAVInfoShort(avm.get(j-books.size()-articles.size()));
             }
-            ad.setSingleChoiceItems(res,-1,switchh);
+            ad.setItems(res,switchh);
+            ad.setCancelable(true);
             ad.show();
         }
     });
@@ -113,25 +114,31 @@ public class ReturnSystem extends Activity {
                 adb.setMessage(db.getShortInformation(books.get(i)));
             }
             else if(i<books.size()+articles.size()){
-                adb.setMessage(db.getArticleInfoShort(articles.get(i)));
+                adb.setMessage(db.getArticleInfoShort(articles.get(i-books.size())));
             }
             else{
-                adb.setMessage(db.getAVInfoShort(avm.get(i)));
+                adb.setMessage(db.getAVInfoShort(avm.get(i-books.size()-articles.size())));
             }
 
             adb.setPositiveButton("Return", new DialogInterface.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
+                public void onClick(DialogInterface dialogInterface, int j) {
+                    try {
+                        if (i < books.size()) {
+                            db.returnBook(db.getUser().getuId(), books.get(i).getBookId());
+                            Toast.makeText(ReturnSystem.this, "Book was returned", Toast.LENGTH_SHORT).show();
+                        } else if (i < books.size() + articles.size()) {
+                            db.returnArticle(db.getUser().getuId(), articles.get(i - books.size()).getArticleId());
+                            Toast.makeText(ReturnSystem.this, "Article was returned", Toast.LENGTH_SHORT).show();
+                        } else {
+                            db.returnAV(db.getUser().getuId(), avm.get(i - books.size() - articles.size()).getAvId());
+                            Toast.makeText(ReturnSystem.this, "AVM was returned", Toast.LENGTH_SHORT).show();
+                        }
+                    }catch (FileNotFoundException e){
+                        e.printStackTrace();
+                    }
 
-                    if(i<books.size()){
-                        db.returnBook(db.getUser().getuId(),books.get(i).getBookId());
-                    }
-                    else if(i<books.size()+articles.size()){
-                        db.returnArticle(db.getUser().getuId(),articles.get(i-books.size()).getArticleId());
-                    }
-                    else{
-                        db.returnAV(db.getUser().getuId(),avm.get(i-books.size()-articles.size()).getAvId());
-                    }
+
                 }
             }).setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
                 @Override

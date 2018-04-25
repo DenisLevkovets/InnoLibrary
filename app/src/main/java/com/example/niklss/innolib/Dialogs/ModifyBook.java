@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import com.example.niklss.innolib.DataBase.DataBaseHelper;
 import com.example.niklss.innolib.R;
@@ -25,7 +26,7 @@ import java.io.IOException;
 @SuppressLint("ValidFragment")
 public class ModifyBook extends DialogFragment {
     DataBaseHelper db;
-    int id;
+    int bid;
     EditText title;
     EditText authors;
     EditText edition;
@@ -42,7 +43,7 @@ public class ModifyBook extends DialogFragment {
 
     String stitle;
     String sauthors;
-    String sedition;
+    int sedition;
     String sdate;
     String seditor;
     String skeywords;
@@ -52,7 +53,7 @@ public class ModifyBook extends DialogFragment {
     int icount;
 
 
-    ModifyBook(String atitle, String aauthors, String aedition, String adate, String aeditor, String akeywords, int aprice, int aref, int abst,int aid){
+    public ModifyBook(String atitle, String aauthors, int aedition, String adate, String aeditor, String akeywords, int aprice, int aref, int abst, int aid){
         stitle=atitle;
         sauthors=aauthors;
         sedition=aedition;
@@ -62,7 +63,7 @@ public class ModifyBook extends DialogFragment {
         iprice=aprice;
         iref=aref;
         ibst=abst;
-        id=aid;
+        bid=aid;
     }
     @SuppressLint("ValidFragment")
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -104,7 +105,7 @@ public class ModifyBook extends DialogFragment {
 
         title.setText(stitle);
         authors.setText(sauthors);
-        edition.setText(sedition);
+        edition.setText(String.valueOf(sedition));
         date.setText(sdate);
         editor.setText(seditor);
         keywords.setText(skeywords);
@@ -125,9 +126,10 @@ public class ModifyBook extends DialogFragment {
                 .setPositiveButton("Modify", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        db.updateBook(id,title.getText().toString(),authors.getText().toString(),Integer.parseInt(count.getText().toString()),
+                        db.updateBook(bid,title.getText().toString(),authors.getText().toString(),Integer.parseInt(count.getText().toString()),
                                 ref, Integer.parseInt(price.getText().toString()),Integer.parseInt(edition.getText().toString()),
                                 date.getText().toString(),editor.getText().toString(),keywords.getText().toString(),bst);
+                        Toast.makeText(getContext(),"Modified",Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

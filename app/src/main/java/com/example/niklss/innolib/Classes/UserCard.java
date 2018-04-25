@@ -21,6 +21,9 @@ public class UserCard {
     private String uNumber;
     private int usersType;
     private int uId;
+    private ArrayList<Books> bk;
+    private ArrayList<AV> avs;
+    private ArrayList<Articles> article;
 
 
     public UserCard(String name, String secondName, String adress, int id, String num, int usersType) {
@@ -41,18 +44,14 @@ public class UserCard {
         this.usersType = Integer.parseInt(card[5]);
     }
 
-    public UserCard(ArrayList<String> a) {
-        this.uName = a.get(0);
-        this.secondName = a.get(1);
-        this.uAddress = a.get(2);
-        this.uId = Integer.parseInt(a.get(3));
-        this.uNumber = a.get(4);
-        this.usersType = Integer.parseInt(a.get(5));
-    }
-
     public int getuId() {
         return uId;
     }
+
+    public ArrayList<Books> getB(){return bk;}
+    public ArrayList<Articles> getAr(){return article;}
+    public ArrayList<AV> getAvs(){return avs;}
+
 
     public String getuAddress() {
         return uAddress;
@@ -78,6 +77,8 @@ public class UserCard {
     public ArrayList<Books> searchBook(String title, String author, int reference, String price, String edition, String dateOfCreation, String publishedBy, String keywords, int isBestSeller, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
         ArrayList<Books> books = new ArrayList<>();
+        bk=new ArrayList<>();
+
 
         ArrayList<Books> input = db.getListOfBooks();
         for (int i = 0; i < input.size(); i++) {
@@ -135,8 +136,9 @@ public class UserCard {
 
             books.add(input.get(i));
         }
-
+        bk=books;
         return books;
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -207,7 +209,7 @@ public class UserCard {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public ArrayList<AV> searchArticle(String title, String author, String keywords, String price, Context context) throws IOException {
+    public ArrayList<AV> searchAv(String title, String author, String keywords, String price, Context context) throws IOException {
         DataBaseHelper db = new DataBaseHelper(context);
         ArrayList<AV> av = new ArrayList<>();
 
@@ -246,6 +248,8 @@ public class UserCard {
 
             av.add(input.get(i));
         }
+
         return av;
+
     }
 }

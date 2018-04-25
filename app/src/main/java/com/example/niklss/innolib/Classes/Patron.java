@@ -30,6 +30,10 @@ public class Patron extends UserCard {
         super(a);
     }
 
+    private void searchDoc(String anyName) {
+
+    }
+
     private int month(String mm) {
         switch (mm) {
             case "Jan":
@@ -87,7 +91,7 @@ public class Patron extends UserCard {
 
                     String[] date = cal.getTime().toString().split(" ");
                     String t = date[2] + "." + month(date[1]) + "." + date[5];
-                    db.updateTimeChecker(this.getuId(), book.getBookId(), t, book.getTypeOfMaterial(), 0);
+                    db.addTimeChecker(this.getuId(), book.getBookId(), t, book.getTypeOfMaterial(), 0);
                     output = "You can take the book";
 
                 } else {
@@ -128,7 +132,7 @@ public class Patron extends UserCard {
 
                 String[] date = cal.getTime().toString().split(" ");
                 String t = date[2] + "." + month(date[1]) + "." + date[5];
-                db.updateTimeChecker(this.getuId(), av.getAvId(), t, av.getTypeOfMaterial(), 0);
+                db.addTimeChecker(this.getuId(), av.getAvId(), t, av.getTypeOfMaterial(), 0);
                 output = "You can take the AV";
             } else {
                 output = "You are in queue for this AV material";
@@ -165,7 +169,7 @@ public class Patron extends UserCard {
 
                 String[] date = cal.getTime().toString().split(" ");
                 String t = date[2] + "." + month(date[1]) + "." + date[5];
-                db.updateTimeChecker(this.getuId(), art.getArticleId(), t, art.getTypeOfMaterial(), 0);
+                db.addTimeChecker(this.getuId(), art.getArticleId(), t, art.getTypeOfMaterial(), 0);
                 output = "You can take the Article";
             } else {
                 output = "You are in queue for this article";
@@ -283,12 +287,11 @@ public class Patron extends UserCard {
                     System.out.println("You cant renew this book again");
                 } else {
                     av.setDaysLeft(14 + db.daysLeft(this.getuId(), av.getAvId(), av.getTypeOfMaterial()));
-
+                    System.out.println(av.getDaysLeft());
                     cal.add(Calendar.DAY_OF_MONTH, av.getDaysLeft());
 
                     String[] date = cal.getTime().toString().split(" ");
                     String t = date[2] + "." + month(date[1]) + "." + date[5];
-
                     db.updateTimeChecker(this.getuId(), av.getAvId(), t, av.getTypeOfMaterial(), 1);
                 }
             }
@@ -316,7 +319,5 @@ public class Patron extends UserCard {
         return db.returnListOfUsersAv(this.getuId());
     }
 
-    private void returnDoc(int id) {
 
-    }
 }

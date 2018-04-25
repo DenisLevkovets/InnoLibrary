@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import com.example.niklss.innolib.DataBase.DataBaseHelper;
 import com.example.niklss.innolib.R;
@@ -25,7 +26,7 @@ import java.io.IOException;
 @SuppressLint("ValidFragment")
 public class ModifyArticle extends DialogFragment {
     DataBaseHelper db;
-    int id;
+    int idd;
     EditText title;
     EditText authors;
     EditText jtitle;
@@ -51,7 +52,7 @@ public class ModifyArticle extends DialogFragment {
     int icount;
 
 
-    ModifyArticle(String atitle, String aauthors, String ajtitle, String aissue, String adate, String aeditor, String akeywords, int aprice, int aref, int aid){
+    public ModifyArticle(String atitle, String aauthors, String ajtitle, String aissue, String adate, String aeditor, String akeywords, int aprice, int aref, int acount, int aid){
         stitle=atitle;
         sauthors=aauthors;
         sjtitle=ajtitle;
@@ -59,9 +60,10 @@ public class ModifyArticle extends DialogFragment {
         sissue=aissue;
         seditor=aeditor;
         skeywords=akeywords;
+        icount=acount;
         iprice=aprice;
         iref=aref;
-        id=aid;
+        idd=aid;
     }
     @SuppressLint("ValidFragment")
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -116,8 +118,9 @@ public class ModifyArticle extends DialogFragment {
                 .setPositiveButton("Modify", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        db.updateArticle(id,title.getText().toString(),authors.getText().toString(),jtitle.getText().toString(),issue.getText().toString(),
-                                date.getText().toString(),editor.getText().toString(),iref,keywords.getText().toString(),Integer.parseInt(price.getText().toString()));
+                        db.updateArticle(idd,title.getText().toString(),authors.getText().toString(),jtitle.getText().toString(),issue.getText().toString(),
+                                date.getText().toString(),editor.getText().toString(),Integer.parseInt(count.getText().toString()),iref,keywords.getText().toString(),Integer.parseInt(price.getText().toString()));
+                        Toast.makeText(getContext(),"Modified",Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

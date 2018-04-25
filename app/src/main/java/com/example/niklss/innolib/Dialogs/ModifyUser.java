@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -137,8 +136,7 @@ public class ModifyUser extends DialogFragment {
                     public void onClick(DialogInterface dialog, int id) {
                         db.updateUser(uid,name.getText().toString(),surname.getText().toString(),
                                 address.getText().toString(),number.getText().toString(),status);
-                        Log.i("TAAAG",name.getText().toString()+" "+surname.getText().toString()+" "+
-                                address.getText().toString()+" "+number.getText().toString()+" "+status);
+
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

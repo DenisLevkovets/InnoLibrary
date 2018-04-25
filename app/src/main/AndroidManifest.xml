@@ -18,6 +18,10 @@
     </activity>
 
         <activity android:name=".Activites.CatalogsPatron"/>
+        <activity android:name=".Activites.InnoLibAdmin"/>
+        <activity android:name=".Activites.AdminLog"/>
+        <activity android:name=".Activites.AdminLib"/>
+        <activity android:name=".Activites.Search"/>
         <activity android:name=".Activites.CatalogsLib"/>
         <activity android:name=".Activites.InnoLibLib"/>
         <activity android:name=".Activites.InnoLibPatron"/>

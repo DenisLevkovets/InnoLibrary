@@ -14,6 +14,7 @@ import android.widget.Button;
 import com.example.niklss.innolib.DataBase.DataBaseHelper;
 import com.example.niklss.innolib.R;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -33,13 +34,25 @@ public class InnoLibPatron extends AppCompatActivity {
         Button blist = (Button) findViewById(R.id.blist);
         blist.setOnClickListener(clBList);
         catalog.setOnClickListener(clCatalog);
+        search.setOnClickListener(clSearch);
 
         try {
             db=new DataBaseHelper(InnoLibPatron.this);
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        notification();
+        try {
+            notification();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            if(db.checkOutstandingAV(db.getUser().getuId()).size()!=0){
+                notification1();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -61,8 +74,16 @@ public class InnoLibPatron extends AppCompatActivity {
             }
         });
 
+        View.OnClickListener clSearch=(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(InnoLibPatron.this,Search.class);
+                startActivity(intent);
+            }
+        });
 
-        public void notification(){
+
+        public void notification() throws FileNotFoundException{
             Intent notificationIntent = new Intent(this, CatalogsPatron.class);
             PendingIntent contentIntent = PendingIntent.getActivity(this,
                     0, notificationIntent,
@@ -70,27 +91,44 @@ public class InnoLibPatron extends AppCompatActivity {
 
             Resources res = this.getResources();
 
-            // до версии Android 8.0 API 26
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 
             builder.setContentIntent(contentIntent)
-                    // обязательные настройки
                     .setSmallIcon(R.drawable.inn)
-                    //.setContentTitle(res.getString(R.string.notifytitle)) // Заголовок уведомления
                     .setContentTitle("Напоминание")
-                    //.setContentText(res.getString(R.string.notifytext))
                     .setContentText("Number of fine books: "+(db.getCountOfOverDueBooks(db.returnListOfUsersBook(db.getUser().getuId()))
                             +db.getCountOfOverDueArticles(db.returnListOfUsersArticles(db.getUser().getuId()
-                            +db.getCountOfOverDueAV(db.returnListOfUsersAv(db.getUser().getuId())))))+". Fine: ")
-                    .setAutoCancel(true); // Текст уведомления
-                    // необязательные настройки
+                            +db.getCountOfOverDueAV(db.returnListOfUsersAv(db.getUser().getuId())))))+".")
+                    .setAutoCancel(true);
 
 
             NotificationManager notificationManager =
                     (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            // Альтернативный вариант
-            // NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+
             notificationManager.notify(101, builder.build());
         }
+
+    public void notification1() throws FileNotFoundException{
+        Intent notificationIntent = new Intent(this, CatalogsPatron.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(this,
+                0, notificationIntent,
+                PendingIntent.FLAG_CANCEL_CURRENT);
+
+        Resources res = this.getResources();
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+
+        builder.setContentIntent(contentIntent)
+                .setSmallIcon(R.drawable.inn)
+                .setContentTitle("Напоминание")
+                .setContentText("Your order were declined")
+                .setAutoCancel(true);
+
+
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        notificationManager.notify(102, builder.build());
+    }
 }
 

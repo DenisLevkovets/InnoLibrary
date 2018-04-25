@@ -17,8 +17,12 @@ import com.example.niklss.innolib.DataBase.DataBaseHelper;
 import com.example.niklss.innolib.Dialogs.AddAVM;
 import com.example.niklss.innolib.Dialogs.AddArticle;
 import com.example.niklss.innolib.Dialogs.AddBook;
+import com.example.niklss.innolib.Dialogs.ModifyAV;
+import com.example.niklss.innolib.Dialogs.ModifyArticle;
+import com.example.niklss.innolib.Dialogs.ModifyBook;
 import com.example.niklss.innolib.R;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -29,7 +33,6 @@ import java.util.ArrayList;
 public class CatalogsLib extends Activity   {
     AlertDialog.Builder ad;
     AlertDialog.Builder ask;
-    AlertDialog.Builder add;
 
     DataBaseHelper db;
     ArrayList<Books>  book;
@@ -50,6 +53,12 @@ public class CatalogsLib extends Activity   {
 
         FloatingActionButton fb=(FloatingActionButton) findViewById(R.id.add);
         fb.setOnClickListener(clickFb);
+        try {
+            if(db.getUser().getUsersType()==5) fb.hide();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
 
         ExpandableListView listView = (ExpandableListView)findViewById(R.id.elv);
 
@@ -85,17 +94,24 @@ public class CatalogsLib extends Activity   {
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
 //                Toast.makeText(getApplicationContext(),"okay",Toast.LENGTH_SHORT).show();
-                switch (i) {
-                    case 0:
-                        clickBook(book.get(i1).getBookId());
-                        break;
-                    case 1:
-                        clickArticle(article.get(i1).getArticleId());
-                        break;
-                    case 2:
-                        clickAv(av.get(i1).getAvId());
+                try {
+                    switch (i) {
+                        case 0:
+                            clickBook(book.get(i1));
+                            ad.setMessage(db.getFullInformation(book.get(i1))).show();
+                            break;
+                        case 1:
+                            clickArticle(article.get(i1));
+                            ad.setMessage(db.getArticleInfoFull(article.get(i1))).show();
+                            break;
+                        case 2:
+                            clickAv(av.get(i1));
+                            ad.setMessage(db.getAVInfoFull(av.get(i1))).show();
+                    }
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
                 }
-                ad.show();
+
                 return false;
             }
         });
@@ -105,89 +121,108 @@ public class CatalogsLib extends Activity   {
 
     /////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void clickBook(final int id){
+    public void clickBook(Books book) throws FileNotFoundException {
         ad = new AlertDialog.Builder(CatalogsLib.this).setTitle("Book");
+        ad.setCancelable(true);
 
         ad.setPositiveButton("Modify", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(getApplicationContext(),"Modify",Toast.LENGTH_SHORT) .show();
+
+                DialogFragment modify=new ModifyBook(book.getTitleBook(),book.getAuthorsOfBook(),book.getEdition(),
+                        book.getDateOfCreationOfBook(),book.getPublished_by(),book.getKeywords(),book.getPrice(),book.getReference(),
+                        book.getIsBestSeller(),book.getBookId());
+                modify.show(getFragmentManager(),"modify");
             }
         });
-
-        ad.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(getApplicationContext(),"Cancel",Toast.LENGTH_SHORT) .show();
-            }
-        });
-
+        if(db.getUser().getUsersType()>5) {
+            ad.setNegativeButton("Out. Req.", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    db.outstanding_request(book.getBookId(), 0);
+                    Toast.makeText(CatalogsLib.this, "Accepted", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
         ad.setNeutralButton("Delete", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                db.deleteBook(id);
+                db.deleteBook(book.getBookId());
+                Toast.makeText(CatalogsLib.this,"Deleted",Toast.LENGTH_SHORT).show();
             }
         });
-        ad.setCancelable(true);
+
     }
 
 
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public void clickAv(final int id){
-        ad = new AlertDialog.Builder(CatalogsLib.this).setTitle("Book");
+    public void clickAv(AV av) throws FileNotFoundException {
+        ad = new AlertDialog.Builder(CatalogsLib.this).setTitle("AVM");
+        ad.setCancelable(true);
 
         ad.setPositiveButton("Modify", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(getApplicationContext(),"Modify",Toast.LENGTH_SHORT) .show();
+                DialogFragment modify=new ModifyAV(av.getTitle(),av.getAuthors(),av.getCountAv(),av.getKeywords(),av.getPrice(),av.getAvId());
+                modify.show(getFragmentManager(),"modify");
             }
         });
+        if(db.getUser().getUsersType()>5) {
+            ad.setNegativeButton("Out. Req.", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    db.outstanding_request(av.getAvId(), 2);
+                    Toast.makeText(CatalogsLib.this, "Accepted", Toast.LENGTH_SHORT).show();
 
-        ad.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(getApplicationContext(),"Cancel",Toast.LENGTH_SHORT) .show();
-            }
-        });
-
+                }
+            });
+        }
         ad.setNeutralButton("Delete", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                db.deleteAV(id);
+                db.deleteAV(av.getAvId());
+                Toast.makeText(CatalogsLib.this,"Deleted",Toast.LENGTH_SHORT).show();
             }
         });
-        ad.setCancelable(true);
+
     }
 
 
 
  //////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void clickArticle(final int id){
-        ad = new AlertDialog.Builder(CatalogsLib.this).setTitle("Book");
+    public void clickArticle(Articles article) throws FileNotFoundException {
+        ad = new AlertDialog.Builder(CatalogsLib.this).setTitle("Article");
+        ad.setCancelable(true);
 
         ad.setPositiveButton("Modify", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                DialogFragment modify=new ModifyArticle(article.getTitle(),article.getAuthors(),article.getJtitle(),article.getIssue(),
+                        article.getDate(),article.getEditor(),article.getKeywords(),article.getPrice(),article.getReference(),article.getCountArticle(),article.getArticleId());
+                modify.show(getFragmentManager(),"modify");
             }
         });
+        if (db.getUser().getUsersType() > 5) {
 
-        ad.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(getApplicationContext(),"Cancel",Toast.LENGTH_SHORT) .show();
-            }
-        });
-
+            ad.setNegativeButton("Out. Req.", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    db.outstanding_request(article.getArticleId(), 1);
+                    Toast.makeText(CatalogsLib.this, "Accept", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
         ad.setNeutralButton("Delete", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                db.deleteArticle(id);
+                db.deleteArticle(article.getArticleId());
+                Toast.makeText(CatalogsLib.this,"Deleted",Toast.LENGTH_SHORT).show();
             }
         });
-        ad.setCancelable(true);
+
     }
 
 
@@ -210,7 +245,7 @@ public class CatalogsLib extends Activity   {
                        }
                    });
 
-           ask.setCancelable(true).setSingleChoiceItems(data,-1, (DialogInterface.OnClickListener) switchh).show();
+           ask.setCancelable(true).setItems(data, (DialogInterface.OnClickListener) switchh).show();
 
         }
     });
@@ -220,15 +255,15 @@ public class CatalogsLib extends Activity   {
         public void onClick(DialogInterface dialogInterface, int i) {
             switch (i){
                 case 0:
-                    DialogFragment book=new AddBook();
+                    DialogFragment book=new AddBook("Create",0);
                     book.show(getFragmentManager(),"a");
                     break;
                 case 1:
-                    DialogFragment article=new AddArticle();
+                    DialogFragment article=new AddArticle("Create",0);
                     article.show(getFragmentManager(),"b");
                     break;
                 case 2:
-                    DialogFragment avm=new AddAVM();
+                    DialogFragment avm=new AddAVM("Create",0);
                     avm.show(getFragmentManager(),"c");
                     break;
             }

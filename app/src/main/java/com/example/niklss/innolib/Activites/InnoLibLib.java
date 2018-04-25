@@ -1,13 +1,11 @@
 package com.example.niklss.innolib.Activites;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.niklss.innolib.DataBase.DataBaseHelper;
 import com.example.niklss.innolib.R;
 
 /**
@@ -16,8 +14,6 @@ import com.example.niklss.innolib.R;
 
 public class InnoLibLib extends AppCompatActivity {
 
-    private DataBaseHelper mDBHelper;
-    private SQLiteDatabase mDb;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -17,6 +17,7 @@ import com.example.niklss.innolib.Classes.Patron;
 import com.example.niklss.innolib.DataBase.DataBaseHelper;
 import com.example.niklss.innolib.R;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -97,16 +98,22 @@ public class CatalogsPatron extends Activity   {
     }
 
 
-    public void clickBook(final int id){
+    public void clickBook(final int id) {
         ad = new AlertDialog.Builder(CatalogsPatron.this).setTitle("Book");
+        ad.setCancelable(true);
 
         ad.setPositiveButton("Checkout", new DialogInterface.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Patron patron=db.getUser();
+                Patron patron = null;
                 try {
-                    patron.checkOut(id,CatalogsPatron.this);
+                    patron = db.getUser();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    patron.checkOut(id, CatalogsPatron.this);
 //                    String res=patron.checkOut(id,CatalogsPatron.this);
 //                    Toast.makeText(CatalogsPatron.this,res,Toast.LENGTH_LONG).show();
                 } catch (IOException e) {
@@ -118,22 +125,27 @@ public class CatalogsPatron extends Activity   {
         ad.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Toast.makeText(getApplicationContext(),"Cancel",Toast.LENGTH_SHORT) .show();
+                Toast.makeText(getApplicationContext(), "Cancel", Toast.LENGTH_SHORT).show();
             }
         });
 
 
-        ad.setCancelable(true);
     }
 
     public void clickAv(final int id){
-        ad = new AlertDialog.Builder(CatalogsPatron.this).setTitle("AV");
+        ad = new AlertDialog.Builder(CatalogsPatron.this).setTitle("AVM");
+        ad.setCancelable(true);
 
         ad.setPositiveButton("Checkout", new DialogInterface.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Patron patron=db.getUser();
+                Patron patron= null;
+                try {
+                    patron = db.getUser();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
                 try {
                     patron.checkOutAV(id,CatalogsPatron.this);
 //                    String res=patron.checkOutAV(id,CatalogsPatron.this);
@@ -153,7 +165,7 @@ public class CatalogsPatron extends Activity   {
         });
 
 
-        ad.setCancelable(true);
+
     }
 
 
@@ -162,12 +174,18 @@ public class CatalogsPatron extends Activity   {
 
     public void clickArticle(final int id){
         ad = new AlertDialog.Builder(CatalogsPatron.this).setTitle("Article");
+        ad.setCancelable(true);
 
         ad.setPositiveButton("Checkout", new DialogInterface.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Patron patron=db.getUser();
+                Patron patron= null;
+                try {
+                    patron = db.getUser();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
                 try {
                     patron.checkOutArticle(id,CatalogsPatron.this);
 //                    String res=patron.checkOutArticle(id,CatalogsPatron.this);
@@ -186,7 +204,7 @@ public class CatalogsPatron extends Activity   {
         });
 
 
-        ad.setCancelable(true);
+
     }
 
 }
