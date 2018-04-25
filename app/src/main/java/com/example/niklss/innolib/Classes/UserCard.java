@@ -8,7 +8,6 @@ import com.example.niklss.innolib.DataBase.DataBaseHelper;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * Created by user on 02.02.2018.
@@ -22,7 +21,6 @@ public class UserCard {
     private String uNumber;
     private int usersType;
     private int uId;
-    private ArrayList<Books> listOfBooks;
 
 
     public UserCard(String name, String secondName, String adress, int id, String num, int usersType) {
@@ -41,6 +39,15 @@ public class UserCard {
         this.uId = Integer.parseInt(card[3]);
         this.uNumber = card[4];
         this.usersType = Integer.parseInt(card[5]);
+    }
+
+    public UserCard(ArrayList<String> a) {
+        this.uName = a.get(0);
+        this.secondName = a.get(1);
+        this.uAddress = a.get(2);
+        this.uId = Integer.parseInt(a.get(3));
+        this.uNumber = a.get(4);
+        this.usersType = Integer.parseInt(a.get(5));
     }
 
     public int getuId() {
@@ -63,14 +70,6 @@ public class UserCard {
         return usersType;
     }
 
-    public void addBookToTheList(Books book) {
-        listOfBooks.add(book);
-    }
-
-    public ArrayList<Books> getListOfBooks() {
-        return listOfBooks;
-    }
-
     public String getSecondName() {
         return secondName;
     }
@@ -84,12 +83,12 @@ public class UserCard {
         for (int i = 0; i < input.size(); i++) {
             boolean inThere = false;
             if (title != null && !title.equals("")){
-                if (!title.toLowerCase().contains(input.get(i).getTitleBook().toLowerCase())){
+                if (!input.get(i).getTitleBook().toLowerCase().contains(title.toLowerCase())){
                     continue;
                 }
             }
             if (author != null && !author.equals("")){
-                if (!author.toLowerCase().contains(input.get(i).getAuthorsOfBook().toLowerCase())){
+                if (!input.get(i).getAuthorsOfBook().toLowerCase().contains(author.toLowerCase())){
                     continue;
                 }
             }
@@ -97,22 +96,22 @@ public class UserCard {
                 continue;
             }
             if (price != null && !price.equals("")){
-                if (!price.contains(Integer.toString(input.get(i).getPrice()))){
+                if (!Integer.toString(input.get(i).getPrice()).contains(price)){
                     continue;
                 }
             }
             if (edition != null && !edition.equals("")){
-                if (!edition.contains(Integer.toString(input.get(i).getEdition()))){
+                if (!Integer.toString(input.get(i).getEdition()).contains(edition)){
                     continue;
                 }
             }
             if (dateOfCreation != null && !dateOfCreation.equals("")){
-                if (!dateOfCreation.toLowerCase().contains(input.get(i).getDateOfCreationOfBook().toLowerCase())){
+                if (!input.get(i).getDateOfCreationOfBook().toLowerCase().contains(dateOfCreation.toLowerCase())){
                     continue;
                 }
             }
             if (publishedBy != null && !publishedBy.equals("")){
-                if (!publishedBy.toLowerCase().contains(input.get(i).getPublished_by().toLowerCase())){
+                if (!input.get(i).getPublished_by().toLowerCase().contains(publishedBy.toLowerCase())){
                     continue;
                 }
             }
@@ -121,7 +120,7 @@ public class UserCard {
                 String[] myKeys = keywords.toLowerCase().split(" ");
                 for (int j = 0; j < myKeys.length; j++) {
                     for (int k = 0; k < keysOfBook.length; k++) {
-                        if ((myKeys[j].contains(keysOfBook[k]))){
+                        if (keysOfBook[k].contains(myKeys[j])){
                             inThere = true;
                         }
                     }
@@ -149,12 +148,12 @@ public class UserCard {
         for (int i = 0; i < input.size(); i++) {
             boolean inThere = false;
             if (title != null && !title.equals("")){
-                if (!title.toLowerCase().contains(input.get(i).getTitle().toLowerCase())){
+                if (!input.get(i).getTitle().toLowerCase().contains(title.toLowerCase())){
                     continue;
                 }
             }
             if (author != null && !author.equals("")){
-                if (!author.toLowerCase().contains(input.get(i).getAuthors().toLowerCase())){
+                if (!input.get(i).getAuthors().toLowerCase().contains(author.toLowerCase())){
                     continue;
                 }
             }
@@ -162,22 +161,22 @@ public class UserCard {
                 continue;
             }
             if (price != null && !price.equals("")){
-                if (!price.contains(Integer.toString(input.get(i).getPrice()))){
+                if (!Integer.toString(input.get(i).getPrice()).contains(price)){
                     continue;
                 }
             }
             if (editor != null && !editor.equals("")){
-                if (!editor.contains(input.get(i).getEditor())){
+                if (!input.get(i).getEditor().toLowerCase().contains(editor.toLowerCase())){
                     continue;
                 }
             }
             if (date != null && !date.equals("")){
-                if (!date.toLowerCase().contains(input.get(i).getDate().toLowerCase())){
+                if (!input.get(i).getDate().toLowerCase().contains(date.toLowerCase())){
                     continue;
                 }
             }
             if (jtitle != null && !jtitle.equals("")){
-                if (!jtitle.toLowerCase().contains(input.get(i).getJtitle().toLowerCase())){
+                if (!input.get(i).getJtitle().toLowerCase().contains(jtitle.toLowerCase())){
                     continue;
                 }
             }
@@ -186,7 +185,7 @@ public class UserCard {
                 String[] myKeys = keywords.toLowerCase().split(" ");
                 for (int j = 0; j < myKeys.length; j++) {
                     for (int k = 0; k < keysOfBook.length; k++) {
-                        if (myKeys[j].contains(keysOfBook[k])){
+                        if (keysOfBook[k].contains(myKeys[j])){
                             inThere = true;
                         }
                     }
@@ -196,7 +195,7 @@ public class UserCard {
                 }
             }
             if (issue != null && !issue.equals("")){
-                if (!issue.toLowerCase().contains(input.get(i).getIssue().toLowerCase())){
+                if (!input.get(i).getIssue().toLowerCase().contains(issue.toLowerCase())){
                     continue;
                 }
             }
@@ -216,17 +215,17 @@ public class UserCard {
         for (int i = 0; i < input.size(); i++) {
             boolean inThere = false;
             if (title != null && !title.equals("")){
-                if (!title.toLowerCase().contains(input.get(i).getTitle().toLowerCase())){
+                if (!input.get(i).getTitle().toLowerCase().contains(title.toLowerCase())){
                     continue;
                 }
             }
             if (author != null && !author.equals("")){
-                if (!author.toLowerCase().contains(input.get(i).getAuthors().toLowerCase())){
+                if (!input.get(i).getAuthors().toLowerCase().contains(author.toLowerCase())){
                     continue;
                 }
             }
             if (price != null && !price.equals("")){
-                if (!price.contains(Integer.toString(input.get(i).getPrice()))){
+                if (!Integer.toString(input.get(i).getPrice()).contains(price)){
                     continue;
                 }
             }
@@ -235,7 +234,7 @@ public class UserCard {
                 String[] myKeys = keywords.toLowerCase().split(" ");
                 for (int j = 0; j < myKeys.length; j++) {
                     for (int k = 0; k < keysOfBook.length; k++) {
-                        if (myKeys[j].contains(keysOfBook[k])){
+                        if (keysOfBook[k].contains(myKeys[j])){
                             inThere = true;
                         }
                     }
@@ -247,7 +246,6 @@ public class UserCard {
 
             av.add(input.get(i));
         }
-//
         return av;
     }
 }

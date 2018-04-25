@@ -58,6 +58,11 @@ public class Admin extends UserCard {
         db.out(time + " Admin" + " modifiedLibrarian " + db.getListOfLibrarians().get(db.getListOfLibrarians().size() - 1).getuId());
     }
 
+    public String checkLog(Context context) throws IOException {
+        DataBaseHelper db = new DataBaseHelper(context);
+        return db.inp();
+    }
+
     private int month(String mm) {
         switch (mm) {
             case "Jan":
