@@ -626,13 +626,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public void updateTimeChecker(int user_id, int book_id, String time, int type, int renewed) {
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put("user_id", user_id);
-        cv.put("book_id", book_id);
-        cv.put("time", time);
-        cv.put("type", type);
-        cv.put("renewed", renewed);
-        db.insert("time_checker", null, cv);
+        db.beginTransaction();
+        String updateAV = "Update time_checker Set user_id = " + user_id + ", book_id = " + book_id + ", time = '" + time + "', type = " + type + ", renewed = " + renewed + " where user_id=" + user_id +" and book_id= "+book_id+" and type="+type;
+        db.execSQL(updateAV);
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
     }
 
     public boolean wasRenewed(int user_id, int book_id, int type) {
@@ -727,6 +726,36 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         mCur.close();
         return articles;
     }
+    private int month(String mm) {
+        switch (mm) {
+            case "Jan":
+                return 1;
+            case "Feb":
+                return 2;
+            case "Mar":
+                return 3;
+            case "Apr":
+                return 4;
+            case "May":
+                return 5;
+            case "Jun":
+                return 6;
+            case "Jul":
+                return 7;
+            case "Aug":
+                return 8;
+            case "Sep":
+                return 9;
+            case "Oct":
+                return 10;
+            case "Nov":
+                return 11;
+            case "Dec":
+                return 12;
+            default:
+                return 0;
+        }
+    }
 
     public ArrayList<AV> returnListOfUsersAv(int uId) {
         ArrayList<AV> av = new ArrayList<>();
@@ -739,7 +768,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 AV a = new AV(this.getArrayAV(mCur.getInt(mCur.getColumnIndex("book_id"))));
                 String d1 = mCur.getString(mCur.getColumnIndex("time"));
                 Calendar c = new GregorianCalendar();
-                String d2 = c.get(Calendar.DAY_OF_MONTH) + "." + c.get(Calendar.MONTH) + "." + c.get(Calendar.YEAR);
+                String[] date = c.getTime().toString().split(" ");
+                String d2 = date[2] + "." + month(date[1]) + "." + date[5];
                 a.setOverDue(false);
                 a.setFine(0);
                 a.setDaysLeft(findDifDays(d1, d2));

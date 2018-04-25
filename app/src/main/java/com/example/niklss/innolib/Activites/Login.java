@@ -41,6 +41,7 @@ public class Login extends Activity {
         name = (EditText) findViewById(R.id.editText);
         password = (EditText) findViewById(R.id.editText2);
         bt.setOnClickListener(click);
+
     }
 
     View.OnClickListener click = new View.OnClickListener() {
