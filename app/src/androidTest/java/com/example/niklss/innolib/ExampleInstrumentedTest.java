@@ -616,7 +616,6 @@ public class ExampleInstrumentedTest {
 //        assertThat(b.get(0).getFine(), is(0));
 //        assertThat(b.get(0).getDaysLeft(), is(59));
 //    }
-
 //    @Test
 //    public void Test14() throws Exception {
 //        Context appContext = InstrumentationRegistry.getTargetContext();
