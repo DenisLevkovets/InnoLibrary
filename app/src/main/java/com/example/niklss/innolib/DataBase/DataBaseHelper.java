@@ -140,6 +140,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     // в создании адаптеров для ваших view
 
     public String createUser(String name, String secondName, String pNumber, String address, int status) {
+        if (status > 7){
+            return "Cant create an admin";
+        }
+
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
@@ -387,8 +391,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return list;
     }
 
-    public ArrayList<Patron> getListOfLibrarians() throws FileNotFoundException {
-        ArrayList<Patron> list = new ArrayList<>();
+    public ArrayList<UserCard> getListOfLibrarians() throws FileNotFoundException {
+        ArrayList<UserCard> list = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
         String mQuery = "SELECT First_name,Last_name, address,  user_id, phone, status From Users";
         Cursor mCur = db.rawQuery(mQuery, new String[]{});
@@ -402,7 +406,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 user.add(mCur.getString(mCur.getColumnIndex("user_id")));
                 user.add(mCur.getString(mCur.getColumnIndex("phone")));
                 user.add(mCur.getString(mCur.getColumnIndex("status")));
-                Patron a = new Patron(user);
+                UserCard a = new UserCard(user);
                 user.clear();
                 list.add(a);
             }
@@ -857,29 +861,32 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     //
-    public void clearDataBase() {
+    public void clearDataBase() throws FileNotFoundException {
         SQLiteDatabase db = this.getWritableDatabase();
-        String deletebook = "DELETE FROM Books;";
-        String deleteuser = "DELETE FROM Users;";
+        PrintWriter out = new PrintWriter(new File((mContext.getFilesDir().getPath() + "Log")));
+        out.print("");
+        out.close();
+
+        String deletebook = "DELETE FROM BOOKS;";
+        String deleteuser = "DELETE FROM USERS;";
         String deleteAV = "DELETE FROM AV;";
-        String deleteArticles = "DELETE FROM Articles;";
+        String deleteArticles = "DELETE FROM ARTICLES;";
         String deleteTimeChecker = "DELETE FROM time_checker;";
         String deleteQueue = "DELETE FROM Queue;";
         String deleteLogin = "DELETE FROM Login;";
         String deleteUserID = "DELETE FROM UserId;";
         String deleteOutstanding = "DELETE FROM outstanding;";
 
-
         db.beginTransaction();
+        db.execSQL(deleteArticles);
+        db.execSQL(deletebook);
+        db.execSQL(deleteuser);
+        db.execSQL(deleteAV);
         db.execSQL(deleteLogin);
         db.execSQL(deleteUserID);
         db.execSQL(deleteOutstanding);
         db.execSQL(deleteTimeChecker);
         db.execSQL(deleteQueue);
-        db.execSQL(deleteArticles);
-        db.execSQL(deletebook);
-        db.execSQL(deleteuser);
-        db.execSQL(deleteAV);
         db.setTransactionSuccessful();
         db.endTransaction();
         db.close();
